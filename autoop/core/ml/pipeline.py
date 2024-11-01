@@ -45,7 +45,7 @@ Pipeline(
 
     @property
     def model(self):
-        return self._model
+        return self._model  # UNSAFE, user can modify model.
 
     @property
     def artifacts(self) -> List[Artifact]:
