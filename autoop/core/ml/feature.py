@@ -7,6 +7,7 @@ from autoop.core.ml.dataset import Dataset
 
 class Feature(BaseModel):
     # attributes here
+    type: str
 
     def __str__(self):
         raise NotImplementedError("To be implemented.")
