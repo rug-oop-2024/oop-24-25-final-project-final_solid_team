@@ -1,0 +1,1273 @@
+
+# ----- requirements.txt -----
+streamlit
+pydantic
+pandas
+numpy
+scikit-learn
+
+# ----- entire_project.txt -----
+
+# ----- .gitignore -----
+*pth
+*vscode
+*__pycache__
+*__MACOSX
+*assets*
+env/
+# ----- README.md -----
+# AutOOP your first AutoML library
+
+🎉🥳 Congratulations on making it to this final project! We are excited to see what you can do.
+
+## Introduction
+
+The objective of this assignment is to create a Streamlit application that allows users to train models by uploading a CSV and choosing the target column. The assignment is designed to be completed within a month (`Deadline`, CHECK BRIGHTSPACE)
+The intention is to simulate a real-world scenario where you are given a set of requirements and a codebase to start from. Furthermore, you will gain a better understanding of how ML applications are organised in industry which leverages standard OOP patters.
+
+## Problem Space
+
+The problem space is where you will be working. However, we have already implemented some of the features for you.
+We highly encourage you to go beyond the requirements and implement additional features that you think would be useful for the user to showcase your skills. **The world is your oyster.**
+
+### 📝 General principles
+
+> "Simplicity is a great virtue but it requires hard work to achieve it and education to appreciate it. And to make matters worse: complexity sells better.”
+― Edsger Wybe Dijkstra"
+
+1. `Modifiability`: The code should be easy to modify and extend. You should be able to add new features without having to rewrite the entire codebase or heavy refactoring.
+   *Important*: We prefer that you do not use libraries or frameworks for this reason. We want to see how you structure your code and how you solve problems. Furthermore, many of the tools available may not be customisable enough for our needs.
+   Hence, if you want to include a library, please make sure to justify it.
+
+2. `Testability`: The code should be easy to test. You should be able to write unit tests for the code.
+3. `Readability`: The code should be easy to read. You should be able to understand what the code does without having to spend a lot of time on it.
+4. `Performance`: The code should be fast. You should be able to run the code on a low-end machine without any problems.
+5. `Intuitiveness`: The code should be easy to understand. You should be able to understand what the code does without having to spend a lot of time on it. But also the controls and interactions should be simple for the user.
+6. `Security`: The code should be secure. Isolate your secrets and keys from the codebase. Do not commit your secrets and keys to the repository. Avoid XSS and CSRF attacks. Enforce the principle of least privilege. Validate user input, etc.
+
+We encourage you to learn from the best practices and design patterns (e.g., https://refactoring.guru/design-patterns/python)
+
+### 👨‍💻User stories
+In an industry setting, you will be given user stories or requirements that need to be translated to functional requirements by you. Luckily, you will not have to do this but we left it for inspiraton.
+
+1. OOP-001: As a datascientist, I want to be able to upload a CSV file so that I can begin my ML workflow.
+2. OOP-002: As a datascientist, I want to be able to choose the target column so that I can achieve a certain task.
+3. OOP-003: As a datascientist, I want to make slices on my dataset based on some criteria (e.g., age > 18, 80% split, etc.) so that I can train a model on a subset of the data.
+4. OOP-004: As a datascientist, I want to be able to choose the type of model I want to train (e.g., classification, regression, etc.) so that I can achieve a certain task.
+5. OOP-005: As a datascientist, I would like to start training and get results of different metrics.
+6. OOP-006: As a datascientist, I would like to be able to download the model so that I can use it in production.
+7. OOP-007: As a datascientist, I would like to create dataset artifacts from CSV files with respective names so that I can use it to train on them later.
+8. OOP-008: As a datascientist, I would like to create predictions on a specific model to analyse the results.
+9. OOP-009: As a datascientist, I would like to be able to download the predictions as a CSV file.
+10. OOP-010: As a datascientist, I would like to view my predictions.
+11. OOP-011: As a datascientist, I would like to create a model run where I can fine-tune an existing model on a new dataset.
+
+More detailed instructions are provided in `INSTRUCTIONS.md` to guide you through these user stories.
+
+
+#### 🥷 I-am-not-done-yet suggestions
+You can try implementing the one of the following, we will give a max of 2 points based on the complexity of your addition.
+* Generate experiment reports with graphs, metrics, and other relevant information.
+* Create model runs that can be reproduced and compared against other ones with different strategies.
+* Explain the model predictions.
+* Implement SHAP, XEMP, or other algorithms for explainability.
+* Sensitivity analysis.
+* Topology planner for different ways to create a prediction pipeline (e.g., try different feature extractors on the same model).
+* Show a graph of how the data flows through the pipeline.
+* Support feature types of image, text, video, audio.
+* Support target types of image, text, video, audio.
+* Support time-series data (with the aforementioned column types) where a user can choose the time column.
+* Support what-if analysis (e.g., user can change the input and see the output).
+* Support metric optimization (e.g., select certain inputs to be adjusted to maximise the target column (e.g., maximise conversion).
+* Create a prediction code generator for a specific model.
+* Auto hyperparameter search/tuning.
+
+### ⚒ Non-functional requirements
+
+1. Create a streamlit app.
+2. You **must not use automl libraries** (e.g., auto-sklearn, auto-keras, etc.). But you are allowed to use libraries for the ML models (e.g., sklearn, tensorflow, torch, keras, etc.).
+3. Feature column types should be automatically inferred from the data.
+4. Task type should be automatically inferred from the data.
+5. Different models should be trained in parallel to evaluate the best model.
+6. The code should infere wether a target column is valid for prediction given the capabilities of your algorithm.
+
+### 📝 Documentation & Workflow
+* The code should be documented. You should be able to understand what the code does without having to spend a lot of time on it.
+* Significant design decisions should be documented as well. Each decision should be given an ID. Example:
+
+```
+# DSC-0001: Use TypeScript
+# Date: 2021-09-01
+# Decision: Use TypeScript for the project
+# Status: Accepted
+# Motivation: Lack of type safety in JavaScript
+# Reason: TypeScript is a superset of JavaScript that adds type safety
+# Limitations: TypeScript is not supported by all browsers
+# Alternatives: propTypes
+```
+You can place your decisions in a docs folder in the root of the project.
+E.g. docs/decisions/DSC-0001-use-typescript.md
+
+### 📈 Testing
+* Showcase the capability of your streamlit app with at least 3 different usecases on real datasets (from Kaggle). 
+Some examples include housing prices, second-hand cars, etc.
+
+### Checklist
+- [x] I have read the instructions carefully.
+- [ ] I have filled my personal rubric.
+- [ ] The code is refactored to style standards.
+- [ ] I have passed my tests.
+- [ ] I have documented my code and decisions.
+
+# Grading & Submission (IMPORTANT)
+
+We have experienced students who do not read the instructions and do not understand how they are graded. You can include `screenshots` in the repo. However, screenshots can be there as a back up incase something goes wrong while executing your code.
+
+Grading will be based on the following criteria:
+
+1. **Functionality**: Does the code work as expected? Does it meet the requirements?
+2. **Code Quality**: Is the code clean and well-structured? Is it easy to read and understand? Are OOP principles followed?
+3. **Documentation**: Is the code well-documented? Are design decisions explained?
+
+Regarding the grading composition:
+
+1. Implementing functionally correct code for Part I and Part II (compulsory requirements - see [Instructions](INSTRUCTIONS.md)) will give you 6 points.
+2. The extra requirements of Part II will give extra 2 points.
+3. Style (flake8, no code smells...) will give you 2 points.
+4. HTML Documentation produced as explained in [Lecture 10](https://brightspace.rug.nl/content/enforced/356131-WBAI045-05.2024-2025.1/10%20-%20Libraries%20and%20Documentation.pdf) will give you extra 0.5 points. This bonus will be accessible only if the sum of the grade is >= 7.0.
+   * You should use docstrings (in any format you want to) even if you don't intend on generating HTML documentation.
+
+Concerning the criteria you should focus on, remember to keep in mind the usual concepts from the previous assignments, i.e., curate your style and docstrings, follow OOP principles, avoid code smells...
+You can check for presence/absence of type hints and docstrings with `flake8` using the plugins `flake8-annotations` and `flake8-docstrings` (configure them to filter out the error messages you are not interested in).
+
+## Workload
+
+You are expected to carry out this assignment by **keeping the workload equal** between the two teammates.
+You are also allowed to work collaboratively on some of all points.
+In the final part of this markdown, you will see a table where you can keep track of who did what.
+In case the workload will be imbalanced, **we reserve the option to deduct points** according to the disproportion in workload.
+Notice that, in case two students claim to have worked together on the same point, we will assume that the workload has been split equally between the two on that specific requirement.
+
+## How to get your submission accepted
+
+1. **ALL** Tests must pass, we will not grade code bases the do not pass. Should you have any trouble, please contact our help desk in a timely manner. For helping with this point, we have set up two extra Q&A Labs during the exam week, check the schedule in brightspace.
+2. Mark down in the following table which features that you have implemented. We will not check features that have not been marked as complete. So please fill your `Personal Rubric`. This way we do not miss any of your special additions.
+3. If needed, include instructions if there are specific ways to run your code.
+
+### Additional notes on submission acceptance
+
+1. If your code does not run (because of bad imports, non-existing files, etc.), the project will **not** be graded further and a 1.0 will be given.
+   * Thus, remember to push your .csv datasets.
+2. Blatant disregard of OOP principles (e.g., using a largely imperative-style programming in the `autooop` library, consistently not using type hints...) will also result in the project being given a 1.0.
+
+## Personal Rubric
+
+These are from `INSTRUCTIONS.md`. Please read this carefully to ensure you can cover all the required requirements.
+
+Also, mark down the person who implemented the feature. This information will be used for grading purposes.
+If the feature has been implemented by both students, write `both`.
+
+If you did not implement the feature
+
+| Requirement                           | Type (FN/NF) | Implemented by       | Implementation Completed (add X if done) | Comment |
+|-------------------------------------- |--------------|----------------------|--------------------------|---------|         
+| Up-to-date requirements.txt           | NF           |                      |         | |
+| `ML/detect-features`                  | FN           |                      |         | |
+| `ML/artifact`                         | NF           |                      |         | |
+| `ML/feature`                          | NF           |                      |         | |
+| `ML/metric`                           | NF           |                      |         | |
+| `ML/metric/extensions`                | FN           |                      |         | |
+| `ML/model`                            | NF           |                      |         | |
+| `ML/model/extensions`                 | FN           |                      |         | |
+| `ML/pipeline/evaluation`              | FN           |                      |         | | 
+| `ST/page/datasets`                    | NF           |                      |         | |
+| `ST/datasets/management/create`       | FN           |                      |         | |
+| `ST/datasets/management/save`         | FN           |                      |         | |
+| `ST/page/modelling`                   | NF           |                      |         | |
+| `ST/modelling/datasets/list`          | FN           |                      |         | |
+| `ST/modelling/datasets/features`      | FN           |                      |         | |
+| `ST/modelling/models`                 | FN           |                      |         | |
+| `ST/modelling/pipeline/split`         | FN           |                      |         | |
+| `ST/modelling/pipeline/metrics`       | FN           |                      |         | |
+| `ST/modelling/pipeline/summary`       | FN           |                      |         | |
+| `ST/modelling/pipeline/train`         | FN           |                      |         | |
+| `ST/modelling/pipeline/save`          | FN           |                      |         | |
+| `ST/page/deployment`                  | FN           |                      |         | |
+| `ST/deployment/load`                  | FN           |                      |         | |
+| `ST/deployment/predict`               | FN           |                      |         | |
+
+If you add extra features, please indicate them below:
+| Requirement                           | Type (FN/NF) | Implemented by       | Implementation Completed (add X if done) | Comment |
+|-------------------------------------- |--------------|----------------------|---------|-----|
+|           |            |                      |         | |
+
+# ----- .ignore -----
+*pth
+*vscode
+*__pycache__
+*__MACOSX
+*assets*
+env/
+
+!*.py
+output.txt
+.git
+.github
+# ----- test.py -----
+from autoop.core.ml.artifact import Artifact
+
+
+x = Artifact()
+
+
+# ----- INSTRUCTIONS.md -----
+
+# Assignment instructions
+
+## Terminology 
+Before you move on to implementing the requirements. It is important to understand the context of the problem you are dealing with. These are concepts taken from real industrial applications.
+
+### Definitions
+- **AutoML**: typically an industry software or platform used to help train models without having to code pipelines. (e.g., H2O, teapot, autoop).
+- **Artifact**: an abstract object refering to a asset which is stored and includes information about this specific asset (e.g., datasets, models, pipeline outputs, etc.).
+```json
+{
+    "asset_path": "users/mo-assaf/models/yolov8.pth",
+    "version": "1.0.2", 
+    "data": b"binary_state_data",
+    "metadata": {
+        "experiment_id": "exp-123fbdiashdb",
+        "run_id": "run-12378yufdh89afd",
+    },
+    "type": "model:torch",
+    "tags": ["computer_vision", "object_detection"]
+}
+```
+such artifacts can describe models as seen above, or pipeline objects needed by pipelines such as parameters used in preprocessing (e.g., auto scalers, one-hot encoders, text encoders.). These are also files that can be versioned or contain information such as input mappings. 
+
+The `id` of an asset is derived as follows:
+```
+id={base64(asset_path)}:{version}
+```
+This maintains the referential identity since an artifact refers to an asset stored in a certain location using the `asset_path`.
+
+- **Metric**: a function that maps $(\text{observations}, \text{groundtruth}) \implies \cal{R}$ a real number. Typically averaged over all point-wise comparisons.
+By considering a dataset of $n$ data points, $\hat{y}^{(i)}$ as the model prediction for the $i$-th data point, and $y^{(i)}$ as the corresponding ground truth, the formulas are:
+  - $\text{Accuracy} = \frac{1}{n}\sum_{i=1}^{n}\mathbb{I}[\hat{y}^{(i)}=y^{i}]$, where $\mathbb{I}$ is the indicator function, which equates to 1 if the condition in brackets $[\cdot]$ is true, 0 if false.
+  - $\text{Mean Squared Error} = \frac{1}{n}\sum_{i=1}^{n}(\hat{y}^{(i)}-y^{(i)})^2$.
+  - For other classification metrics, be careful that these metrics must be for generic multi-class classification tasks and not for binary classification (binary classification = 2 classes, multi-class classification = more than 2 classes). Metrics such as "plain" Precision and F-1 score are not suitable for multi-class classification tasks.
+- **Dataset**: an artifact that represents tabular data (simplified as CSV). In practice, datasets are usually split between a **training set** (which is used to train one or more models) and a **test set** (which is used to evaluate the model's performance). The training and test set must not overlap. The training and testing split is usually operated randomly and controlled by an argument that controls the % of the dataset that goes to the training set.
+- **Model**: a function that maps input features to a target feature (also known as *response*) derived from a set of observations. Can be either a classification or a regression task, as seen during the lectures and assignments. A model has a `parameters` attribute that allows it to be saved and loaded, restoring the state of the model. Contrary to the `Model` class saw during assignment 1, `parameters` include both strict parameters (those useful for prediction) and hyperparameters (those useful for training), similarly to what done in Scikit-learn.
+- **Feature**: individual measurable property, in this case, describing a column in a CSV and a type of either `categorical` or `numerical`. 
+- **Pipeline**: a state machine that orchestrates the different stages. (i.e., preprocessing, splitting, training, evaluation). Pipelines can evolve to be quite complex but in this assignment we simplify them.
+
+### Assumptions
+
+We take some assumptions to simplify this task:
+
+1. Only `categorical` and `numerical` features.
+2. Perfectly observable data: No `NaN` or missing values, so no need to account for how to treat these values.
+3. Pipelines only include these stages: preprocessing, splitting the data, training, and evaluation.
+4. Feature selection is done manually, there is no automatic feature selection.
+
+# Part 0: Set up
+The base structure of the assignment is as follows:
+```
+.
+├── INSTRUCTIONS.md
+├── README.md
+├── app # This is the streamlit app
+│   ├── Welcome.py
+│   ├── core # streamlit app logic
+│   │   └── system.py
+│   └── pages
+        ...
+├── assets # Storage to save your examples
+├── autoop # You python library for AutoML
+│   ├── core # core logic of automl
+│   │   ├── database.py
+│   │   ├── ml
+│   │   │   ├── artifact.py
+│   │   │   ├── dataset.py
+│   │   │   ├── feature.py
+│   │   │   ├── metric.py
+│   │   │   ├── model
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── classification
+│   │   │   │   ├── model.py
+│   │   │   │   └── regression
+│   │   │   └── pipeline.py
+│   │   └── storage.py
+│   ├── functional # automl functions
+│   │   ├── feature.py
+│   │   └── preprocessing.py
+│   └── tests # Test you modules
+│       ├── main.py
+        ...
+└── requirements.txt
+```
+Make sure to update the `requirements.txt` regularly.
+```
+conda activate <your env>
+pip install -r requirements.txt
+```
+
+Run the `streamlit` app as follows:
+```bash
+python -m streamlit run app/Welcome.py
+```
+Run your tests as follows:
+```
+python -m autoop.tests.main
+```
+
+You will notice that some parts of the library are already pre-implemented.
+**You are not allowed to functionally modify these parts, but you can add, e.g., docstrings and type hints to have style checks pass**.
+
+# Part I: The core library
+
+In this section you will focus on building and testing the core functionality of your AutoML library.
+
+## Requirements
+
+**Remember to add type hints and docstrings**
+
+- `ML/detect-features`: Implement the function `autoop.functional.feature.detect_feature_types`. This is covered in the tests.
+- `ML/artifact`: Implement the artifact class in `autoop.core.ml.artifact`.
+- `ML/feature`: Implement the feature class in `autoop.core.ml.feature`.
+- `ML/metric`: Implement the metric class in `autoop.core.ml.metric` with the `__call__` method.
+- `ML/metric/extensions`: add at 6 metrics, 3 must be suitable for `classification`. Compulsory metrics to be implemented are **Accuracy** for classification and **Mean Squared Error** for regression. You are **not** allowed to use facades/wrappers here, you should implement the metric using libraries such as `numpy`.
+- `ML/model`: implement the base model class in `autoop.core.ml.model`.
+- `ML/model/extensions`: Implement at least 3 classification models and 3 regression models. You may use the facade pattern or wrappers on existing libraries.
+- `ML/pipeline/evaluation`: Extend and modify the `execute` function to return the metrics both on the evaluation and training set.
+
+Make sure after implementing your classes you pass the respective tests. You will have to read existing implementation to understand how you need to implement your classes which is quite common working in a team or a company.
+
+# Part II: Building the streamlit app
+
+In this part you will integrate the library by importing your implemented classes in streamlit pages. **Notice that Tutorial III is designed to give you some knowledge on the functioning of Streamlit**.
+
+- `ST/page/datasets`: Create a page where you can manage the datasets.
+- `ST/datasets/management/create`: Upload a CSV dataset (e.g., Iris) and convert that into a dataset using the `from_dataframe` factory method. Since a dataset is already an artifact, you can use the `AutoMLSystem.get_instance` singelton class to to access either storage, database, or the artifact registry to save it.
+- `ST/datasets/management/save`: Use the artifact registry to save converted dataset artifact object.
+- `ST/page/modelling`: Create a page where you will be modelling a pipeline.
+- `ST/modelling/datasets/list`: Load existing datasets using the artifact registry. You can use a select box to achieve this.
+- `ST/modelling/datasets/features`: Detect the features and generate a selection menu for selecting the input features (many) and one target feature. Based on the feature selections, prompt the user with the detected task type (i.e., classification or regression).
+- `ST/modelling/models`: Prompt the user to select a model based on the task type.
+- `ST/modelling/pipeline/split`: Prompt the user to select a dataset split.
+- `ST/modelling/pipeline/metrics`: Prompt the user to select a set of compatible metrics.
+- `ST/modelling/pipeline/summary`: Prompt the user with a beautifuly formatted pipeline summary with all the configurations.
+- `ST/modelling/pipeline/train`: Train the class and report the results of the pipeline.
+
+## Extra requirements
+
+*Notice: correctly implementing the requirements up to this point will grant 6 points.*
+
+- `ST/modelling/pipeline/save`: Prompt the user to give a name and version for the pipeline and convert it into an artifact which can be saved.
+- `ST/page/deployment`: Create a page where you can see existing saved pipelines.
+- `ST/deployment/load`: Allow the user to select existing pipelines and based on the selection show a pipeline summary.
+- `ST/deployment/predict`: Once the user loads a pipeline, prompt them to provide a CSV on which they can perform predictions.
+
+# Part III: Go beyond
+
+There are many suggestions in the `README.md` to further extend this and make it more interesting and creative. We give up to 2 points of bonus based on the complexity of your additions and demostration of OOP concepts. 
+
+# Final thoughts
+
+We hope that you learn more about OOP and the ML industry through this simplified assignment. Please read the submission instructions carefuly in `README.md`.
+
+
+# Glossary
+
+Useful terminology that can be useful in the understanding of the assignment:
+
+
+- **Categorical feature**: a feature that can take on one of a limited, and usually fixed, number of possible values, assigning each observation to a particular group or category.
+- **Classification**: a type of task where the response is categorical.
+- **Covariates**: the features that are used to predict the response. It is synonymous with "predictor".
+- **Feature**: individual measurable property, in this case, describing a column in a CSV and a type of either categorical or numerical. It is synonymous with "variable" or "attribute", although we avoid using the latter to avoid confusion with OOP lexicon.
+- **Fit**: the process of training a model on a given task. This equates to adjusting the parameters with a given criterion to minimize a loss function.
+- **Ground truth**: the actual value of the response in a given observation. It is usually indicated with the symbol $y$ and is used to assess the quality of the predictions according to a given metric. It may not be present outside of training.
+- **Hyperparameters**: the external variables of a model that are set before the training process. They are used to control the training process. *NOTE: in the context of this project, hyperparameters are considered part of the parameters themselves.*
+- **Loss function**: a function that measures the difference between the predicted response and the ground truth. It is used to adjust the parameters of the model during the training process.
+- **Metric**: a function that takes in predictions and ground truth and measures the quality of the predictions made by the model. It is used to assess the performance of the model on a given task.
+- **Model**: a function that maps input features to a target feature derived from a set of observations. Can represent either a classification or a regression task, as seen during lectures and assignments. Models have a fit behavior that allows them to be trained on a given task and a predict behavior that allows them to make predictions on the same task.
+- **Numerical feature**: a feature that can take on any numerical value within a potentiallypotentially infinite interval.
+- **Observation**: a row in a dataset. It is synonymous with "data point" or "statistical unit".
+- **One-hot encoding**: a method used to convert categorical features into numerical features. It creates a vector of length $c$ (where $c$ is the number of categories) with a 1 in the position corresponding to the category and 0s elsewhere. For instance, if a feature has four categories, an observation falling in the third category would be encoded as $(0, 0, 1, 0)$.
+- **Parameters**: the internal variables of a model that modified in the training process. They are used to make predictions.
+- **Predict**: the process of using a model to make predictions on a given task. This equates to using the parameters to map the covariates to the response, using the parameters to produce the response.
+- **Prediction**: the output of the predict behavior. It is usually indicated with the symbol $\hat{y}$.
+- **Regression**: a type of task where the response is numerical.
+- **Response**: the feature that the model is trying to predict. It is synonymous with "target". In this project, the response is always a single feature.
+- **Task**: a type of problem (i.e., combination of covariates and response) that the model is trying to solve. It can be either a classification or a regression task.
+
+# ----- autoop/core/database.py -----
+
+import json
+from typing import Dict, Tuple, List, Union
+
+from autoop.core.storage import Storage
+
+class Database():
+
+    def __init__(self, storage: Storage):
+        self._storage = storage
+        self._data = {}
+        self._load()
+
+    def set(self, collection: str, id: str, entry: dict) -> dict:
+        """Set a key in the database
+        Args:
+            collection (str): The collection to store the data in
+            id (str): The id of the data
+            entry (dict): The data to store
+        Returns:
+            dict: The data that was stored
+        """
+        assert isinstance(entry, dict), "Data must be a dictionary"
+        assert isinstance(collection, str), "Collection must be a string"
+        assert isinstance(id, str), "ID must be a string"
+        if not self._data.get(collection, None):
+            self._data[collection] = {}
+        self._data[collection][id] = entry
+        self._persist()
+        return entry
+
+    def get(self, collection: str, id: str) -> Union[dict, None]:
+        """Get a key from the database
+        Args:
+            collection (str): The collection to get the data from
+            id (str): The id of the data
+        Returns:
+            Union[dict, None]: The data that was stored, or None if it doesn't exist
+        """
+        if not self._data.get(collection, None):
+            return None
+        return self._data[collection].get(id, None)
+    
+    def delete(self, collection: str, id: str):
+        """Delete a key from the database
+        Args:
+            collection (str): The collection to delete the data from
+            id (str): The id of the data
+        Returns:
+            None
+        """
+        if not self._data.get(collection, None):
+            return
+        if self._data[collection].get(id, None):
+            del self._data[collection][id]
+        self._persist()
+
+    def list(self, collection: str) -> List[Tuple[str, dict]]:
+        """Lists all data in a collection
+        Args:
+            collection (str): The collection to list the data from
+        Returns:
+            List[Tuple[str, dict]]: A list of tuples containing the id and data for each item in the collection
+        """
+        if not self._data.get(collection, None):
+            return []
+        return [(id, data) for id, data in self._data[collection].items()]
+
+    def refresh(self):
+        """Refresh the database by loading the data from storage"""
+        self._load()
+
+    def _persist(self):
+        """Persist the data to storage"""
+        for collection, data in self._data.items():
+            if not data:
+                continue
+            for id, item in data.items():
+                self._storage.save(json.dumps(item).encode(), f"{collection}/{id}")
+
+        # for things that were deleted, we need to remove them from the storage
+        keys = self._storage.list("")
+        for key in keys:
+            collection, id = key.split("/")[-2:]
+            if not self._data.get(collection, id):
+                self._storage.delete(f"{collection}/{id}")
+    
+    def _load(self):
+        """Load the data from storage"""
+        self._data = {}
+        for key in self._storage.list(""):
+            collection, id = key.split("/")[-2:]
+            data = self._storage.load(f"{collection}/{id}")
+            # Ensure the collection exists in the dictionary
+            if collection not in self._data:
+                self._data[collection] = {}
+            self._data[collection][id] = json.loads(data.decode())
+
+
+# ----- autoop/core/storage.py -----
+from abc import ABC, abstractmethod
+import os
+from typing import List, Union
+from glob import glob
+
+class NotFoundError(Exception):
+    def __init__(self, path):
+        super().__init__(f"Path not found: {path}")
+
+class Storage(ABC):
+
+    @abstractmethod
+    def save(self, data: bytes, path: str):
+        """
+        Save data to a given path
+        Args:
+            data (bytes): Data to save
+            path (str): Path to save data
+        """
+        pass
+
+    @abstractmethod
+    def load(self, path: str) -> bytes:
+        """
+        Load data from a given path
+        Args:
+            path (str): Path to load data
+        Returns:
+            bytes: Loaded data
+        """
+        pass
+
+    @abstractmethod
+    def delete(self, path: str):
+        """
+        Delete data at a given path
+        Args:
+            path (str): Path to delete data
+        """
+        pass
+
+    @abstractmethod
+    def list(self, path: str) -> list:
+        """
+        List all paths under a given path
+        Args:
+            path (str): Path to list
+        Returns:
+            list: List of paths
+        """
+        pass
+
+
+class LocalStorage(Storage):
+
+    def __init__(self, base_path: str="./assets"):
+        self._base_path = base_path
+        if not os.path.exists(self._base_path):
+            os.makedirs(self._base_path)
+
+    def save(self, data: bytes, key: str):
+        path = self._join_path(key)
+        if not os.path.exists(path):
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, 'wb') as f:
+            f.write(data)
+
+    def load(self, key: str) -> bytes:
+        path = self._join_path(key)
+        self._assert_path_exists(path)
+        with open(path, 'rb') as f:
+            return f.read()
+
+    def delete(self, key: str="/"):
+        self._assert_path_exists(self._join_path(key))
+        path = self._join_path(key)
+        os.remove(path)
+
+    def list(self, prefix: str) -> List[str]:
+        path = self._join_path(prefix)
+        self._assert_path_exists(path)
+        keys = glob(path + "/**/*", recursive=True)
+        return list(filter(os.path.isfile, keys))
+
+    def _assert_path_exists(self, path: str):
+        if not os.path.exists(path):
+            raise NotFoundError(path)
+    
+    def _join_path(self, path: str) -> str:
+        return os.path.join(self._base_path, path)
+
+
+    
+# ----- autoop/core/ml/pipeline.py -----
+from typing import List
+import pickle
+
+from autoop.core.ml.artifact import Artifact
+from autoop.core.ml.dataset import Dataset
+from autoop.core.ml.model import Model
+from autoop.core.ml.feature import Feature
+from autoop.core.ml.metric import Metric
+from autoop.functional.preprocessing import preprocess_features
+import numpy as np
+
+
+class Pipeline():
+    
+    def __init__(self, 
+                 metrics: List[Metric],
+                 dataset: Dataset, 
+                 model: Model,
+                 input_features: List[Feature],
+                 target_feature: Feature,
+                 split=0.8,
+                 ):
+        self._dataset = dataset
+        self._model = model
+        self._input_features = input_features
+        self._target_feature = target_feature
+        self._metrics = metrics
+        self._artifacts = {}
+        self._split = split
+        if target_feature.type == "categorical" and model.type != "classification":
+            raise ValueError("Model type must be classification for categorical target feature")
+        if target_feature.type == "continuous" and model.type != "regression":
+            raise ValueError("Model type must be regression for continuous target feature")
+
+    def __str__(self):
+        return f"""
+Pipeline(
+    model={self._model.type},
+    input_features={list(map(str, self._input_features))},
+    target_feature={str(self._target_feature)},
+    split={self._split},
+    metrics={list(map(str, self._metrics))},
+)
+"""
+
+    @property
+    def model(self):
+        return self._model
+
+    @property
+    def artifacts(self) -> List[Artifact]:
+        """Used to get the artifacts generated during the pipeline execution to be saved
+        """
+        artifacts = []
+        for name, artifact in self._artifacts.items():
+            artifact_type = artifact.get("type")
+            if artifact_type in ["OneHotEncoder"]:
+                data = artifact["encoder"]
+                data = pickle.dumps(data)
+                artifacts.append(Artifact(name=name, data=data))
+            if artifact_type in ["StandardScaler"]:
+                data = artifact["scaler"]
+                data = pickle.dumps(data)
+                artifacts.append(Artifact(name=name, data=data))
+        pipeline_data = {
+            "input_features": self._input_features,
+            "target_feature": self._target_feature,
+            "split": self._split,
+        }
+        artifacts.append(Artifact(name="pipeline_config", data=pickle.dumps(pipeline_data)))
+        artifacts.append(self._model.to_artifact(name=f"pipeline_model_{self._model.type}"))
+        return artifacts
+    
+    def _register_artifact(self, name: str, artifact):
+        self._artifacts[name] = artifact
+
+    def _preprocess_features(self):
+        (target_feature_name, target_data, artifact) = preprocess_features([self._target_feature], self._dataset)[0]
+        self._register_artifact(target_feature_name, artifact)
+        input_results = preprocess_features(self._input_features, self._dataset)
+        for (feature_name, data, artifact) in input_results:
+            self._register_artifact(feature_name, artifact)
+        # Get the input vectors and output vector, sort by feature name for consistency
+        self._output_vector = target_data
+        self._input_vectors = [data for (feature_name, data, artifact) in input_results]
+
+    def _split_data(self):
+        # Split the data into training and testing sets
+        split = self._split
+        self._train_X = [vector[:int(split * len(vector))] for vector in self._input_vectors]
+        self._test_X = [vector[int(split * len(vector)):] for vector in self._input_vectors]
+        self._train_y = self._output_vector[:int(split * len(self._output_vector))]
+        self._test_y = self._output_vector[int(split * len(self._output_vector)):]
+
+    def _compact_vectors(self, vectors: List[np.array]) -> np.array:
+        return np.concatenate(vectors, axis=1)
+
+    def _train(self):
+        X = self._compact_vectors(self._train_X)
+        Y = self._train_y
+        self._model.fit(X, Y)
+
+    def _evaluate(self):
+        X = self._compact_vectors(self._test_X)
+        Y = self._test_y
+        self._metrics_results = []
+        predictions = self._model.predict(X)
+        for metric in self._metrics:
+            result = metric.evaluate(predictions, Y)
+            self._metrics_results.append((metric, result))
+        self._predictions = predictions
+
+    def execute(self):
+        self._preprocess_features()
+        self._split_data()
+        self._train()
+        self._evaluate()
+        return {
+            "metrics": self._metrics_results,
+            "predictions": self._predictions,
+        }
+        
+
+    
+# ----- autoop/core/ml/dataset.py -----
+from autoop.core.ml.artifact import Artifact
+from abc import ABC, abstractmethod
+import pandas as pd
+import io
+
+class Dataset(Artifact):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(type="dataset", *args, **kwargs)
+
+    @staticmethod
+    def from_dataframe(data: pd.DataFrame, name: str, asset_path: str, version: str="1.0.0"):
+        return Dataset(
+            name=name,
+            asset_path=asset_path,
+            data=data.to_csv(index=False).encode(),
+            version=version,
+        )
+        
+    def read(self) -> pd.DataFrame:
+        bytes = super().read()
+        csv = bytes.decode()
+        return pd.read_csv(io.StringIO(csv))
+    
+    def save(self, data: pd.DataFrame) -> bytes:
+        bytes = data.to_csv(index=False).encode()
+        return super().save(bytes)
+    
+# ----- autoop/core/ml/metric.py -----
+from abc import ABC, abstractmethod
+from typing import Any
+import numpy as np
+
+METRICS = [
+    "mean_squared_error",
+    "accuracy",
+] # add the names (in strings) of the metrics you implement
+
+def get_metric(name: str):
+    # Factory function to get a metric by name.
+    # Return a metric instance given its str name.
+    raise NotImplementedError("To be implemented.")
+
+class Metric(...):
+    """Base class for all metrics.
+    """
+    # your code here
+    # remember: metrics take ground truth and prediction as input and return a real number
+
+    def __call__(self):
+        raise NotImplementedError("To be implemented.")
+
+# add here concrete implementations of the Metric class
+    
+# ----- autoop/core/ml/artifact.py -----
+from pydantic import BaseModel, Field
+import base64
+
+class Artifact(BaseModel):
+    pass
+# ----- autoop/core/ml/feature.py -----
+
+from pydantic import BaseModel, Field
+from typing import Literal
+import numpy as np
+
+from autoop.core.ml.dataset import Dataset
+
+class Feature(BaseModel):
+    # attributes here
+
+    def __str__(self):
+        raise NotImplementedError("To be implemented.")
+# ----- autoop/core/ml/model/__init__.py -----
+
+from autoop.core.ml.model.model import Model
+from autoop.core.ml.model.regression import MultipleLinearRegression
+
+REGRESSION_MODELS = [
+] # add your models as str here
+
+CLASSIFICATION_MODELS = [
+] # add your models as str here
+
+def get_model(model_name: str) -> Model:
+    """Factory function to get a model by name."""
+    raise NotImplementedError("To be implemented.")
+# ----- autoop/core/ml/model/model.py -----
+
+from abc import abstractmethod
+from autoop.core.ml.artifact import Artifact
+import numpy as np
+from copy import deepcopy
+from typing import Literal
+
+class Model:
+    pass # your code (attribute and methods) here
+    
+
+# ----- autoop/core/ml/model/classification/__init__.py -----
+
+# ----- autoop/core/ml/model/regression/__init__.py -----
+
+from autoop.core.ml.model.regression.multiple_linear_regression import MultipleLinearRegression
+# ----- autoop/functional/preprocessing.py -----
+from typing import List, Tuple
+from autoop.core.ml.feature import Feature
+from autoop.core.ml.dataset import Dataset
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+def preprocess_features(features: List[Feature], dataset: Dataset) -> List[Tuple[str, np.ndarray, dict]]:
+    """Preprocess features.
+    Args:
+        features (List[Feature]): List of features.
+        dataset (Dataset): Dataset object.
+    Returns:
+        List[str, Tuple[np.ndarray, dict]]: List of preprocessed features. Each ndarray of shape (N, ...)
+    """
+    results = []
+    raw = dataset.read()
+    for feature in features:
+        if feature.type == "categorical":
+            encoder = OneHotEncoder()
+            data = encoder.fit_transform(raw[feature.name].values.reshape(-1, 1)).toarray()
+            aritfact = {"type": "OneHotEncoder", "encoder": encoder.get_params()}
+            results.append((feature.name, data, aritfact))
+        if feature.type == "numerical":
+            scaler = StandardScaler()
+            data = scaler.fit_transform(raw[feature.name].values.reshape(-1, 1))
+            artifact = {"type": "StandardScaler", "scaler": scaler.get_params()}
+            results.append((feature.name, data, artifact))
+    # Sort for consistency
+    results = list(sorted(results, key=lambda x: x[0]))
+    return results
+
+# ----- autoop/functional/feature.py -----
+
+from typing import List
+from autoop.core.ml.dataset import Dataset
+from autoop.core.ml.feature import Feature
+
+def detect_feature_types(dataset: Dataset) -> List[Feature]:
+    """Assumption: only categorical and numerical features and no NaN values.
+    Args:
+        dataset: Dataset
+    Returns:
+        List[Feature]: List of features with their types.
+    """
+    raise NotImplementedError("This should be implemented by you.")
+
+# ----- autoop/tests/test_storage.py -----
+
+import unittest
+
+from autoop.core.storage import LocalStorage, NotFoundError
+import random
+import tempfile
+
+class TestStorage(unittest.TestCase):
+
+    def setUp(self):
+        temp_dir = tempfile.mkdtemp()
+        self.storage = LocalStorage(temp_dir)
+
+    def test_init(self):
+        self.assertIsInstance(self.storage, LocalStorage)
+
+    def test_store(self):
+        key = str(random.randint(0, 100))
+        test_bytes = bytes([random.randint(0, 255) for _ in range(100)])
+        key = "test/path"
+        self.storage.save(test_bytes, key)
+        self.assertEqual(self.storage.load(key), test_bytes)
+        otherkey = "test/otherpath"
+        # should not be the same
+        try:
+            self.storage.load(otherkey)
+        except Exception as e:
+            self.assertIsInstance(e, NotFoundError)
+
+    def test_delete(self):
+        key = str(random.randint(0, 100))
+        test_bytes = bytes([random.randint(0, 255) for _ in range(100)])
+        key = "test/path"
+        self.storage.save(test_bytes, key)
+        self.storage.delete(key)
+        try:
+            self.assertIsNone(self.storage.load(key))
+        except Exception as e:
+            self.assertIsInstance(e, NotFoundError)
+
+    def test_list(self):
+        key = str(random.randint(0, 100))
+        test_bytes = bytes([random.randint(0, 255) for _ in range(100)])
+        random_keys = [f"test/{random.randint(0, 100)}" for _ in range(10)]
+        for key in random_keys:
+            self.storage.save(test_bytes, key)
+        keys = self.storage.list("test")
+        keys = ["/".join(key.split("/")[-2:]) for key in keys]
+        self.assertEqual(set(keys), set(random_keys))
+            
+# ----- autoop/tests/test_pipeline.py -----
+from sklearn.datasets import fetch_openml
+import unittest
+import pandas as pd
+
+from autoop.core.ml.pipeline import Pipeline
+from autoop.core.ml.dataset import Dataset
+from autoop.core.ml.feature import Feature
+from autoop.functional.feature import detect_feature_types
+from autoop.core.ml.model.regression import MultipleLinearRegression
+from autoop.core.ml.metric import MeanSquaredError
+
+class TestPipeline(unittest.TestCase):
+
+    def setUp(self) -> None:
+        data = fetch_openml(name="adult", version=1, parser="auto")
+        df = pd.DataFrame(
+            data.data,
+            columns=data.feature_names,
+        )
+        self.dataset = Dataset.from_dataframe(
+            name="adult",
+            asset_path="adult.csv",
+            data=df,
+        )
+        self.features = detect_feature_types(self.dataset)
+        self.pipeline = Pipeline(
+            dataset=self.dataset,
+            model=MultipleLinearRegression(),
+            input_features=list(filter(lambda x: x.name != "age", self.features)),
+            target_feature=Feature(name="age", type="numerical"),
+            metrics=[MeanSquaredError()],
+            split=0.8
+        )
+        self.ds_size = data.data.shape[0]
+
+    def test_init(self):
+        self.assertIsInstance(self.pipeline, Pipeline)
+
+    def test_preprocess_features(self):
+        self.pipeline._preprocess_features()
+        self.assertEqual(len(self.pipeline._artifacts), len(self.features))
+
+    def test_split_data(self):
+        self.pipeline._preprocess_features()
+        self.pipeline._split_data()
+        self.assertEqual(self.pipeline._train_X[0].shape[0], int(0.8 * self.ds_size))
+        self.assertEqual(self.pipeline._test_X[0].shape[0], self.ds_size - int(0.8 * self.ds_size))
+
+    def test_train(self):
+        self.pipeline._preprocess_features()
+        self.pipeline._split_data()
+        self.pipeline._train()
+        self.assertIsNotNone(self.pipeline._model.parameters)
+
+    def test_evaluate(self):
+        self.pipeline._preprocess_features()
+        self.pipeline._split_data()
+        self.pipeline._train()
+        self.pipeline._evaluate()
+        self.assertIsNotNone(self.pipeline._predictions)
+        self.assertIsNotNone(self.pipeline._metrics_results)
+        self.assertEqual(len(self.pipeline._metrics_results), 1)
+# ----- autoop/tests/test_database.py -----
+import unittest
+
+from autoop.core.database import Database
+from autoop.core.storage import LocalStorage
+import random
+import tempfile
+
+class TestDatabase(unittest.TestCase):
+
+    def setUp(self):
+        self.storage = LocalStorage(tempfile.mkdtemp())
+        self.db = Database(self.storage)
+
+    def test_init(self):
+        self.assertIsInstance(self.db, Database)
+
+    def test_set(self):
+        id = str(random.randint(0, 100))
+        entry = {"key": random.randint(0, 100)}
+        self.db.set("collection", id, entry)
+        self.assertEqual(self.db.get("collection", id)["key"], entry["key"])
+
+    def test_delete(self):
+        id = str(random.randint(0, 100))
+        value = {"key": random.randint(0, 100)}
+        self.db.set("collection", id, value)
+        self.db.delete("collection", id)
+        self.assertIsNone(self.db.get("collection", id))
+        self.db.refresh()
+        self.assertIsNone(self.db.get("collection", id))
+
+    def test_persistance(self):
+        id = str(random.randint(0, 100))
+        value = {"key": random.randint(0, 100)}
+        self.db.set("collection", id, value)
+        other_db = Database(self.storage)
+        self.assertEqual(other_db.get("collection", id)["key"], value["key"])
+
+    def test_refresh(self):
+        key = str(random.randint(0, 100))
+        value = {"key": random.randint(0, 100)}
+        other_db = Database(self.storage)
+        self.db.set("collection", key, value)
+        other_db.refresh()
+        self.assertEqual(other_db.get("collection", key)["key"], value["key"])
+
+    def test_list(self):
+        key = str(random.randint(0, 100))
+        value = {"key": random.randint(0, 100)}
+        self.db.set("collection", key, value)
+        # collection should now contain the key
+        self.assertIn((key, value), self.db.list("collection"))
+# ----- autoop/tests/test_features.py -----
+import unittest
+from sklearn.datasets import load_iris, fetch_openml
+import pandas as pd
+
+from autoop.core.ml.dataset import Dataset
+from autoop.core.ml.feature import Feature
+from autoop.functional.feature import detect_feature_types
+
+class TestFeatures(unittest.TestCase):
+
+    def setUp(self) -> None:
+        pass
+
+    def test_detect_features_continuous(self):
+        iris = load_iris()
+        df = pd.DataFrame(
+            iris.data,
+            columns=iris.feature_names,
+        )
+        dataset = Dataset.from_dataframe(
+            name="iris",
+            asset_path="iris.csv",
+            data=df,
+        )
+        self.X = iris.data
+        self.y = iris.target
+        features = detect_feature_types(dataset)
+        self.assertIsInstance(features, list)
+        self.assertEqual(len(features), 4)
+        for feature in features:
+            self.assertIsInstance(feature, Feature)
+            self.assertEqual(feature.name in iris.feature_names, True)
+            self.assertEqual(feature.type, "numerical")
+        
+    def test_detect_features_with_categories(self):
+        data = fetch_openml(name="adult", version=1, parser="auto")
+        df = pd.DataFrame(
+            data.data,
+            columns=data.feature_names,
+        )
+        dataset = Dataset.from_dataframe(
+            name="adult",
+            asset_path="adult.csv",
+            data=df,
+        )
+        features = detect_feature_types(dataset)
+        self.assertIsInstance(features, list)
+        self.assertEqual(len(features), 14)
+        numerical_columns = [
+            "age",
+            "education-num",
+            "capital-gain",
+            "capital-loss",
+            "hours-per-week",
+        ]
+        categorical_columns = [
+            "workclass",
+            "education",
+            "marital-status",
+            "occupation",
+            "relationship",
+            "race",
+            "sex",
+            "native-country",
+        ]
+        for feature in features:
+            self.assertIsInstance(feature, Feature)
+            self.assertEqual(feature.name in data.feature_names, True)
+        for detected_feature in filter(lambda x: x.name in numerical_columns, features):
+            self.assertEqual(detected_feature.type, "numerical")
+        for detected_feature in filter(lambda x: x.name in categorical_columns, features):
+            self.assertEqual(detected_feature.type, "categorical")
+
+# ----- autoop/tests/main.py -----
+
+import unittest
+from autoop.tests.test_database import TestDatabase
+from autoop.tests.test_storage import TestStorage
+from autoop.tests.test_features import TestFeatures
+from autoop.tests.test_pipeline import TestPipeline
+
+if __name__ == '__main__':
+    unittest.main()
+# ----- docs/decisions/DSC-0001-test.md -----
+
+# ----- app/Welcome.py -----
+from autoop.core.ml.artifact import Artifact
+import streamlit as st
+
+st.set_page_config(
+    page_title="Hello",
+    page_icon="👋",
+)
+st.sidebar.success("Select a page above.")
+st.markdown(open("README.md").read())
+# ----- app/core/system.py -----
+from autoop.core.storage import LocalStorage
+from autoop.core.database import Database
+from autoop.core.ml.dataset import Dataset
+from autoop.core.ml.artifact import Artifact
+from autoop.core.storage import Storage
+from typing import List
+
+
+class ArtifactRegistry():
+    def __init__(self, 
+                 database: Database,
+                 storage: Storage):
+        self._database = database
+        self._storage = storage
+
+    def register(self, artifact: Artifact):
+        # save the artifact in the storage
+        self._storage.save(artifact.data, artifact.asset_path)
+        # save the metadata in the database
+        entry = {
+            "name": artifact.name,
+            "version": artifact.version,
+            "asset_path": artifact.asset_path,
+            "tags": artifact.tags,
+            "metadata": artifact.metadata,
+            "type": artifact.type,
+        }
+        self._database.set(f"artifacts", artifact.id, entry)
+    
+    def list(self, type: str=None) -> List[Artifact]:
+        entries = self._database.list("artifacts")
+        artifacts = []
+        for id, data in entries:
+            if type is not None and data["type"] != type:
+                continue
+            artifact = Artifact(
+                name=data["name"],
+                version=data["version"],
+                asset_path=data["asset_path"],
+                tags=data["tags"],
+                metadata=data["metadata"],
+                data=self._storage.load(data["asset_path"]),
+                type=data["type"],
+            )
+            artifacts.append(artifact)
+        return artifacts
+    
+    def get(self, artifact_id: str) -> Artifact:
+        data = self._database.get("artifacts", artifact_id)
+        return Artifact(
+            name=data["name"],
+            version=data["version"],
+            asset_path=data["asset_path"],
+            tags=data["tags"],
+            metadata=data["metadata"],
+            data=self._storage.load(data["asset_path"]),
+            type=data["type"],
+        )
+    
+    def delete(self, artifact_id: str):
+        data = self._database.get("artifacts", artifact_id)
+        self._storage.delete(data["asset_path"])
+        self._database.delete("artifacts", artifact_id)
+    
+
+class AutoMLSystem:
+    _instance = None
+
+    def __init__(self, storage: LocalStorage, database: Database):
+        self._storage = storage
+        self._database = database
+        self._registry = ArtifactRegistry(database, storage)
+
+    @staticmethod
+    def get_instance():
+        if AutoMLSystem._instance is None:
+            AutoMLSystem._instance = AutoMLSystem(
+                LocalStorage("./assets/objects"), 
+                Database(
+                    LocalStorage("./assets/dbo")
+                )
+            )
+        AutoMLSystem._instance._database.refresh()
+        return AutoMLSystem._instance
+    
+    @property
+    def registry(self):
+        return self._registry
+# ----- app/pages/1_📊_Datasets.py -----
+import streamlit as st
+import pandas as pd
+
+from app.core.system import AutoMLSystem
+from autoop.core.ml.dataset import Dataset
+
+automl = AutoMLSystem.get_instance()
+
+datasets = automl.registry.list(type="dataset")
+
+# your code here
+
+# ----- app/pages/0_✅_Instructions.py -----
+from autoop.core.ml.artifact import Artifact
+import streamlit as st
+
+st.set_page_config(
+    page_title="Instructions",
+    page_icon="👋",
+)
+
+st.markdown(open("INSTRUCTIONS.md").read())
+# ----- app/pages/2_⚙_Modelling.py -----
+import streamlit as st
+import pandas as pd
+
+from app.core.system import AutoMLSystem
+from autoop.core.ml.dataset import Dataset
+
+
+st.set_page_config(page_title="Modelling", page_icon="📈")
+
+def write_helper_text(text: str):
+    st.write(f"<p style=\"color: #888;\">{text}</p>", unsafe_allow_html=True)
+
+st.write("# ⚙ Modelling")
+write_helper_text("In this section, you can design a machine learning pipeline to train a model on a dataset.")
+
+automl = AutoMLSystem.get_instance()
+
+datasets = automl.registry.list(type="dataset")
+
+# your code here
+

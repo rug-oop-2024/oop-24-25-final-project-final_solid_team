@@ -1,0 +1,14 @@
+*pth
+*vscode
+*__pycache__
+*__MACOSX
+*assets*
+env/
+
+# print_project specific files:
+!*.py
+output.txt
+.git
+.github
+.gitignroe
+.ignore

@@ -4,3 +4,5 @@
 *__MACOSX
 *assets*
 env/
+
+.ignore  # for print_project (self made program)
