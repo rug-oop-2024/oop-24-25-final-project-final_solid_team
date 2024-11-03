@@ -1,11 +1,15 @@
 import unittest
 from unittest.mock import patch
-from sklearn.datasets import load_iris, fetch_openml
-import pandas as pd
 
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
 from autoop.functional.feature import detect_feature_types
+from sklearn.datasets import (
+    fetch_openml,
+    load_iris,
+)
+
+import pandas as pd
 
 
 class TestFeatures(unittest.TestCase):

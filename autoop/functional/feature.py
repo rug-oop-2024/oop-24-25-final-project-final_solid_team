@@ -1,6 +1,7 @@
-from typing import List, Any
+from typing import Any, List
 
 import pandas as pd
+
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
 

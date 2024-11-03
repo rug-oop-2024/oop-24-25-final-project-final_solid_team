@@ -1,5 +1,7 @@
 import unittest
+
 from autoop.core.ml.artifact import Artifact
+
 
 class TestArtifact(unittest.TestCase):
     def test_read_and_save(self):

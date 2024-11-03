@@ -1,8 +1,8 @@
+import random
+import tempfile
 import unittest
 
 from autoop.core.storage import LocalStorage, NotFoundError
-import random
-import tempfile
 
 
 class TestStorage(unittest.TestCase):

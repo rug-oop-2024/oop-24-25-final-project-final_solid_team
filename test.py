@@ -1,9 +1,11 @@
 #!/bin/env python
 
-import pandas as pd
-import numpy as np
-from typing import List, Sized, Literal
 import base64
+from typing import List, Literal, Sized
+
+import numpy as np
+import pandas as pd
+
 from autoop.core.ml.artifact import Artifact
 
 artifact = Artifact("database", "test_database")

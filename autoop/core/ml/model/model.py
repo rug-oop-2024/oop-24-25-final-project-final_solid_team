@@ -1,8 +1,10 @@
 from abc import abstractmethod
-from autoop.core.ml.artifact import Artifact
-import numpy as np
 from copy import deepcopy
 from typing import Literal
+
+import numpy as np
+
+from autoop.core.ml.artifact import Artifact
 
 
 class Model:

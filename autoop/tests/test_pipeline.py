@@ -1,13 +1,14 @@
-from sklearn.datasets import fetch_openml
 import unittest
-import pandas as pd
 
-from autoop.core.ml.pipeline import Pipeline
+import pandas as pd
+from sklearn.datasets import fetch_openml
+
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
-from autoop.functional.feature import detect_feature_types
-from autoop.core.ml.model.regression import MultipleLinearRegression
 from autoop.core.ml.metric import MeanSquaredError
+from autoop.core.ml.model.regression import MultipleLinearRegression
+from autoop.core.ml.pipeline import Pipeline
+from autoop.functional.feature import detect_feature_types
 
 
 class TestPipeline(unittest.TestCase):

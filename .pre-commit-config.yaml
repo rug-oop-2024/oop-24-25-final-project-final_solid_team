@@ -1,32 +1,13 @@
-repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
-    hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
+# repos:
+#   - repo: https://github.com/pre-commit/pre-commit-hooks
+#     rev: v4.4.0
+#     hooks:
+#       - id: trailing-whitespace
+#       - id: end-of-file-fixer
 
-  - repo: https://github.com/pycqa/flake8
-    rev: 7.1.1
-    hooks:
-      - id: flake8
-        additional_dependencies:
-          - flake8-docstrings
-          - flake8-annotations
-        args: [--ignore=D100, D107, ANN101, ANN402] # Ignore:
-                                    # module docstrings
-                                    # getters and setters docstrings
-                                    # self does not need a type annotations
+#   - repo: https://github.com/pycqa/flake8
+#     rev: 7.1.1
+#     hooks:
+#       - id: flake8
+#         additional_dependencies: []
 
-  # - repo: https://github.com/pre-commit/mirrors-isort
-  #   rev: v5.10.1
-  #   hooks:
-  #     - id: isort
-  #       args: ["--profile", "fl"]
-
-  # - repo: https://github.com/pre-commit/mirrors-mypy
-  #   rev: 'v1.11.2'
-  #   hooks:
-  #     - id: mypy
-  #       args:
-  #         - --ignore-missing-imports
-  #         - --show-error-codes

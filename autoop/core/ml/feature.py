@@ -1,4 +1,5 @@
 from typing import Literal, Sized
+
 import numpy as np
 
 from autoop.core.ml.dataset import Dataset
