@@ -78,3 +78,7 @@ class Artifact:  # Original had Pydantic
 # Artifact itself doesn't do much more then saving data. Other classes will
 # have the task to do stuff with this data.
 # the id property is based on how it is described in instructions.md
+
+# Remarks:
+# We internally use the getters of the attributes such we can later change
+# how these atributes are stored

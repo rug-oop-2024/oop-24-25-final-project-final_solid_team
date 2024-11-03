@@ -2,7 +2,7 @@ import unittest
 from autoop.core.ml.artifact import Artifact
 
 class TestArtifact(unittest.TestCase):
-    def test_read_save(self):
+    def test_read_and_save(self):
         artifact = Artifact()
         artifact.save(b"hello world")
         self.assertEqual(artifact.read(), b"hello world")
