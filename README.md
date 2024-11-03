@@ -155,7 +155,7 @@ If you did not implement the feature
 |-------------------------------------- |--------------|----------------------|--------------------------|---------|
 | Up-to-date requirements.txt           | NF           | Gideon               | X       | |
 | `ML/detect-features`                  | FN           | Gideon               | X       | |
-| `ML/artifact`                         | NF           |                      |         | |
+| `ML/artifact`                         | NF           | Gideon               | X       | ID needs testing, no integration tests yet because it is not integrated |
 | `ML/feature`                          | NF           |                      |         | |
 | `ML/metric`                           | NF           |                      |         | |
 | `ML/metric/extensions`                | FN           |                      |         | |

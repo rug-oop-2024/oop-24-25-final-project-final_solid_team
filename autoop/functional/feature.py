@@ -9,6 +9,7 @@ from autoop.core.ml.feature import Feature
 def _is_categorical(candidate: Any):
     if isinstance(candidate, str):
         return True
+    # TODO Also allow for one-hot encoding 
 
 
 def detect_feature_types(dataset: Dataset) -> List[Feature]:

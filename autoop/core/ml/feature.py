@@ -9,9 +9,6 @@ Categorical = tuple[OneZero]
 
 
 class Feature:
-    # attributes here
-    _type: str
-
     def __init__(self, data: Sized, type: str):
         self._type = type
         self._data = data
