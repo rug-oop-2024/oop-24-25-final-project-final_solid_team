@@ -30,26 +30,26 @@ class TestFeatures(unittest.TestCase):
         self.assertEqual(features[1].type, "categorical")
         self.assertEqual(features[2].type, "numerical")
 
-    # def test_detect_features_continuous(self):
-    #     iris = load_iris()
-    #     df = pd.DataFrame(
-    #         iris.data,
-    #         columns=iris.feature_names,
-    #     )
-    #     dataset = Dataset.from_dataframe(
-    #         name="iris",
-    #         asset_path="iris.csv",
-    #         data=df,
-    #     )
-    #     self.X = iris.data
-    #     self.y = iris.target
-    #     features = detect_feature_types(dataset)
-    #     self.assertIsInstance(features, list)
-    #     self.assertEqual(len(features), 4)
-    #     for feature in features:
-    #         self.assertIsInstance(feature, Feature)
-    #         self.assertEqual(feature.name in iris.feature_names, True)
-    #         self.assertEqual(feature.type, "numerical")
+    def test_detect_features_continuous(self):
+        iris = load_iris()
+        df = pd.DataFrame(
+            iris.data,
+            columns=iris.feature_names,
+        )
+        dataset = Dataset.from_dataframe(
+            name="iris",
+            asset_path="iris.csv",
+            data=df,
+        )
+        self.X = iris.data
+        self.y = iris.target
+        features = detect_feature_types(dataset)
+        self.assertIsInstance(features, list)
+        self.assertEqual(len(features), 4)
+        for feature in features:
+            self.assertIsInstance(feature, Feature)
+            self.assertEqual(feature.name in iris.feature_names, True)
+            self.assertEqual(feature.type, "numerical")
 
     # def test_detect_features_with_categories(self):
     #     data = fetch_openml(name="adult", version=1, parser="auto")
