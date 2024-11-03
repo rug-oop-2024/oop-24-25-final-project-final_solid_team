@@ -22,4 +22,3 @@ class Metric(...):
         raise NotImplementedError("To be implemented.")
 
 # add here concrete implementations of the Metric class
-    

@@ -14,7 +14,7 @@ class Feature:
     def __init__(self, data: Sized, type: str):
         self._type = type
         self._data = data
-    
+
     @property
     def type(self):
         return self._type

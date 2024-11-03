@@ -30,7 +30,7 @@ class TestFeatures(unittest.TestCase):
         self.assertEqual(features[0].type, "numerical")
         self.assertEqual(features[1].type, "categorical")
         self.assertEqual(features[2].type, "numerical")
-        
+
 
     # def test_detect_features_continuous(self):
     #     iris = load_iris()
@@ -52,7 +52,7 @@ class TestFeatures(unittest.TestCase):
     #         self.assertIsInstance(feature, Feature)
     #         self.assertEqual(feature.name in iris.feature_names, True)
     #         self.assertEqual(feature.type, "numerical")
-        
+
     # def test_detect_features_with_categories(self):
     #     data = fetch_openml(name="adult", version=1, parser="auto")
     #     df = pd.DataFrame(

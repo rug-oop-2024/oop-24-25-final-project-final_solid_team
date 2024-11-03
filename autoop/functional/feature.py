@@ -26,11 +26,7 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
         if all([_is_categorical(element) for element in df[column_name]]):
             feature = Feature(df[column_name], "categorical")
             features.append(feature)
-        
+
         # No need to check for NaN types because only floats, ints and strings are added
-    
+
     return features
-
-            
-
-
