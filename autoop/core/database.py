@@ -1,10 +1,5 @@
 import json
-from typing import (
-    Dict,
-    List,
-    Tuple,
-    Union,
-)
+from typing import Dict, List, Tuple, Union
 
 from autoop.core.storage import Storage
 

@@ -3,17 +3,13 @@ import base64
 
 class Artifact:  # Original had Pydantic
     """Baseclass to store certain assets."""
-
-    _type: str
-    _dictionary: dict
-
     def __init__(
         self,
         type: str | None = None,
         name: str | None = None,
         asset_path: str | None = None,
         data: bytes | None = None,
-        version: str = "v0.00",
+        version: str = "v0.00"
     ) -> None:
         """Initialize.
 
@@ -24,26 +20,32 @@ class Artifact:  # Original had Pydantic
             data (str): Binary data
             version (str): Version of this artifact (default v0.00)
         """
-        self._type = type,
-        self._name = name,
-        self._asset_path = asset_path,
+        self._type = type
+        self._name = name
+        self._asset_path = asset_path
         self._data = data
         self._version = version
 
     @property
     def asset_path(self) -> str:
         """Getter."""
-        return self._asset_path
+        if self._asset_path is not None:
+            return self._asset_path
+        else:
+            raise AttributeError("asset_path is not set.")
 
     @property
     def data(self) -> bytes:
         """Getter."""
-        return self._data
+        if self._data is not None:
+            return self._data
+        else:
+            raise AttributeError("data is not set.")
 
     @property
     def id(self) -> dict[bytes, str]:
-        """Getter."""
-        return {base64.b64encode(self._asset_path), self._version}
+        """Get the id of this artifact."""
+        return {self.asset_path.encode() : self._version}
 
     def read(self) -> bytes:
         """Read the content of the data.
@@ -51,14 +53,9 @@ class Artifact:  # Original had Pydantic
         Returns:
             The data stored in this artifact in binary.
         """
-        # TODO Do we need to assert that this
-        # value exists?
-        if self.data is not None:
-            return self._data
-        else:
-            raise AttributeError("This artifact does not contain data (yet).")
+        return self.data
 
-    def save(self, binary_string: bytes) -> None:
+    def save(self, binary_string: bytes) -> bytes:
         """Save a binary string as data into this artifact.
 
         Args:

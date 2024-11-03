@@ -1,12 +1,9 @@
-from abc import (
-    ABC,
-    abstractmethod,
-)
 import io
-
-from autoop.core.ml.artifact import Artifact
+from abc import ABC, abstractmethod
 
 import pandas as pd
+
+from autoop.core.ml.artifact import Artifact
 
 
 class Dataset(Artifact):
