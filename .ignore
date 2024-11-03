@@ -4,6 +4,7 @@
 *__MACOSX
 *assets*
 env/
+.mypy*
 
 # print_project specific files:
 !*.py
@@ -12,3 +13,5 @@ output.txt
 .github
 .gitignroe
 .ignore
+.mypy
+*.md

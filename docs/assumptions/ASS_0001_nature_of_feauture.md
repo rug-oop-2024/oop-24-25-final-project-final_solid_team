@@ -1,1 +1,0 @@
-One Feature object is a list of Number | Categorical plus maybe some extra functionality

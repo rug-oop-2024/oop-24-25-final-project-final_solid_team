@@ -23,9 +23,8 @@ class TestFeatures(unittest.TestCase):
             ],
         )
         with patch("autoop.core.ml.dataset.Dataset.read") as read_mock:
-            with patch("builtins.print") as print_mock:
-                read_mock.return_value = ints
-                features = detect_feature_types(data_set)
+            read_mock.return_value = ints
+            features = detect_feature_types(data_set)
         self.assertEqual(features[0].type, "numerical")
         self.assertEqual(features[1].type, "categorical")
         self.assertEqual(features[2].type, "numerical")
