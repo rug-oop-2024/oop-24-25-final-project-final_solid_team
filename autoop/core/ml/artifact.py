@@ -65,7 +65,7 @@ class Artifact:  # Original had Pydantic
         return binary_string
 
 # TODO Figure out whether we really want utf-8 encoding
-# TODO Understand base64.b64encode
+# TODO Understand base64.b64encode (now we just use .encode())
 # TODO The Dataset.save implies that Artifact.save
 # function return a bytes object. Why is that?
 
