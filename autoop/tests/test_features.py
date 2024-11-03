@@ -7,6 +7,7 @@ from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
 from autoop.functional.feature import detect_feature_types
 
+
 class TestFeatures(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -15,13 +16,11 @@ class TestFeatures(unittest.TestCase):
     def test_unit_detect_features(self):
         data_set = Dataset()
         ints = pd.DataFrame(
-            columns = [
-                "ints", "categories", "floats"
-            ],
-            data = [
+            columns=["ints", "categories", "floats"],
+            data=[
                 [1, "a", 0.1],
                 [2, "b", 0.2],
-            ]
+            ],
         )
         with patch("autoop.core.ml.dataset.Dataset.read") as read_mock:
             with patch("builtins.print") as print_mock:
@@ -30,7 +29,6 @@ class TestFeatures(unittest.TestCase):
         self.assertEqual(features[0].type, "numerical")
         self.assertEqual(features[1].type, "categorical")
         self.assertEqual(features[2].type, "numerical")
-
 
     # def test_detect_features_continuous(self):
     #     iris = load_iris()

@@ -1,4 +1,3 @@
-
 from typing import Literal, Sized
 import numpy as np
 
@@ -6,6 +5,7 @@ from autoop.core.ml.dataset import Dataset
 
 OneZero = Literal[0, 1]
 Categorical = tuple[OneZero]
+
 
 class Feature:
     # attributes here

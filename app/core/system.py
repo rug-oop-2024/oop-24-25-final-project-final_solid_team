@@ -6,10 +6,8 @@ from autoop.core.storage import Storage
 from typing import List
 
 
-class ArtifactRegistry():
-    def __init__(self,
-                 database: Database,
-                 storage: Storage):
+class ArtifactRegistry:
+    def __init__(self, database: Database, storage: Storage):
         self._database = database
         self._storage = storage
 
@@ -27,7 +25,7 @@ class ArtifactRegistry():
         }
         self._database.set(f"artifacts", artifact.id, entry)
 
-    def list(self, type: str=None) -> List[Artifact]:
+    def list(self, type: str = None) -> List[Artifact]:
         entries = self._database.list("artifacts")
         artifacts = []
         for id, data in entries:
@@ -76,9 +74,7 @@ class AutoMLSystem:
         if AutoMLSystem._instance is None:
             AutoMLSystem._instance = AutoMLSystem(
                 LocalStorage("./assets/objects"),
-                Database(
-                    LocalStorage("./assets/dbo")
-                )
+                Database(LocalStorage("./assets/dbo")),
             )
         AutoMLSystem._instance._database.refresh()
         return AutoMLSystem._instance

@@ -1,10 +1,10 @@
-
 import json
 from typing import Dict, Tuple, List, Union
 
 from autoop.core.storage import Storage
 
-class Database():
+
+class Database:
 
     def __init__(self, storage: Storage):
         self._storage = storage
@@ -76,7 +76,9 @@ class Database():
             if not data:
                 continue
             for id, item in data.items():
-                self._storage.save(json.dumps(item).encode(), f"{collection}/{id}")
+                self._storage.save(
+                    json.dumps(item).encode(), f"{collection}/{id}"
+                )
 
         # for things that were deleted, we need to remove them from the storage
         keys = self._storage.list("")
