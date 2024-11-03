@@ -12,7 +12,7 @@ repos:
         additional_dependencies:
           - flake8-docstrings
           - flake8-annotations
-        args: [--ignore=D100, D107, ANN101, ANN402] # Ignore:
+        # args: [--ignore=D100, D107, ANN101, ANN402] # Ignore:
                                     # module docstrings
                                     # getters and setters docstrings
                                     # self does not need a type annotations

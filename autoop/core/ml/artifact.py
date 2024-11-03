@@ -3,6 +3,7 @@ import base64
 
 class Artifact:  # Original had Pydantic
     """Baseclass to store certain assets."""
+
     def __init__(
         self,
         type: str | None = None,
@@ -45,7 +46,7 @@ class Artifact:  # Original had Pydantic
     @property
     def id(self) -> dict[bytes, str]:
         """Get the id of this artifact."""
-        return {self.asset_path.encode() : self._version}
+        return {self.asset_path.encode(): self._version}
 
     def read(self) -> bytes:
         """Read the content of the data.

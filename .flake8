@@ -1,2 +1,6 @@
 [flake8]
 ignore = D100, ANN101, D107
+# ignore:
+# module docstrings
+# getters and setters docstrings
+# self does not need a type annotations
