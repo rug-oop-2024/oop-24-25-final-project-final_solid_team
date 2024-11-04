@@ -10,6 +10,13 @@ from autoop.core.ml.feature import Feature
 
 logger = logging.getLogger(__name__)
 
+def _is_number(value: Any) -> bool:
+    try:
+        float(value)
+        return True
+    except ValueError as e:
+        return False
+
 def _is_numerical(series: pd.Series) -> bool:
     """Test whether the series has only numerical values. There are two
     possibities, all the values are numbers are all the values are strings
@@ -24,13 +31,21 @@ def _is_numerical(series: pd.Series) -> bool:
                         f"`{element}` is not a Number nor a str")
             logger.debug(f"Failing series:\n{series}")
         if isinstance(element, str):
-            if not element.isnumeric():
+            if not _is_number(element):
                 logger.info(f"Series with name `{series.name}` is not numerical because "
                             f" `{element}` cannot be converted to a number")
                 logger.debug(f"Failing series:\n{series}")
                 return_value = False
                 break
     return return_value
+
+def _all_elements_str(series: pd.Series) -> bool:
+    """Checks whether all element in de panda series are strings."""
+    for element in series:
+        if not isinstance(element, str):
+            return False
+    else:
+        return True  # All elements are strigns
 
 def _is_categorical(series: pd.Series) -> bool:
     """Test whether the series contains merely categories. Pandas has a built-
@@ -41,15 +56,17 @@ def _is_categorical(series: pd.Series) -> bool:
         1) First check for numerical within this method (SAFE)
         2) Implement this function such numerical is first checked (UNSAFE)
     """
-    # Comment out for efficiency (UNSAFE)
-    if _is_numerical(series):
+    
+    # Quikly check whether dtype give sufficient info
+    if _is_numerical(series): # Comment out for efficiency (UNSAFE)
         return False
     if series.dtype == "category":
         return True
     if series.dtype == "str":
         return True
-    else:
-        return False  # No category nor string type thus cannot be category
+
+    # Go the hard (and expensive) way: go through all elements
+    return _all_elements_str(series)
 
 def detect_feature_types(dataset: Dataset) -> List[Feature]:
     """Assumption: only categorical and numerical features and no NaN values.
@@ -62,6 +79,8 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
 
     features = []
     for column_name in df:
+        if df[column_name].hasnans:
+            break  # Do not add features with NaNs to features
         if _is_numerical(df[column_name]):
             feature = Feature(
                 type="numerical",

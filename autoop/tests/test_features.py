@@ -7,9 +7,9 @@ from sklearn.datasets import fetch_openml, load_iris
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
 from autoop.functional.feature import (
+    _is_categorical,
+    _is_numerical,
     detect_feature_types,
-    _is_numerical, 
-    _is_categorical
 )
 
 
@@ -22,11 +22,15 @@ class TestFeatures(unittest.TestCase):
             columns=data.feature_names,
         )
         self.my_df = pd.DataFrame(
-            columns=["ints", "categories", "floats"],
+            columns=["ints", 
+            "categories", 
+            "floats", 
+            "string numbers", 
+            "wrong string numbers"],
             data=[
-                [1, "a", 0.1],
-                [2, "b", 0.2],
-            ],
+                [1, "a", 0.1, "1.12", "one"],
+                [2, "b", 0.2, "555", "two"],
+            ],  # TODO Make these numbers random
         )
         self.numerical_columns = [
             "age",
@@ -58,6 +62,8 @@ class TestFeatures(unittest.TestCase):
         self.assertTrue(
             _is_numerical(self.my_df["ints"]))
         self.assertFalse(_is_numerical(self.my_df["categories"]))
+        self.assertTrue(_is_numerical(self.my_df["string numbers"]))
+        self.assertFalse(_is_numerical(self.my_df["wrong string numbers"]))
 
     def test_is_categorical(self):
         for column_name in self.numerical_columns:
@@ -71,7 +77,7 @@ class TestFeatures(unittest.TestCase):
 
     def test_unit_detect_features(self):
         data_set = Dataset()
-        ints = pd.DataFrame(
+        df = pd.DataFrame(
             columns=["ints", "categories", "floats"],
             data=[
                 [1, "a", 0.1],
@@ -79,48 +85,48 @@ class TestFeatures(unittest.TestCase):
             ],
         )
         with patch("autoop.core.ml.dataset.Dataset.read") as read_mock:
-            read_mock.return_value = ints
+            read_mock.return_value = df
             features = detect_feature_types(data_set)
         self.assertEqual(len(features), 3)
         self.assertEqual(features[0].type, "numerical")
         self.assertEqual(features[1].type, "categorical")
         self.assertEqual(features[2].type, "numerical")
 
-    # def test_detect_features_continuous(self):
-    #     iris = load_iris()
-    #     df = pd.DataFrame(
-    #         iris.data,
-    #         columns=iris.feature_names,
-    #     )
-    #     dataset = Dataset.from_dataframe(
-    #         name="iris",
-    #         asset_path="iris.csv",
-    #         data=df,
-    #     )
-    #     self.X = iris.data
-    #     self.y = iris.target
-    #     features = detect_feature_types(dataset)
-    #     self.assertIsInstance(features, list)
-    #     self.assertEqual(len(features), 4)
-    #     for feature in features:
-    #         self.assertIsInstance(feature, Feature)
-    #         self.assertEqual(feature.name in iris.feature_names, True)
-    #         self.assertEqual(feature.type, "numerical")
+    def test_detect_features_continuous(self):
+        iris = load_iris()
+        df = pd.DataFrame(
+            iris.data,
+            columns=iris.feature_names,
+        )
+        dataset = Dataset.from_dataframe(
+            name="iris",
+            asset_path="iris.csv",
+            data=df,
+        )
+        self.X = iris.data
+        self.y = iris.target
+        features = detect_feature_types(dataset)
+        self.assertIsInstance(features, list)
+        self.assertEqual(len(features), 4)
+        for feature in features:
+            self.assertIsInstance(feature, Feature)
+            self.assertEqual(feature.name in iris.feature_names, True)
+            self.assertEqual(feature.type, "numerical")
 
-    # def test_detect_features_with_categories(self):
-    #     data = fetch_openml(name="adult", version=1, parser="auto")
-    #     df = pd.DataFrame(
-    #         data.data,
-    #         columns=data.feature_names,
-    #     )
-    #     dataset = Dataset.from_dataframe(
-    #         name="adult",
-    #         asset_path="adult.csv",
-    #         data=df,
-    #     )
-    #     features = detect_feature_types(dataset)
-    #     self.assertIsInstance(features, list)
-    #     self.assertEqual(len(features), 14)
+    def test_detect_features_with_categories(self):
+        data = fetch_openml(name="adult", version=1, parser="auto")
+        df = pd.DataFrame(
+            data.data,
+            columns=data.feature_names,
+        )
+        dataset = Dataset.from_dataframe(
+            name="adult",
+            asset_path="adult.csv",
+            data=df,
+        )
+        features = detect_feature_types(dataset)
+        self.assertIsInstance(features, list)
+        self.assertEqual(len(features), 14)
     #     numerical_columns = [
     #         "age",
     #         "education-num",

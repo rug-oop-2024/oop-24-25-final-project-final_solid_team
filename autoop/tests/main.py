@@ -12,5 +12,5 @@ from autoop.tests.test_features import TestFeatures
 logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
-    logging.basicConfig(filename="test.log", level=logging.DEBUG)
+    logging.basicConfig(filename="test.log", filemode='w', level=logging.DEBUG)
     unittest.main()
