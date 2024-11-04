@@ -1,3 +1,6 @@
+import sys
+import logging
+
 import unittest
 
 # from autoop.tests.test_database import TestDatabase
@@ -6,5 +9,8 @@ from autoop.tests.test_features import TestFeatures
 
 # from autoop.tests.test_pipeline import TestPipeline
 
+logger = logging.getLogger(__name__)
+
 if __name__ == "__main__":
+    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
     unittest.main()
