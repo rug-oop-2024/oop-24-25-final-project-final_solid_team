@@ -32,17 +32,21 @@ class Metric(ABC):
 
 
 class Accuracy(Metric):
+    """Class for accuracy metric"""
     matches: int = 0
     def __call__(self, ground_truth: Feature, predictions: Feature) -> float:
-        for index, item in enumerate(ground_truth.array()): #array method is just a placeholder
-            if(predictions.array()[index] == item):
+        """Accuracy __call__ function"""
+        for index, item in enumerate(ground_truth.data()):
+            if(predictions.data()[index] == item):
                 matches+= 1
         return (matches / len(ground_truth.array()))
         
 
 class Mean_squared_error(Metric):
+    """Class for mean squared error metric"""
     def __call__(self, ground_truth: Feature, predictions: Feature) -> float:
-        difference_array: np.ndarray = predictions.array() - ground_truth.array()
+        """Mean squared error __call__ function"""
+        difference_array: np.ndarray = predictions.data() - ground_truth.data()
         mean_sq_err:float = np.mean(difference_array**2)
         return mean_sq_err
 
