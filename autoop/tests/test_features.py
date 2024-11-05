@@ -126,31 +126,31 @@ class TestFeatures(unittest.TestCase):
         )
         features = detect_feature_types(dataset)
         self.assertIsInstance(features, list)
-        self.assertEqual(len(features), 14)
-    #     numerical_columns = [
-    #         "age",
-    #         "education-num",
-    #         "capital-gain",
-    #         "capital-loss",
-    #         "hours-per-week",
-    #     ]
-    #     categorical_columns = [
-    #         "workclass",
-    #         "education",
-    #         "marital-status",
-    #         "occupation",
-    #         "relationship",
-    #         "race",
-    #         "sex",
-    #         "native-country",
-    #     ]
-    #     for feature in features:
-    #         self.assertIsInstance(feature, Feature)
-    #         self.assertEqual(feature.name in data.feature_names, True)
-    #     for detected_feature in filter(lambda x: x.name in numerical_columns, features):
-    #         self.assertEqual(detected_feature.type, "numerical")
-    #     for detected_feature in filter(lambda x: x.name in categorical_columns, features):
-    #         self.assertEqual(detected_feature.type, "categorical")
+        self.assertEqual(len(features), 11)
+        numerical_columns = [
+            "age",
+            "education-num",
+            "capital-gain",
+            "capital-loss",
+            "hours-per-week",
+        ]
+        categorical_columns = [
+            "workclass",
+            "education",
+            "marital-status",
+            "occupation",
+            "relationship",
+            "race",
+            "sex",
+            "native-country",
+        ]
+        for feature in features:
+            self.assertIsInstance(feature, Feature)
+            self.assertEqual(feature.name in data.feature_names, True)
+        for detected_feature in filter(lambda x: x.name in numerical_columns, features):
+            self.assertEqual(detected_feature.type, "numerical")
+        for detected_feature in filter(lambda x: x.name in categorical_columns, features):
+            self.assertEqual(detected_feature.type, "categorical")
 
 
 # Notes: somehow the feature names of the `adult` data set do not correspond

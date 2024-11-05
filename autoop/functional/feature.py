@@ -9,6 +9,7 @@ from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
 
 logger = logging.getLogger(__name__)
+rejection_logger = logging.getLogger("rejection_92165")
 
 def _is_number(value: Any) -> bool:
     try:
@@ -23,6 +24,9 @@ def _is_numerical(series: pd.Series) -> bool:
     but are convertable to numbers. Therefore we first check wether is a number
     or a string and then we test whether the string is convertable to a number.
     """
+    if series.dtype == "int64":
+        return True
+    
     return_value = True
     for element in series:
         if not isinstance(element, (Number, str)):  # TODO Fasten this process
@@ -43,6 +47,10 @@ def _all_elements_str(series: pd.Series) -> bool:
     """Checks whether all element in de panda series are strings."""
     for element in series:
         if not isinstance(element, str):
+            logger.info(
+                f"{series.name} is not categorical because {element} with "
+                f"with type {type(element)} is not a string"
+            )
             return False
     else:
         return True  # All elements are strigns
@@ -80,7 +88,7 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
     features = []
     for column_name in df:
         if df[column_name].hasnans:
-            break  # Do not add features with NaNs to features
+            continue  # Do not add features with NaNs to features
         if _is_numerical(df[column_name]):
             feature = Feature(
                 type="numerical",
@@ -88,7 +96,7 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
                 data=df[column_name]
             )
             features.append(feature)
-        if _is_categorical(df[column_name]):
+        elif _is_categorical(df[column_name]):
             feature = Feature(
                 type="categorical",
                 name=column_name,
@@ -96,7 +104,7 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
             )
             features.append(feature)
         else:
-            logger.debug(
+            rejection_logger.info(
                 f"Column {column_name} with type {df[column_name].dtype} is "
                 "rejected"
             )

@@ -9,8 +9,6 @@ from autoop.tests.test_features import TestFeatures
 
 # from autoop.tests.test_pipeline import TestPipeline
 
-logger = logging.getLogger(__name__)
-
 if __name__ == "__main__":
-    logging.basicConfig(filename="test.log", filemode='w', level=logging.DEBUG)
+    logging.basicConfig(filename="test.log", filemode='w', level=logging.INFO)
     unittest.main()

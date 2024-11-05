@@ -13,6 +13,8 @@ df = pd.DataFrame(
 print(df)
 
 for column in df:
-    print(f"{column}: "
-          f"dtype={df[column].dtype} "
-          f"type(element)={type(df[column][0])} ")
+    if df[column].hasnans == True:
+        print(f"{column}: "
+            f"dtype={df[column].dtype} "
+            f"type(element)={type(df[column][0])} "
+            f"Has Nans: {df[column].hasnans}")
