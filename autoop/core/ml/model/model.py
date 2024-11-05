@@ -7,11 +7,11 @@ import numpy as np
 from autoop.core.ml.artifact import Artifact
 
 
-class Model(ABC):
+class Model(Artifact):
     def __init__(self):
         _params: dict = dict()
         _hyper_params: dict = dict()
-    
+
     @abstractmethod
     def fit(self, data) -> None:
         pass
