@@ -11,12 +11,61 @@ from autoop.core.ml.feature import Feature
 logger = logging.getLogger(__name__)
 rejection_logger = logging.getLogger("rejection_92165")
 
-def _is_number(value: Any) -> bool:
-    try:
-        float(value)
-        return True
-    except ValueError as e:
+def detect_feature_types(dataset: Dataset) -> List[Feature]:
+    """Assumption: only categorical and numerical features and no NaN values.
+    Args:
+        dataset: Dataset
+    Returns:
+        List[Feature]: List of features with their types.
+    """
+    df = dataset.read()
+
+    features = []
+    for column_name in df:
+        if df[column_name].hasnans:
+            continue  # Do not add features with NaNs to features
+        if _is_numerical(df[column_name]):
+            feature = Feature(
+                type="numerical",
+                name=str(column_name), 
+                data=df[column_name]
+            )
+            features.append(feature)
+        elif _is_categorical(df[column_name]):
+            feature = Feature(
+                type="categorical",
+                name=str(column_name),
+                data=df[column_name]
+            )
+            features.append(feature)
+        else:
+            rejection_logger.info(
+                f"Column {column_name} with type {df[column_name].dtype} is "
+                "rejected"
+            )
+        # No need to check for NaN types because only floats, ints and strings are added
+
+    return features
+
+def _is_categorical(series: pd.Series) -> bool:
+    """Test whether the series contains merely categories. Pandas has a built-
+    in method for that. If the type is string this is also fine.
+    """
+    
+    # Integers can both be interpreted as categories and as numerical.
+    # We choose for them to be numerical. Therefore, if the feature is
+    # numerical, it is not categorical
+    if _is_numerical(series): # Comment out for efficiency (UNSAFE)
         return False
+    
+    # Quick checks
+    if series.dtype == "category":
+        return True
+    if series.dtype == "str":
+        return True
+
+    # Go the hard (and expensive) way: go through all elements
+    return _all_elements_str(series)
 
 def _is_numerical(series: pd.Series) -> bool:
     """Test whether the series has only numerical values. There are two
@@ -55,59 +104,16 @@ def _all_elements_str(series: pd.Series) -> bool:
     else:
         return True  # All elements are strigns
 
-def _is_categorical(series: pd.Series) -> bool:
-    """Test whether the series contains merely categories. Pandas has a built-
-    in method for that. If the type is string this is also fine.
-    NOTE:
-        Sometimes integers are interpreted as categories by panda. Two
-        solutions:
-        1) First check for numerical within this method (SAFE)
-        2) Implement this function such numerical is first checked (UNSAFE)
-    """
-    
-    # Quikly check whether dtype give sufficient info
-    if _is_numerical(series): # Comment out for efficiency (UNSAFE)
+def _is_number(value: Any) -> bool:
+    try:
+        float(value)
+        return True
+    except ValueError as e:
         return False
-    if series.dtype == "category":
-        return True
-    if series.dtype == "str":
-        return True
 
-    # Go the hard (and expensive) way: go through all elements
-    return _all_elements_str(series)
 
-def detect_feature_types(dataset: Dataset) -> List[Feature]:
-    """Assumption: only categorical and numerical features and no NaN values.
-    Args:
-        dataset: Dataset
-    Returns:
-        List[Feature]: List of features with their types.
-    """
-    df = dataset.read()
 
-    features = []
-    for column_name in df:
-        if df[column_name].hasnans:
-            continue  # Do not add features with NaNs to features
-        if _is_numerical(df[column_name]):
-            feature = Feature(
-                type="numerical",
-                name=str(column_name), 
-                data=df[column_name]
-            )
-            features.append(feature)
-        elif _is_categorical(df[column_name]):
-            feature = Feature(
-                type="categorical",
-                name=str(column_name),
-                data=df[column_name]
-            )
-            features.append(feature)
-        else:
-            rejection_logger.info(
-                f"Column {column_name} with type {df[column_name].dtype} is "
-                "rejected"
-            )
-        # No need to check for NaN types because only floats, ints and strings are added
 
-    return features
+
+
+
