@@ -5,3 +5,5 @@ GW: The data key in the dict of an artifact actually refers to the data, not jus
 GW: We are not obliged to use pydantic
 
 Gw: storage and database will have the task of storing data, therefore the dataset is not tasked to actaully save data to assets
+
+GW: Artifact are hyperflexible, they are allowed to have None values for their attributes. This is alright because all the getter will check for None

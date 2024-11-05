@@ -30,3 +30,7 @@ class Dataset(Artifact):
     def save(self, data: pd.DataFrame) -> bytes:
         bytes = data.to_csv(index=False).encode()
         return super().save(bytes)
+
+
+# Remarks:
+# read and save were already implemented
