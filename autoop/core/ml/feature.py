@@ -1,5 +1,3 @@
-from typing import Literal, Sized
-
 import numpy as np
 from numpy.typing import ArrayLike
 
@@ -41,9 +39,12 @@ class Feature:
             f"Type: {self._type}, Name: {self._name}\n"
             f"Data: {self._data}"
         )
-
-    #Shoudn't this have a property to actually get the data?
     
 
-# Reasonings:
+# Reason:
 # type and name have getters because they are accesed in the tests.
+
+# NOTE:
+# The given implementation had the line:
+# from typing import Literal, Sized
+# on top? Why was that?
