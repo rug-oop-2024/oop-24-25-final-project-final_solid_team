@@ -3,7 +3,7 @@ from typing import Any
 
 import numpy as np
 
-from autoop.core.ml.dataset import Feature
+from autoop.core.ml.feature import Feature
 
 
 METRICS = [
@@ -27,14 +27,7 @@ class Metric(ABC):
     @abstractmethod
     def __call__(self, ground_truth: Feature, predictions: Feature) -> float:
         pass
-        
 
-
-
-
-
-
-# add here concrete implementations of the Metric class
 
 class Accuracy(Metric):
     """Class for accuracy metric"""
@@ -42,8 +35,8 @@ class Accuracy(Metric):
     def __call__(self, ground_truth: Feature, predictions: Feature) -> float:
         """Accuracy __call__ function"""
         for index, item in enumerate(ground_truth.data()):
-            if(predictions.data()[index] == item):
-                matches+= 1
+            if (predictions.data()[index] == item):
+                matches += 1
         return (matches / len(ground_truth.data()))
         
 
