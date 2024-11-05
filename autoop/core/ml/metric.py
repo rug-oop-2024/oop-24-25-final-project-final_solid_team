@@ -31,6 +31,11 @@ class Metric(ABC):
 
 
 
+
+
+
+# add here concrete implementations of the Metric class
+
 class Accuracy(Metric):
     """Class for accuracy metric"""
     matches: int = 0
@@ -39,7 +44,7 @@ class Accuracy(Metric):
         for index, item in enumerate(ground_truth.data()):
             if(predictions.data()[index] == item):
                 matches+= 1
-        return (matches / len(ground_truth.array()))
+        return (matches / len(ground_truth.data()))
         
 
 class Mean_squared_error(Metric):
@@ -49,7 +54,3 @@ class Mean_squared_error(Metric):
         difference_array: np.ndarray = predictions.data() - ground_truth.data()
         mean_sq_err:float = np.mean(difference_array**2)
         return mean_sq_err
-
-
-
-# add here concrete implementations of the Metric class
