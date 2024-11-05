@@ -30,12 +30,19 @@ class Feature:
         """Get the name."""
         return self._name 
 
+    @property
+    def data(self) -> np.ndarray:
+        """Get the data."""
+        return self._data.copy() 
+
     def __str__(self) -> str:
         """String representation of the object."""
         return (
             f"Type: {self._type}, Name: {self._name}\n"
             f"Data: {self._data}"
         )
+
+    #Shoudn't this have a property to actually get the data?
     
 
 # Reasonings:
