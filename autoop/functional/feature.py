@@ -3,7 +3,7 @@ import logging
 from numbers import Number
 
 import pandas as pd
-from pandas.api.types import is_numeric_dtype, is_categorical_dtype
+from pandas.api.types import is_numeric_dtype
 
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
@@ -92,14 +92,14 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
         if _is_numerical(df[column_name]):
             feature = Feature(
                 type="numerical",
-                name=column_name, 
+                name=str(column_name), 
                 data=df[column_name]
             )
             features.append(feature)
         elif _is_categorical(df[column_name]):
             feature = Feature(
                 type="categorical",
-                name=column_name,
+                name=str(column_name),
                 data=df[column_name]
             )
             features.append(feature)
