@@ -1,6 +1,3 @@
-import base64
-
-
 class Artifact:  # Original had Pydantic
     """Baseclass to store certain assets."""
 
@@ -69,6 +66,10 @@ class Artifact:  # Original had Pydantic
 # TODO Understand base64.b64encode (now we just use .encode())
 # TODO The Dataset.save implies that Artifact.save
 # function return a bytes object. Why is that?
+
+# NOTE given file had:
+# import base64
+# Why is that?
 
 # Reasonings:
 # read and save must have these signatures based on how do are used in Dataset
