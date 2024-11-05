@@ -36,6 +36,8 @@ class Feature:
             f"Type: {self._type}, Name: {self._name}\n"
             f"Data: {self._data}"
         )
+
+    #Shoudn't this have a property to actually get the data?
     
 
 # Reasonings:
