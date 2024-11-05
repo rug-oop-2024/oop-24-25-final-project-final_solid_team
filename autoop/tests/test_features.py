@@ -22,10 +22,10 @@ class TestFeatures(unittest.TestCase):
             columns=data.feature_names,
         )
         self.my_df = pd.DataFrame(
-            columns=["ints", 
-            "categories", 
-            "floats", 
-            "string numbers", 
+            columns=["ints",
+            "categories",
+            "floats",
+            "string numbers",
             "wrong string numbers"],
             data=[
                 [1, "a", 0.1, "1.12", "one"],

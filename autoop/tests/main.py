@@ -1,6 +1,5 @@
-import sys
 import logging
-
+import sys
 import unittest
 
 # from autoop.tests.test_database import TestDatabase

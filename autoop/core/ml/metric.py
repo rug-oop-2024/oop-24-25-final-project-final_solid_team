@@ -5,7 +5,6 @@ import numpy as np
 
 from autoop.core.ml.dataset import Feature
 
-
 METRICS = [
     "mean_squared_error",
     "accuracy",
@@ -27,7 +26,7 @@ class Metric(ABC):
     @abstractmethod
     def __call__(self, ground_truth: Feature, predictions: Feature) -> float:
         pass
-        
+
 
 
 
@@ -45,7 +44,7 @@ class Accuracy(Metric):
             if(predictions.data()[index] == item):
                 matches+= 1
         return (matches / len(ground_truth.data()))
-        
+
 
 class Mean_squared_error(Metric):
     """Class for mean squared error metric"""

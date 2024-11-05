@@ -22,16 +22,16 @@ class Feature:
     def type(self) -> str:
         """Get the type."""
         return self._type
-    
+
     @property
     def name(self) -> str:
         """Get the name."""
-        return self._name 
+        return self._name
 
     @property
     def data(self) -> np.ndarray:
         """Get the data."""
-        return self._data.copy() 
+        return self._data.copy()
 
     def __str__(self) -> str:
         """String representation of the object."""
@@ -39,7 +39,7 @@ class Feature:
             f"Type: {self._type}, Name: {self._name}\n"
             f"Data: {self._data}"
         )
-    
+
 
 # Reason:
 # type and name have getters because they are accesed in the tests.

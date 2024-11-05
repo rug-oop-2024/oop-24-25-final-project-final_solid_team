@@ -37,5 +37,5 @@ class Model(Artifact):
         self._hyper_params = hypers
         return self._type
 
-    
+
       # your code (attribute and methods) here
