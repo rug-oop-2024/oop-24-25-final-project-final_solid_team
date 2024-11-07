@@ -30,6 +30,7 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
                 name=str(column_name),
             )
             features.append(feature)
+        # elif such this one does not need to be checked if numerical
         elif _is_categorical(df[column_name]):
             feature = Feature(
                 type="categorical",
@@ -41,11 +42,27 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
                 f"Column {column_name} with type {df[column_name].dtype} is "
                 "rejected"
             )
-        # No need to check for NaN types because only floats, ints and strings
-        # are added
-
     return features
 
+def _is_numerical(series: pd.Series) -> bool:
+    """Test whether the series has only numerical values. There are two
+    possibities, all the values are numbers are all the values are strings
+    but are convertable to numbers. Therefore we first check wether is a number
+    or a string and then we test whether the string is convertable to a number.
+    """
+    # Quick checks:
+    if series.dtype in ["int64", "float"]:
+        return True
+    
+    # Log rejected elements:
+    if __debug__:
+        return _all_elements_number(series)
+    
+    # Save time with using all (no logger tho):
+    return all(
+        _is_number(element)
+        for element in series
+    )
 
 def _is_categorical(series: pd.Series) -> bool:
     """Test whether the series contains merely categories. Pandas has a built-
@@ -59,41 +76,18 @@ def _is_categorical(series: pd.Series) -> bool:
         return False
 
     # Quick checks
-    if series.dtype == "category":
-        return True
-    if series.dtype == "str":
+    if series.dtype in ["category", "str"]:
         return True
 
-    # Go the hard (and expensive) way: go through all elements
-    return _all_elements_str(series)
+    # Log rejected elements:
+    if __debug__:
+        return _all_elements_str(series)
 
-
-def _is_numerical(series: pd.Series) -> bool:
-    """Test whether the series has only numerical values. There are two
-    possibities, all the values are numbers are all the values are strings
-    but are convertable to numbers. Therefore we first check wether is a number
-    or a string and then we test whether the string is convertable to a number.
-    """
-    if series.dtype == "int64":
-        return True
-
-    return_value = True
-    for element in series:
-        if not isinstance(element, (Number, str)):  # TODO Fasten this process
-            return_value = False
-            logger.info(f"Series with name `{series.name}` is not numerical "
-                        f"because {element}` is not a Number nor a str")
-            logger.debug(f"Failing series:\n{series}")
-        if isinstance(element, str):
-            if not _is_number(element):
-                logger.info(f"Series with name `{series.name}` is not "
-                            f"numerical because `{element}` cannot be "
-                            "converted to a number")
-                logger.debug(f"Failing series:\n{series}")
-                return_value = False
-                break
-    return return_value
-
+    # Save time with using all (no logger tho):
+    return all(
+        isinstance(element, str)
+        for element in series
+    )
 
 def _all_elements_str(series: pd.Series) -> bool:
     """Checks whether all element in de panda series are strings."""
@@ -104,9 +98,17 @@ def _all_elements_str(series: pd.Series) -> bool:
                 f"with type {type(element)} is not a string"
             )
             return False
-    else:
-        return True  # All elements are strigns
-
+    return True  # All elements are strigns
+    
+def _all_elements_number(series: pd.Series):
+    for element in series:
+        if not _is_number(element):
+            logger.info(
+                f"{series.name} is not numerical because {element} with "
+                f"with type {type(element)} is not a string"
+            )
+            return False
+    return True  # All ellements are numbers
 
 def _is_number(value: Any) -> bool:
     try:
@@ -114,3 +116,5 @@ def _is_number(value: Any) -> bool:
         return True
     except ValueError:
         return False
+
+# The `else:` instances are superfluous but add semantic value
