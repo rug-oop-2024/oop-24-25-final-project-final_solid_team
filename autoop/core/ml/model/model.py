@@ -1,3 +1,4 @@
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from typing import Literal, Any
@@ -7,11 +8,6 @@ import pickle
 
 from autoop.core.ml.artifact import Artifact
 
-#HACK
-ParamType = np.ndarray
-HyperParamType = Any
-
-
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from typing import Literal
@@ -20,13 +16,14 @@ import numpy as np
 
 from autoop.core.ml.artifact import Artifact
 
+
 # Author: Marco Zullich
 class ParametersDict(dict):
     def _get_keys_as_list(self) -> list:
         return list(self.keys()).sort()
     
-    def update(self, new_dict: "ParametersDict") -> None:
-        if not isinstance(new_dict, "ParametersDict"):
+    def update(self, new_dict: ParametersDict) -> None:
+        if not isinstance(new_dict, ParametersDict):
             new_dict = ParametersDict(new_dict)
         if (self._get_keys_as_list() == new_dict._get_keys_as_list()
             or len(self) == 0
@@ -50,15 +47,9 @@ class Model(ABC):
         self._hyper_params = hyper_params
         self._params = params
 
-    @classmethod
-    def from_artifact(cls, artifact: Artifact) -> None:
-        loaded_self: Model = pickle.loads(artifact.read())
-        # Construct new instance of the current subclass:
-        return cls(
-            type=loaded_self.type,
-            hyper_params=loaded_self.hyper_params,
-            params=loaded_self.params,
-        )
+    @staticmethod
+    def from_artifact(artifact: Artifact) -> Model:
+        return pickle.loads(artifact.read())
 
     def to_artifact(
             self,
