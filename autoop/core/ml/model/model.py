@@ -12,56 +12,67 @@ ParamType = np.ndarray
 HyperParamType = Any
 
 
-class Model(Artifact):
-    """Artifact that represents the a model and its parameters."""
+from abc import ABC, abstractmethod
+from copy import deepcopy
+from typing import Literal
+
+import numpy as np
+
+from autoop.core.ml.artifact import Artifact
+
+# Author: Marco Zullich
+class ParametersDict(dict):
+    def _get_keys_as_list(self) -> list:
+        return list(self.keys()).sort()
+    
+    def update(self, new_dict: "ParametersDict") -> None:
+        if not isinstance(new_dict, "ParametersDict"):
+            new_dict = ParametersDict(new_dict)
+        if (self._get_keys_as_list() == new_dict._get_keys_as_list()
+            or len(self) == 0
+        ):
+            super().update(new_dict)
+        else:
+            raise AttributeError(
+                f"ParametersDict.update expects another ParametersDict with "
+                f"the same keys. Found {self.keys()} vs {new_dict.keys()}"
+            )
+
+
+class Model(ABC):
     def __init__(
             self,
-            name: str,
-            asset_path: str,
-            version: str = "v0.00"
-        ):
-        """Initialise a Model artifact.
+            type: str,
+            hyper_params: ParametersDict = ParametersDict({}),
+            params: ParametersDict = ParametersDict({})
+        ) -> None:
+        self._type = type
+        self._hyper_params = hyper_params
+        self._params = params
 
-        Args:
-            name (str): Name of the artifact
-            asset_path (str): Location where the data is allowed to be stored
-            version (str, optional): Version. Defaults to "v0.00".
-        """
-        super().__init__(
-            type="model",
-            name=name,
-            asset_path=asset_path,
-            version=version
+    @classmethod
+    def from_artifact(cls, artifact: Artifact) -> None:
+        loaded_self: Model = pickle.loads(artifact.read())
+        # Construct new instance of the current subclass:
+        return cls(
+            type=loaded_self.type,
+            hyper_params=loaded_self.hyper_params,
+            params=loaded_self.params,
         )
 
-    def save(self, params: np.ndarray, hyperparams: np.ndarray) -> bytes:
-        """
-        Save parameters (usually the weights of the model) and the
-        hyperparameters (the knobs for traing) into the artifact.
-
-        Args:
-            params (np.ndarray): Parameters (weights) of the model.
-            hyperparams (np.ndarray): Hyperparameters of the model.
-
-        Returns:
-            bytes: bytes representation of the data that is stored.
-        """
-        dict_ = {
-            "params": params,
-            "hyperparams": hyperparams
-        }
-        bytes = pickle.dumps(dict_)
-        return super().save(bytes)
-
-    def read(self) -> dict[str, np.ndarray]:
-        """Read the data of the artifact. 
-
-        Returns:
-            dict[str, np.ndarray]: Dictionarry with params and hyperparams key
-        """
-        bytes = super().read()
-        dict_ = pickle.loads(bytes)
-        return dict_
+    def to_artifact(
+            self,
+            name: str,
+            asset_path: str = "./assets/models",
+            version: str = "v0.00",
+        ) -> Artifact:
+        return Artifact(
+            name=name,
+            type="model",
+            data=pickle.dumps(self),
+            asset_path=asset_path,
+            version=version,
+        )
 
     @abstractmethod
     def fit(self, data) -> None:
@@ -71,8 +82,21 @@ class Model(Artifact):
     def predict(self, data) -> np.ndarray:
         pass
 
+    @property
+    def type(self) -> str:
+        return self._type
 
-# Reasoning
-# storing the parameters in a encoding dictionary. Artifacts need to will be
-# json serialized and encoded and it's therefore better for all the attributes
-# of an artifact to be strings or bytes
+    @property
+    def params(self) -> str:
+        """Getter for params."""
+        return deepcopy(self._params)
+
+    @property
+    def hyper_params(self) -> dict:
+        """Getter for hyperparams"""
+        return deepcopy(self._hyper_params)
+
+    @hyper_params.setter
+    def hyper_params(self, hyperparams: dict) -> str:
+        """Setter for hyperparam ."""
+        self._hyper_params.update(hyperparams)

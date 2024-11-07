@@ -12,7 +12,6 @@ from autoop.functional.preprocessing import preprocess_features
 
 
 class Pipeline:
-
     def __init__(
         self,
         metrics: List[Metric],

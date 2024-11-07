@@ -11,11 +11,16 @@ class ConcreteModel(Model):
         pass
 
 class TestModel(unittest.TestCase):
-    def test_save_and_read(self):
-        model = ConcreteModel(name="test model", asset_path="/tmp")
-        params = np.array([[1, 2, 3.2], [4, 5, 6], [7, 8, 9]])
-        hyperparams = np.array([0.1, 4])
-        model.save(params, hyperparams)
-        dict_ = model.read()
-        self.assertTrue((dict_["params"] == params).all())
-        self.assertTrue((dict_["hyperparams"] == hyperparams).all())
+    def test_to_and_from_artifact(self):
+        model = ConcreteModel(
+            type="numerical",
+            hyper_params={"learning rate": 0.005, "batch size": 10},
+            params={"slope": 0.5, "intercept": 2}
+        )
+
+        artifact = model.to_artifact(name="test artifact")
+        recovered_model = ConcreteModel.from_artifact(artifact)
+
+        self.assertEqual(model.type, recovered_model.type)
+        self.assertEqual(model.params, recovered_model.params)
+        self.assertEqual(model.hyper_params, recovered_model.hyper_params)
