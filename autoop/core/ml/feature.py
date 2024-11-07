@@ -5,7 +5,7 @@ from autoop.core.ml.dataset import Dataset
 
 
 class Feature:
-    def __init__(self, type: str, name: str, data: ArrayLike) -> None:
+    def __init__(self, type: str, name: str) -> None:
         """Create a feature.
 
         Args:
@@ -15,8 +15,6 @@ class Feature:
         """  # TODO  Improve data description.
         self._type = type
         self._name = name
-        # Assert that data is an array, otherwise convert to array.
-        self._data = np.asarray(data)
 
     @property
     def type(self) -> str:
@@ -37,7 +35,6 @@ class Feature:
         """String representation of the object."""
         return (
             f"Type: {self._type}, Name: {self._name}\n"
-            f"Data: {self._data}"
         )
 
 

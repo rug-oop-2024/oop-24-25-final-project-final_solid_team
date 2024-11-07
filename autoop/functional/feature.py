@@ -28,14 +28,12 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
             feature = Feature(
                 type="numerical",
                 name=str(column_name),
-                data=df[column_name]
             )
             features.append(feature)
         elif _is_categorical(df[column_name]):
             feature = Feature(
                 type="categorical",
                 name=str(column_name),
-                data=df[column_name]
             )
             features.append(feature)
         else:
