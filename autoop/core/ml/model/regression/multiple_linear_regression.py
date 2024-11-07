@@ -17,8 +17,8 @@ class MultipleLinearRegression(Model):
         """
         super().__init__(
             type="multiple linear regression",
-            hyper_params=hyper_params,
-            params=params,
+            hyper_params=ParametersDict(hyper_params),
+            params=ParametersDict(params),
         )
         self._model = LinearRegression(**hyper_params)
         if params.get("coef", None) is not None:

@@ -20,9 +20,12 @@ from autoop.core.ml.artifact import Artifact
 # Author: Marco Zullich
 class ParametersDict(dict):
     def _get_keys_as_list(self) -> list:
-        return list(self.keys()).sort()
+        list_: list = list(self.keys())
+        list_.sort()
+        return list_
     
     def update(self, new_dict: ParametersDict) -> None:
+        print("called")
         if not isinstance(new_dict, ParametersDict):
             new_dict = ParametersDict(new_dict)
         if (self._get_keys_as_list() == new_dict._get_keys_as_list()
@@ -37,6 +40,7 @@ class ParametersDict(dict):
 
 
 class Model(ABC):
+    """Abstract base clase for any type of machine learning model."""
     def __init__(
             self,
             type: str,
@@ -44,8 +48,8 @@ class Model(ABC):
             params: ParametersDict = ParametersDict({})
         ) -> None:
         self._type = type
-        self._hyper_params = hyper_params
-        self._params = params
+        self._hyper_params = ParametersDict(hyper_params)
+        self._params = ParametersDict(params)
 
     @staticmethod
     def from_artifact(artifact: Artifact) -> Model:
