@@ -15,19 +15,29 @@ HyperParamType = Any
 class Model(Artifact):
     def __init__(
         self,
-        type: str | None = None,
-        name: str | None = None,
-        asset_path: str | None = None,
-        version: str = "v0.00",
+        name: str,
+        asset_path: str,
+        version: str = "v0.00"
     ):
         super().__init__(
-            self,
-            type=type,
+            type="model",
             name=name,
             asset_path=asset_path,
-            version=version,
-            data=None,  # Model should not be initialised with parameters.
+            version=version
         )
+
+    def save(self, params: np.ndarray, hyperparams: np.ndarray):
+        dict_ = {
+            "params": params,
+            "hyperparams": hyperparams
+        }
+        bytes = pickle.dumps(dict_)
+        return super().save(bytes)
+    
+    def read(self) -> dict[str, np.ndarray]:
+        bytes = super().read()
+        dict_ = pickle.loads(bytes)
+        return dict_
 
     @abstractmethod
     def fit(self, data) -> None:
@@ -37,23 +47,8 @@ class Model(Artifact):
     def predict(self, data) -> np.ndarray:
         pass
 
-    @property
-    def params(self) -> str:
-        """Getter for params."""
-        return deepcopy(self._params)
 
-    @property
-    def hyper_params(self) -> dict:
-        """Getter for hyperparams"""
-        return deepcopy(self._hyper_params)
-
-    @hyper_params.setter
-    def hyper_params(self, hypers: dict) -> str:
-        """Setter for hyperparam ."""
-        self._hyper_params = hypers
-        return self._type
-
-
-# WORKING ON RIGHT NOW:
-# - Read and save should be able to read and save from a file. 
-# - Data should be stored in a pickled dict {"params": ..., "hyperparams": ...}
+# Reasoning
+# storing the parameters in a encoding dictionary. Artifacts need to will be
+# json serialized and encoded and it's therefore better for all the attributes
+# of an artifact to be strings or bytes

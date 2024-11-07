@@ -1,5 +1,9 @@
+#!/bin/env python
+
 import pandas as pd
+import numpy as np
 
-series = pd.Series([1, 2, 3])
+a1 = np.array([1, 2])
+a2 = np.array([1, 2])
 
-print(series.dtype == "int64")
+print((a1 == a2).all())

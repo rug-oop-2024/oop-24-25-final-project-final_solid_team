@@ -34,3 +34,7 @@ class Dataset(Artifact):
 
 # Remarks:
 # read and save were already implemented
+
+# Questions:
+# Why does data have to be bytes. These artifacts are going to be 
+# decoded in storage anyway.

@@ -28,6 +28,10 @@ class Metric(ABC):
         pass
 
 
+# Needs a __str__ method to display the name of the matric
+# According to the pipeline it needs an .evaluate method instead of a call
+# method
+
 
 
 

@@ -26,5 +26,3 @@ INFO:autoop.functional.feature:Series with name `sex` is not numerical because `
 INFO:autoop.functional.feature:Series with name `native-country` is not numerical because `United-States` cannot be converted to a number
 INFO:autoop.functional.feature:Series with name `categories` is not numerical because `a` cannot be converted to a number
 INFO:autoop.functional.feature:Series with name `wrong string numbers` is not numerical because `one` cannot be converted to a number
-INFO:autoop.functional.feature:Series with name `categories` is not numerical because `a` cannot be converted to a number
-INFO:autoop.functional.feature:Series with name `categories` is not numerical because `a` cannot be converted to a number

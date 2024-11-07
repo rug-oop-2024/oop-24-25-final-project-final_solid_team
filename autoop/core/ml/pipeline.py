@@ -34,9 +34,13 @@ class Pipeline:
             and model.type != "classification"
         ):
             raise ValueError(
-                "Model type must be classification for categorical target feature"
+                "Model type must be classification for categorical target "
+                "feature"
             )
-        if target_feature.type == "continuous" and model.type != "regression":
+        if (
+            target_feature.type == "continuous" 
+            and model.type != "regression"
+        ):
             raise ValueError(
                 "Model type must be regression for continuous target feature"
             )
@@ -58,7 +62,8 @@ Pipeline(
 
     @property
     def artifacts(self) -> List[Artifact]:
-        """Used to get the artifacts generated during the pipeline execution to be saved"""
+        """Used to get the artifacts generated during the pipeline execution to
+        be saved"""
         artifacts = []
         for name, artifact in self._artifacts.items():
             artifact_type = artifact.get("type")
@@ -87,6 +92,18 @@ Pipeline(
         self._artifacts[name] = artifact
 
     def _preprocess_features(self):
+        """ 
+        Takes
+            - self._input_features
+            - self._target_feature
+            - self._dataset
+        and transforms it into:
+            - self._input_vectors
+            - self._output_vectors
+            and adds the encoding-artifacts of each feature to self._artifacts.
+        During the transformation the features get encoded with either
+        one-hot encoding or standard-scalar encoding.
+        """
         (target_feature_name, target_data, artifact) = preprocess_features(
             [self._target_feature], self._dataset
         )[0]
@@ -96,7 +113,8 @@ Pipeline(
         )
         for feature_name, data, artifact in input_results:
             self._register_artifact(feature_name, artifact)
-        # Get the input vectors and output vector, sort by feature name for consistency
+        # Get the input vectors and output vector, sort by feature name for
+        # consistency
         self._output_vector = target_data
         self._input_vectors = [
             data for (feature_name, data, artifact) in input_results
@@ -147,3 +165,11 @@ Pipeline(
             "metrics": self._metrics_results,
             "predictions": self._predictions,
         }
+    
+# Questions:
+# - Why does __init__ get the data twice? Once via the Dataset, once via 
+#   input and output Features. Does Feature maybe not contain the data?
+# What does an artifact in self._artifacts look like?
+#   If the name of an artifact in self._artifacts is "OneHotEncoder" then
+#   artifact["encoder"] gets has the data of the encoder.
+# Why does property artifacts not return the datasets?

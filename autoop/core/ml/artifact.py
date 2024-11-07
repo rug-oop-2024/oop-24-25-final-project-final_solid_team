@@ -51,12 +51,7 @@ class Artifact:  # Original had Pydantic
         Returns:
             The data stored in this artifact in binary.
         """
-        if self._data:
-            return self._data
-        if self._asset_path:
-            return self._get_data(self._asset_path)
-        
-        raise AttributeError("This attribute is not yet set.")
+        return self.data
 
     def save(self, binary_string: bytes) -> bytes:
         """Save a binary string as data into this artifact.
@@ -65,20 +60,16 @@ class Artifact:  # Original had Pydantic
             binary_string: the data to be saved.
         """
         self._data = binary_string
-        self._save_data(binary_string)
         return binary_string
     
-# WORKING ON RIGHT NOW:
-# - Make read and save such that is reads and saves from a data file in 
-# assets/
-# - Make Artifact more strict: it must have everything but data
-# in particullary, it must have an asset_path because that is how a artifact
-# is referenced through
 
+# TODO Make Artifact more strict: it must have everything but data
+    # in particullary, it must have an asset_path because that is how a artifact
+    # is referenced through
 # TODO Figure out whether we really want utf-8 encoding
 # TODO Understand base64.b64encode (now we just use .encode())
 # TODO The Dataset.save implies that Artifact.save
-# function return a bytes object. Why is that?
+    # function return a bytes object. Why is that?
 
 # NOTE given file had:
 # import base64
