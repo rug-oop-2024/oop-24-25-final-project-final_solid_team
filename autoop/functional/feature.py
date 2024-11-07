@@ -53,11 +53,11 @@ def _is_numerical(series: pd.Series) -> bool:
     # Quick checks:
     if series.dtype in ["int64", "float"]:
         return True
-    
+
     # Log rejected elements:
     if __debug__:
         return _all_elements_number(series)
-    
+
     # Save time with using all (no logger tho):
     return all(
         _is_number(element)
@@ -99,7 +99,7 @@ def _all_elements_str(series: pd.Series) -> bool:
             )
             return False
     return True  # All elements are strigns
-    
+
 def _all_elements_number(series: pd.Series):
     for element in series:
         if not _is_number(element):

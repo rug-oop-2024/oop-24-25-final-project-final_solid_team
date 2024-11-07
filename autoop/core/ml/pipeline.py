@@ -38,7 +38,7 @@ class Pipeline:
                 "feature"
             )
         if (
-            target_feature.type == "continuous" 
+            target_feature.type == "continuous"
             and model.type != "regression"
         ):
             raise ValueError(
@@ -92,7 +92,7 @@ Pipeline(
         self._artifacts[name] = artifact
 
     def _preprocess_features(self):
-        """ 
+        """
         Takes
             - self._input_features
             - self._target_feature
@@ -165,9 +165,9 @@ Pipeline(
             "metrics": self._metrics_results,
             "predictions": self._predictions,
         }
-    
+
 # Questions:
-# - Why does __init__ get the data twice? Once via the Dataset, once via 
+# - Why does __init__ get the data twice? Once via the Dataset, once via
 #   input and output Features. Does Feature maybe not contain the data?
 # What does an artifact in self._artifacts look like?
 #   If the name of an artifact in self._artifacts is "OneHotEncoder" then

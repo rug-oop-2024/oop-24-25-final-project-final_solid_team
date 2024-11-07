@@ -61,11 +61,11 @@ class Artifact:  # Original had Pydantic
         """
         self._data = binary_string
         return binary_string
-    
+
 
 # TODO Make Artifact more strict: it must have everything but data
-    # in particullary, it must have an asset_path because that is how a artifact
-    # is referenced through
+    # in particullary, it must have an asset_path because that is how a
+    # artifact is referenced through
 # TODO Figure out whether we really want utf-8 encoding
 # TODO Understand base64.b64encode (now we just use .encode())
 # TODO The Dataset.save implies that Artifact.save

@@ -1,5 +1,4 @@
 import io
-from abc import ABC, abstractmethod
 
 import pandas as pd
 
@@ -7,7 +6,7 @@ from autoop.core.ml.artifact import Artifact
 
 
 class Dataset(Artifact):
-
+    """Artifact that represents a dataset."""
     def __init__(self, *args, **kwargs):
         super().__init__(type="dataset", *args, **kwargs)
 
@@ -35,6 +34,10 @@ class Dataset(Artifact):
 # Remarks:
 # read and save were already implemented
 
+# Initial implementation:
+# from abc import ABC, abstractmethod
+# Maybe make this class abstract?
+
 # Questions:
-# Why does data have to be bytes. These artifacts are going to be 
+# Why does data have to be bytes. These artifacts are going to be
 # decoded in storage anyway.

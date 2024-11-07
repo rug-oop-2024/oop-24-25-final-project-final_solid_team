@@ -28,7 +28,7 @@ def preprocess_features(
         list[Tuple[str, np.ndarray, dict]]:
             A list of tuples where each tuple contains:
                 - name (str): Name of the feature.
-                - encoded_data (np.ndarray | OneHotArray): 
+                - encoded_data (np.ndarray | OneHotArray):
                     Data array of the feature with either scalar or one-hot
                     binary arrays.
                 - artifact_dict (dict): Artifact dictionary with:
@@ -69,9 +69,9 @@ def preprocess_features(
 # Remark:
 # Changed:
     # Returns:
-    #     (List[str, Tuple[np.ndarray, dict]]): List of preprocessed features. 
+    #     (List[str, Tuple[np.ndarray, dict]]): List of preprocessed features.
     #     Each ndarray of shape (N, ...)
 # into
     # Returns:
-    #     (List[Tuple[str, np.ndarray, dict]]): List of preprocessed features. 
+    #     (List[Tuple[str, np.ndarray, dict]]): List of preprocessed features.
     #     Each ndarray of shape (N, ...)

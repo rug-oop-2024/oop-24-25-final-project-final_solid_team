@@ -33,7 +33,7 @@ class Model(Artifact):
         }
         bytes = pickle.dumps(dict_)
         return super().save(bytes)
-    
+
     def read(self) -> dict[str, np.ndarray]:
         bytes = super().read()
         dict_ = pickle.loads(bytes)
