@@ -1,13 +1,15 @@
+import base64
+
 class Artifact:  # Original had Pydantic
     """Baseclass to store certain assets."""
 
     def __init__(
-        self, *,
+        self, *,  # Mandate usage of keywords
         type: str | None,
         name: str | None,
         version: str = "v0.00",
-        tags: list[str] | None = None,
-        metadata: dict[str, str] | None = None,
+        tags: list[str] | None = [],
+        metadata: dict[str, str] | None = dict(),
         asset_path: str = None,
         data: bytes | None = None,
     ) -> None:
@@ -49,59 +51,38 @@ class Artifact:  # Original had Pydantic
         return binary_string
     
     @property
-    def id(self) -> dict[bytes, str]:
+    def id(self) -> str:
         """Get the id of this artifact."""
-        return {self.asset_path.encode(): self._version}
+        return {str(base64.b64encode(self.asset_path)) + self.version}
     
     @property
     def type(self) -> str:
-        if self._type is not None:
-            return self._type
-        else:
-            raise AttributeError(f"attribute type is not set.")
-
+        return self._type
+    
     @property
     def name(self) -> str:
-        if self._name is not None:
-            return self._name
-        else:
-            raise AttributeError(f"attribute name is not set.")
-
+        return self._name
+    
     @property
     def version(self) -> str:
-        if self._version is not None:
-            return self._version
-        else:
-            raise AttributeError(f"attribute version is not set.")
-
+        return self._version
+    
     @property
-    def tags(self) -> str:
-        if self._tags is not None:
-            return self._tags
-        else:
-            raise AttributeError(f"attribute tags is not set.")
-
+    def tags(self) -> list[str]:
+        return self._tags
+    
     @property
-    def metadata(self) -> str:
-        if self._metadata is not None:
-            return self._metadata
-        else:
-            raise AttributeError(f"attribute metadata is not set.")
-
+    def metadata(self) -> dict[str, str]:
+        return self._metadata
+    
     @property
     def asset_path(self) -> str:
-        if self._asset_path is not None:
-            return self._asset_path
-        else:
-            raise AttributeError(f"attribute asset_path is not set.")
-
-    @property
-    def data(self) -> str:
-        if self._data is not None:
-            return self._data
-        else:
-            raise AttributeError(f"attribute data is not set.")
+        return self._asset_path
     
+    @property
+    def data(self) -> bytes:
+        return self._data
+
     @data.setter
     def data(self, value) -> None:
         if isinstance(value, bytes):

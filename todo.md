@@ -7,6 +7,7 @@ check in functional/feature
 [] Change v0.00 into v1.0.0
 [] Make artifact ABC
 [] Make base64 encoding in id of artifact
-[] Remove None possibility for Artifact s
-
+[] Remove None possibility for Artifacts
+[] Test failure of getter of artifact
+[] Address bug that when assets has a subdir assets, some weird error occurs
 

@@ -14,6 +14,12 @@ registry = ArtifactRegistry(
     database=database
 )
 
-dataset = Dataset("test dataset")
+dataset = Dataset(
+    name="test dataset",
+    asset_path="nov8/t21h59",
+    data=b"hello world",
+)
+
+registry.register(dataset)
 
 

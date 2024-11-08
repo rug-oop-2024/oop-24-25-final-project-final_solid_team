@@ -2,6 +2,7 @@ import logging
 import sys
 import unittest
 
+from autoop.tests.test_artifact import TestArtifact
 from autoop.tests.test_database import TestDatabase
 from autoop.tests.test_storage import TestStorage
 from autoop.tests.test_features import TestFeatures
