@@ -1,5 +1,4 @@
 import logging
-from numbers import Number
 from typing import Any, List
 
 import pandas as pd
@@ -44,6 +43,7 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
             )
     return features
 
+
 def _is_numerical(series: pd.Series) -> bool:
     """Test whether the series has only numerical values. There are two
     possibities, all the values are numbers are all the values are strings
@@ -63,6 +63,7 @@ def _is_numerical(series: pd.Series) -> bool:
         _is_number(element)
         for element in series
     )
+
 
 def _is_categorical(series: pd.Series) -> bool:
     """Test whether the series contains merely categories. Pandas has a built-
@@ -89,6 +90,7 @@ def _is_categorical(series: pd.Series) -> bool:
         for element in series
     )
 
+
 def _all_elements_str(series: pd.Series) -> bool:
     """Checks whether all element in de panda series are strings."""
     for element in series:
@@ -100,7 +102,8 @@ def _all_elements_str(series: pd.Series) -> bool:
             return False
     return True  # All elements are strigns
 
-def _all_elements_number(series: pd.Series):
+
+def _all_elements_number(series: pd.Series) -> bool:
     for element in series:
         if not _is_number(element):
             logger.info(
@@ -110,11 +113,13 @@ def _all_elements_number(series: pd.Series):
             return False
     return True  # All ellements are numbers
 
-def _is_number(value: Any) -> bool:
+
+def _is_number(value: Any) -> bool:  # noqa: ANN401
     try:
         float(value)
         return True
     except ValueError:
         return False
+
 
 # The `else:` instances are superfluous but add semantic value
