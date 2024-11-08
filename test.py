@@ -2,6 +2,7 @@
 
 import streamlit as st
 import numpy as np
+<<<<<<< Updated upstream
 
 
 import streamlit as st
@@ -18,6 +19,22 @@ import time
 # Add a placeholder
 latest_iteration = st.empty()
 bar = st.progress(0)
+=======
+from app.core.system import ArtifactRegistry
+from autoop.core.database import Database
+from autoop.core.storage import LocalStorage
+from autoop.core.ml.dataset import Dataset
+
+storage = LocalStorage()
+database = Database(storage)
+registry = ArtifactRegistry(
+    storage=storage,
+    database=database
+)
+
+dataset = Dataset()
+
+>>>>>>> Stashed changes
 
 for i in range(100):
   # Update the progress bar with each iteration.

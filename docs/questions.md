@@ -5,3 +5,7 @@
     for a Dataset to be presented to a Database. However, Database takes a dict so maybe Database just get the dict of Dataset. We can postpone this problem because an public member of Artifact will change if we have a dict or not.
 [] GW: Do we need to "declare" our variable just below the class declaration?
 [] GW: How are we going to use caching?
+<<<<<<< Updated upstream
+=======
+[] GW: Why does Artifact registry have a _storage attribute even though _database is perfectly capable of handling its own storage?
+>>>>>>> Stashed changes

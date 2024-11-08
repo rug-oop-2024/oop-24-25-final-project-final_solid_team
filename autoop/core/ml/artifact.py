@@ -2,11 +2,13 @@ class Artifact:  # Original had Pydantic
     """Baseclass to store certain assets."""
 
     def __init__(
-        self,
-        type: str | None = None,
-        name: str | None = None,
-        asset_path: str | None = None,
+        self, *,
+        type: str | None,
+        name: str | None,
         version: str = "v0.00",
+        tags: list[str] | None = None,
+        metadata: dict[str, str] | None = None,
+        asset_path: str | None = None,
         data: bytes | None = None,
     ) -> None:
         """Initialize.
@@ -14,15 +16,19 @@ class Artifact:  # Original had Pydantic
         Args:
             type (str): Type of the artifact.
             name (str): Name of the artifact
-            asset_path (str): Path to where the data is stored
-            data (str): Binary data
-            version (str): Version of this artifact (default v0.00)
+            version (str): Version of the artifact. Default to "v0.00"
+            tags (list[str]): Tags of the artifact. Defaults to None
+            meta_data (str): Metadata.
+            asset_path (str): Path to where the data is stored. Defualt to None
+            data (str): Binary data of the artifact. Defaults to None
         """
         self._type = type
         self._name = name
+        self._version = version
+        self._tags = tags
+        self._metadata = metadata
         self._asset_path = asset_path
         self._data = data
-        self._version = version
 
     @property
     def asset_path(self) -> str:
@@ -39,6 +45,16 @@ class Artifact:  # Original had Pydantic
             return self._data
         else:
             raise AttributeError("data is not set.")
+    
+    @data.setter
+    def data(self, value) -> None:
+        if isinstance(value, bytes):
+            self._data = value
+        else:
+            raise AttributeError(
+                f"Invalid type of data. Data must be of type `bytes'. Got "
+                f"type(value)"
+            )
 
     @property
     def id(self) -> dict[bytes, str]:
@@ -59,7 +75,7 @@ class Artifact:  # Original had Pydantic
         Args:
             binary_string: the data to be saved.
         """
-        self._data = binary_string
+        self.data = binary_string
         return binary_string
 
 

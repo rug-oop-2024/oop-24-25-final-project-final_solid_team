@@ -78,7 +78,7 @@ class TestFeatures(unittest.TestCase):
             )
 
     def test_unit_detect_features(self):
-        data_set = Dataset()
+        data_set = Dataset(name="test")
         df = pd.DataFrame(
             columns=["ints", "categories", "floats"],
             data=[
