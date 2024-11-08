@@ -157,8 +157,8 @@ If you did not implement the feature
 | `ML/detect-features`                  | FN           | Gideon               | X       | |
 | `ML/artifact`                         | NF           | Gideon               | X       | ID needs testing, no integration tests yet because it is not integrated |
 | `ML/feature`                          | NF           |                      |         | |
-| `ML/metric`                           | NF           |                      |         | |
-| `ML/metric/extensions`                | FN           |                      |         | |
+| `ML/metric`                           | NF           | Wander               |         | |
+| `ML/metric/extensions`                | FN           | Wander               |         | |
 | `ML/model`                            | NF           |                      |         | |
 | `ML/model/extensions`                 | FN           |                      |         | |
 | `ML/pipeline/evaluation`              | FN           |                      |         | |
