@@ -1,7 +1,9 @@
 #!/bin/env python
 
 import numpy as np
-from autoop.core.ml.model.regression import MultipleLinearRegression
+from autoop.core.ml.model import get_model
+
+MultipleLinearRegression = get_model("MultipleLinearRegression")
 
 
 model = MultipleLinearRegression(

@@ -102,7 +102,7 @@ class TestMultipleLinearRegression(unittest.TestCase):
             [6, 6, 6],
         ]
 
-    def test_train(self):
+    def test_fit_and_predict(self):
         model = MultipleLinearRegression()
         model.fit(self.X, self.y)
         expected_prediction = [
@@ -112,6 +112,13 @@ class TestMultipleLinearRegression(unittest.TestCase):
         ]
         prediction = model.predict(self.X_test)
         self.assertEqual(prediction, expected_prediction)
+
+    def test_unset_predict(self):
+        model = MultipleLinearRegression()
+        with self.assertRaises(AssertionError) as context_manager:
+            model.predict([1])
+        exception = context_manager.exception
+        self.assertEqual(str(exception), "Model is not fitted yet!")
 
     def test_setting_params(self):
         model = MultipleLinearRegression(params={"coef": 2, "intercept": 1})
