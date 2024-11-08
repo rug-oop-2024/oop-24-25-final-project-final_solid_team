@@ -1,1 +1,0 @@
-Decided to first implement detect_feature_types despite the fact that it's parameter type is not defined yet
