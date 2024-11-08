@@ -19,6 +19,15 @@ class ParametersDict(dict):
         return list_
 
     def update(self, new_dict: dict) -> None:
+        """Update the dictionary with new values.
+
+        Args:
+            new_dict (dict): Dictionary with the new values.
+
+        Raises:
+            AttributeError: Raises if the new dict does not have the same keys
+                            as the old dict.
+        """
         if not isinstance(new_dict, ParametersDict):
             new_dict = ParametersDict(new_dict)
         if (self._get_keys_as_list() == new_dict._get_keys_as_list()
@@ -46,20 +55,38 @@ class Model(ABC):
 
     @staticmethod
     def from_artifact(artifact: Artifact) -> Model:
+        """Load a model from an Artifact instance.
+
+        Args:
+            artifact (Artifact): Artifact in which the model is stored.
+
+        Returns:
+            Model: The loaded model.
+        """
         return pickle.loads(artifact.read())
 
     def to_artifact(
             self,
-            name: str,
-            asset_path: str = "./assets/models",
-            version: str = "v0.00",
+            name: str, 
+            asset_path: str = "./assets/models", 
+            **kwargs
         ) -> Artifact:
+        """Get an artifact representation of the model.
+
+        Args:
+            name (str): Name of the model.
+            version (str): Version of the artifact. Default to "v0.00"
+            tags (list[str]): Tags of the artifact. Defaults to None
+            meta_data (str): Metadata.
+            asset_path (str): Path to where the model is stored. Defaults to 
+                              "./assets/models"
+        """
         return Artifact(
             name=name,
             type="model",
             data=pickle.dumps(self),
             asset_path=asset_path,
-            version=version,
+            **kwargs
         )
 
     @abstractmethod

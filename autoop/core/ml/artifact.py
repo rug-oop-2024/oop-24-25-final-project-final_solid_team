@@ -11,7 +11,7 @@ class Artifact:  # Original had Pydantic
         asset_path: str | None = None,
         data: bytes | None = None,
     ) -> None:
-        """Initialize.
+        """Create an artifact object.
 
         Args:
             type (str): Type of the artifact.
@@ -19,7 +19,8 @@ class Artifact:  # Original had Pydantic
             version (str): Version of the artifact. Default to "v0.00"
             tags (list[str]): Tags of the artifact. Defaults to None
             meta_data (str): Metadata.
-            asset_path (str): Path to where the data is stored. Defualt to None
+            asset_path (str): Path to where the data is stored. Defaults to
+                              None
             data (str): Binary data of the artifact. Defaults to None
         """
         self._type = type
