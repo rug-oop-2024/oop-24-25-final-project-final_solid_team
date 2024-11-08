@@ -10,9 +10,10 @@ from autoop.core.ml.artifact import Artifact
 
 from abc import ABC, abstractmethod
 from copy import deepcopy
+import numpy as np
+from numpy.typing import ArrayLike
 from typing import Literal
 
-import numpy as np
 
 from autoop.core.ml.artifact import Artifact
 
@@ -24,8 +25,7 @@ class ParametersDict(dict):
         list_.sort()
         return list_
     
-    def update(self, new_dict: ParametersDict) -> None:
-        print("called")
+    def update(self, new_dict: dict) -> None:
         if not isinstance(new_dict, ParametersDict):
             new_dict = ParametersDict(new_dict)
         if (self._get_keys_as_list() == new_dict._get_keys_as_list()
@@ -44,8 +44,8 @@ class Model(ABC):
     def __init__(
             self,
             type: str,
-            hyper_params: ParametersDict = ParametersDict({}),
-            params: ParametersDict = ParametersDict({})
+            hyper_params: dict = ParametersDict({}),
+            params: dict = ParametersDict({})
         ) -> None:
         self._type = type
         self._hyper_params = ParametersDict(hyper_params)
@@ -70,11 +70,11 @@ class Model(ABC):
         )
 
     @abstractmethod
-    def fit(self, data) -> None:
+    def fit(self, data: ArrayLike) -> None:
         pass
 
     @abstractmethod
-    def predict(self, data) -> np.ndarray:
+    def predict(self, data: ArrayLike) -> np.ndarray:
         pass
 
     @property
@@ -82,16 +82,23 @@ class Model(ABC):
         return self._type
 
     @property
-    def params(self) -> str:
+    def params(self) -> ParametersDict:
         """Getter for params."""
         return deepcopy(self._params)
 
     @property
-    def hyper_params(self) -> dict:
+    def hyper_params(self) -> ParametersDict:
         """Getter for hyperparams"""
         return deepcopy(self._hyper_params)
+    
+    @params.setter
+    def params(self, value: dict):
+        self._params.update(value)
 
     @hyper_params.setter
-    def hyper_params(self, hyperparams: dict) -> str:
+    def hyper_params(self, hyperparams: dict):
         """Setter for hyperparam ."""
         self._hyper_params.update(hyperparams)
+
+# TODO Make update() more sophisticated:
+# - Allow partial dict updates

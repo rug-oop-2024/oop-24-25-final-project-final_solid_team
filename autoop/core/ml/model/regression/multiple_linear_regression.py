@@ -1,13 +1,14 @@
 from sklearn.linear_model import LinearRegression
 import numpy as np
+from numpy.typing import ArrayLike
 
 from autoop.core.ml.model.model import Model, ParametersDict
 
 class MultipleLinearRegression(Model):
     def __init__(
             self,
-            params: ParametersDict = ParametersDict({}),
-            hyper_params: ParametersDict = ParametersDict({}),
+            params: dict = ParametersDict({}),
+            hyper_params: dict = ParametersDict({}),
         ) -> None:
         """_summary_
 
@@ -17,7 +18,7 @@ class MultipleLinearRegression(Model):
         """
         super().__init__(
             type="multiple linear regression",
-            hyper_params=ParametersDict(hyper_params),
+            hyper_params=ParametersDict(hyper_params),  # Superfluous
             params=ParametersDict(params),
         )
         self._model = LinearRegression(**hyper_params)
@@ -28,7 +29,7 @@ class MultipleLinearRegression(Model):
                 self._model.intercept_ = params["intercept"]
     
         
-    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
+    def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         self._model.fit(X, y)
         self._params.update({
             "coef": self._model.coef_,
@@ -53,3 +54,7 @@ class MultipleLinearRegression(Model):
 # (number-of-categories x datapoints) output vector
 
 # Probably better to bundle coef and intercept into one dict
+
+# Could use kwargs in __init__ for compacter code but this is more semantic
+
+# TODO Assert dimensions of array parameters
