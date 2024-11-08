@@ -15,5 +15,12 @@ class TestArtifact(unittest.TestCase):
         artifact.save(b"hello world")
         self.assertEqual(artifact.read(), b"hello world")
 
+    def test_set_wrong_data(self):
+        artifact = Artifact(**self.init_args)
+        with self.assertRaises(AttributeError):
+            artifact.data = "these are not bytes"
 
+
+# Remarks:
+# most of artifact 
 # TODO Test id attribute

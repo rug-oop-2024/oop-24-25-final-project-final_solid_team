@@ -10,4 +10,6 @@ check in functional/feature
 [] Remove None possibility for Artifacts
 [] Test failure of getter of artifact
 [] Address bug that when assets has a subdir assets, some weird error occurs
+[] Make setters_and_getters such that it automatically checks for types if debug is on
+[] Figure out whether setter should raise ValueError
 
