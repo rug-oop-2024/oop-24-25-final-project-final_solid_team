@@ -31,6 +31,43 @@ class Artifact:  # Original had Pydantic
         self._asset_path = asset_path
         self._data = data
 
+    def read(self) -> bytes:
+        """Read the content of the data.
+
+        Returns:
+            The data stored in this artifact in binary.
+        """
+        return self.data
+
+    def save(self, binary_string: bytes) -> bytes:
+        """Save a binary string as data into this artifact.
+
+        Args:
+            binary_string: the data to be saved.
+        """
+        self.data = binary_string
+        return binary_string
+
+    @property
+    def type(self) -> str:
+        return self._type
+    
+    @property
+    def name(self) -> str:
+        return self._name
+    
+    @property
+    def version(self) -> str:
+        return self._version
+
+    @property
+    def tags(self) -> str:
+        return self._tags
+
+    @property
+    def metadata(self) -> str:
+        return self._metadata
+
     @property
     def asset_path(self) -> str:
         """Getter."""
@@ -47,6 +84,11 @@ class Artifact:  # Original had Pydantic
         else:
             raise AttributeError("data is not set.")
     
+    @property
+    def id(self) -> dict[bytes, str]:
+        """Get the id of this artifact."""
+        return {self.asset_path.encode(): self._version}
+    
     @data.setter
     def data(self, value) -> None:
         if isinstance(value, bytes):
@@ -57,10 +99,6 @@ class Artifact:  # Original had Pydantic
                 f"type(value)"
             )
 
-    @property
-    def id(self) -> dict[bytes, str]:
-        """Get the id of this artifact."""
-        return {self.asset_path.encode(): self._version}
 
     def read(self) -> bytes:
         """Read the content of the data.

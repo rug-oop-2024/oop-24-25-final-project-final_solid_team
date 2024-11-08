@@ -6,3 +6,7 @@ check in functional/feature
 [] Catch all excpeptions and print something like "contact develelopers of app"
 [] Change v0.00 into v1.0.0
 [] Make artifact ABC
+[] Make base64 encoding in id of artifact
+
+
+
