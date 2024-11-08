@@ -9,7 +9,7 @@ from autoop.core.ml.artifact import Artifact
 class Dataset(Artifact):
     """Artifact that represents a dataset."""
     
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         """ Create a dataset object to store panda data frame into
         and byte-encoded csv-file.
         Args:
@@ -21,37 +21,50 @@ class Dataset(Artifact):
                               None
             data (str): Binary data of the dataset. Defaults to None
         """
-        super().__init__(type="dataset", *args, **kwargs)
+        super().__init__(type="dataset", **kwargs)
 
     @staticmethod
     def from_dataframe(
-        data: pd.DataFrame, name: str, asset_path: str, version: str = "1.0.0"
+        data: pd.DataFrame, **kwargs
     ) -> Dataset:
         """Returns a Dataset instance from a panda dataframe.
 
         Args:
             data (pd.DataFrame): Data from to be stored.
-            name (str): Name of the dataset
-            asset_path (str): Path where the dataset will be stored
-            version (str, optional): Version of the dataset. Defaults to 
-                                     "1.0.0".
+            name (str): Name of the artifact
+            version (str): Version of the dataset. Defaults to "v0.00".
+            tags (list[str]): Tags of the dataset. Defaults to None
+            meta_data (str): Metadata.
+            asset_path (str): Path to where the data is stored. Defaults to
+                              None
 
         Returns:
             Dataset: The created Dataset instance.
         """
         return Dataset(
-            data=data.to_csv(index=False).encode(),
-            name=name,
-            asset_path=asset_path,
-            version=version,
+            data=data.to_csv(index=False).encode(), **kwargs
         )
 
     def read(self) -> pd.DataFrame:
+        """Read the data from the dataset.
+
+        Returns:
+            pd.DataFrame: The panda datafame that was stored in this dataset.
+        """
         bytes = super().read()
         csv = bytes.decode()
         return pd.read_csv(io.StringIO(csv))
 
     def save(self, data: pd.DataFrame) -> bytes:
+        """Save a panda dataframe into this dataset. Also return the encoded
+        version of the dataframe.
+
+        Args:
+            data (pd.DataFrame): Panda dataframe to be stored.
+
+        Returns:
+            bytes: The bytes that where stored.
+        """
         bytes = data.to_csv(index=False).encode()
         return super().save(bytes)
 
