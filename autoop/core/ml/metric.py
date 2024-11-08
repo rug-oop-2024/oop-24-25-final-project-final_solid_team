@@ -6,8 +6,8 @@ import numpy as np
 from autoop.core.ml.feature import Feature
 
 METRICS = [
-    "mean_squared_error",
-    "accuracy",
+    "MeanSquareError",
+    "Accuracy",
 ]  # add the names (in strings) of the metrics you implement
 
 
@@ -51,7 +51,7 @@ class Accuracy(Metric):
         return (matches / len(ground_truth.data()))
 
 
-class Mean_squared_error(Metric):
+class MeanSquaredError(Metric):
     """Class for mean squared error metric"""
     def __call__(self, ground_truth: Feature, predictions: Feature) -> float:
         """Mean squared error __call__ function"""
