@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 
 from autoop.core.ml.model.model import Model, ParametersDict
-from autoop.core.ml.model.regression import MultipleLinearRegression
+from autoop.core.ml.model import MultipleLinearRegression, get_model
 
 
 class ConcreteModel(Model):
@@ -132,5 +132,11 @@ class TestMultipleLinearRegression(unittest.TestCase):
         self.assertEqual(
             new_model.params["intercept"], model.params["intercept"]
         )
+
+    def test_get_model(self):
+        MultipleLinearRegression = get_model("MultipleLinearRegression")
+        Model = MultipleLinearRegression()
+        self.assertEqual(Model, MultipleLinearRegression)
+        
 
 # TODO: test setting hyperparams
