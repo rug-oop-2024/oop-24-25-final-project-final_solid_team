@@ -1,6 +1,4 @@
 [flake8]
-ignore = D100, ANN101, D107
-# ignore:
-# module docstrings
-# getters and setters docstrings
-# self does not need a type annotations
+extend-ignore = E402
+exclude = .github,autoop/tests
+ignore = ANN101,ANN102,D100,D2,D4,ANN002,ANN003

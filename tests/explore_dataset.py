@@ -10,9 +10,10 @@ df = pd.DataFrame(
     columns=data.feature_names,
 )
 
-print(df)
+# print(df)
 
 for column in df:
-    print(f"{column}: "
-          f"dtype={df[column].dtype} "
-          f"type(element)={type(df[column][0])} ")
+    if not df[column].hasnans:
+        print(f"{column}: "
+            f"dtype={df[column].dtype} "
+            f"type(element)={type(df[column][0])} ")

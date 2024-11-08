@@ -1,6 +1,3 @@
-import base64
-
-
 class Artifact:  # Original had Pydantic
     """Baseclass to store certain assets."""
 
@@ -9,8 +6,8 @@ class Artifact:  # Original had Pydantic
         type: str | None = None,
         name: str | None = None,
         asset_path: str | None = None,
+        version: str = "v0.00",
         data: bytes | None = None,
-        version: str = "v0.00"
     ) -> None:
         """Initialize.
 
@@ -65,10 +62,18 @@ class Artifact:  # Original had Pydantic
         self._data = binary_string
         return binary_string
 
+
+# TODO Make Artifact more strict: it must have everything but data
+    # in particullary, it must have an asset_path because that is how a
+    # artifact is referenced through
 # TODO Figure out whether we really want utf-8 encoding
 # TODO Understand base64.b64encode (now we just use .encode())
 # TODO The Dataset.save implies that Artifact.save
-# function return a bytes object. Why is that?
+    # function return a bytes object. Why is that?
+
+# NOTE given file had:
+# import base64
+# Why is that?
 
 # Reasonings:
 # read and save must have these signatures based on how do are used in Dataset

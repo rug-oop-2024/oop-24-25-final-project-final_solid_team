@@ -3,8 +3,7 @@ from typing import Any
 
 import numpy as np
 
-from autoop.core.ml.feature import Feature
-
+from autoop.core.ml.dataset import Feature
 
 METRICS = [
     "mean_squared_error",
@@ -27,7 +26,18 @@ class Metric(ABC):
     @abstractmethod
     def __call__(self, ground_truth: Feature, predictions: Feature) -> float:
         pass
+        
 
+# Needs a __str__ method to display the name of the matric
+# According to the pipeline it needs an .evaluate method instead of a call
+# method
+
+
+
+
+
+
+# add here concrete implementations of the Metric class
 
 class Accuracy(Metric):
     """Class for accuracy metric"""
@@ -39,7 +49,7 @@ class Accuracy(Metric):
             if (predictions.data()[index] == item):
                 matches += 1
         return (matches / len(ground_truth.data()))
-        
+
 
 class Mean_squared_error(Metric):
     """Class for mean squared error metric"""
@@ -48,3 +58,5 @@ class Mean_squared_error(Metric):
         difference_array: np.ndarray = predictions.data() - ground_truth.data()
         mean_sq_err:float = np.mean(difference_array**2)
         return mean_sq_err
+    
+

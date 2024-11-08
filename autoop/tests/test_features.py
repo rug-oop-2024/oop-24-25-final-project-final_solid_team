@@ -22,10 +22,10 @@ class TestFeatures(unittest.TestCase):
             columns=data.feature_names,
         )
         self.my_df = pd.DataFrame(
-            columns=["ints", 
-            "categories", 
-            "floats", 
-            "string numbers", 
+            columns=["ints",
+            "categories",
+            "floats",
+            "string numbers",
             "wrong string numbers"],
             data=[
                 [1, "a", 0.1, "1.12", "one"],
@@ -40,14 +40,11 @@ class TestFeatures(unittest.TestCase):
             "hoursperweek",
         ]
         self.categorical_columns = [
-            "workclass",
             "education",
             "marital-status",
-            "occupation",
             "relationship",
             "race",
             "sex",
-            "native-country",
         ]
 
     def test_is_numerical(self):
@@ -69,10 +66,15 @@ class TestFeatures(unittest.TestCase):
         for column_name in self.numerical_columns:
             self.assertFalse(
                 _is_categorical(self.adult_df[column_name]),
+                msg=f"{self.adult_df[column_name].name} is deemed categorical",
             )
         for column_name in self.categorical_columns:
             self.assertTrue(
-                _is_categorical(self.adult_df[column_name])
+                _is_categorical(self.adult_df[column_name]),
+                msg=(
+                    f"{self.adult_df[column_name].name} is deemed not "
+                    "categorical"
+                ),
             )
 
     def test_unit_detect_features(self):
@@ -126,32 +128,32 @@ class TestFeatures(unittest.TestCase):
         )
         features = detect_feature_types(dataset)
         self.assertIsInstance(features, list)
-        self.assertEqual(len(features), 14)
-    #     numerical_columns = [
-    #         "age",
-    #         "education-num",
-    #         "capital-gain",
-    #         "capital-loss",
-    #         "hours-per-week",
-    #     ]
-    #     categorical_columns = [
-    #         "workclass",
-    #         "education",
-    #         "marital-status",
-    #         "occupation",
-    #         "relationship",
-    #         "race",
-    #         "sex",
-    #         "native-country",
-    #     ]
-    #     for feature in features:
-    #         self.assertIsInstance(feature, Feature)
-    #         self.assertEqual(feature.name in data.feature_names, True)
-    #     for detected_feature in filter(lambda x: x.name in numerical_columns, features):
-    #         self.assertEqual(detected_feature.type, "numerical")
-    #     for detected_feature in filter(lambda x: x.name in categorical_columns, features):
-    #         self.assertEqual(detected_feature.type, "categorical")
+        self.assertEqual(len(features), 11)
+        numerical_columns = [
+            "age",
+            "education-num",
+            "capital-gain",
+            "capital-loss",
+            "hours-per-week",
+        ]
+        categorical_columns = [
+            "education",
+            "marital-status",
+            "relationship",
+            "race",
+            "sex",
+        ]
+        for feature in features:
+            self.assertIsInstance(feature, Feature)
+            self.assertEqual(feature.name in data.feature_names, True)
+        for detected_feature in filter(lambda x: x.name in numerical_columns, features):
+            self.assertEqual(detected_feature.type, "numerical")
+        for detected_feature in filter(lambda x: x.name in categorical_columns, features):
+            self.assertEqual(detected_feature.type, "categorical")
 
 
 # Notes: somehow the feature names of the `adult` data set do not correspond
 # to given columns names with the difference being some dashes.
+
+# Removed "workclass", "occupation" and "native country" from categorical types
+#  because it contains NaNs
