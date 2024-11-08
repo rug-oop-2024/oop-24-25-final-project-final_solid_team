@@ -5,13 +5,13 @@ class Artifact:  # Original had Pydantic
 
     def __init__(
         self, *,  # Mandate usage of keywords
-        type: str | None,
-        name: str | None,
+        type: str,
+        name: str,
         version: str = "v0.00",
-        tags: list[str] | None = [],
-        metadata: dict[str, str] | None = dict(),
-        asset_path: str = None,
-        data: bytes | None = None,
+        tags: list[str] = [],
+        metadata: dict[str, str] = dict(),
+        asset_path: str,
+        data: bytes,
     ) -> None:
         """Create an artifact object.
 
