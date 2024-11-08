@@ -8,7 +8,7 @@ class Artifact:  # Original had Pydantic
         version: str = "v0.00",
         tags: list[str] | None = None,
         metadata: dict[str, str] | None = None,
-        asset_path: str | None = None,
+        asset_path: str = None,
         data: bytes | None = None,
     ) -> None:
         """Create an artifact object.

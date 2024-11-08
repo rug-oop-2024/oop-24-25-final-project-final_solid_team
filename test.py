@@ -14,4 +14,6 @@ registry = ArtifactRegistry(
     database=database
 )
 
-dataset = Dataset()
+dataset = Dataset("test dataset")
+
+
