@@ -49,6 +49,8 @@ class MultipleLinearRegression(Model):
             version=version,
         )
 
+    # From artifact does not have to be changed.
+
 # Remarks
 # Do we have to see one-hot encoded output feature as 
 # (number-of-categories x datapoints) output vector

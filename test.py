@@ -28,7 +28,10 @@ X_test = [
     [6, 6, 6],
 ]
 
-model.fit(X, y)
-pred = model.predict(X_test)
+artifact = model.to_artifact()
 
+new_model = MultipleLinearRegression.from_artifact(artifact)
 
+new_pred = new_model.predict(X_test)
+
+print(new_pred)

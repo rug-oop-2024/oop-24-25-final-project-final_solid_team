@@ -82,3 +82,47 @@ class TestModel(unittest.TestCase):
 
         with self.assertRaises(AttributeError):
             model.params = bad_params
+
+class TestMultipleLinearRegression(unittest.TestCase):
+    def setUp(self):
+        self.X = [
+            [1, 1, 1],
+            [2, 2, 2],
+            [3, 3, 3],
+        ]
+        self.y = [
+            [1, 2],
+            [2, 4],
+            [3, 6],
+        ]
+        self.X_test = [
+            [4, 4, 4],
+            [5, 5, 5],
+            [6, 6, 6],
+        ]
+
+    def test_train(self):
+        model = MultipleLinearRegression()
+        model.fit(self.X, self.y)
+        expected_prediction = [
+            [4, 8],
+            [5, 10],
+            [6, 12],
+        ]
+        prediction = model.predict(self.X_test)
+        self.assertEqual(prediction, expected_prediction)
+
+    def test_setting_params(self):
+        model = MultipleLinearRegression(params={"coef": 2, "intercept": 1})
+        self.assertEqual(model.predict([[2]]), [5])
+    
+    def test_to_and_from_artifact(self):
+        model = MultipleLinearRegression()
+        model.fit(self.X, self.y)
+        artifact = model.to_artifact()
+        new_model = MultipleLinearRegression.from_artifact(artifact)
+        self.assertEqual(
+            new_model.params["intercept"], model.params["intercept"]
+        )
+
+# TODO: test setting hyperparams
