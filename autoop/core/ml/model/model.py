@@ -1,19 +1,12 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
-from copy import deepcopy
-from typing import Literal, Any
 
-import numpy as np
 import pickle
-
-from autoop.core.ml.artifact import Artifact
-
 from abc import ABC, abstractmethod
 from copy import deepcopy
+from typing import Any, Literal
+
 import numpy as np
 from numpy.typing import ArrayLike
-from typing import Literal
-
 
 from autoop.core.ml.artifact import Artifact
 
@@ -24,7 +17,7 @@ class ParametersDict(dict):
         list_: list = list(self.keys())
         list_.sort()
         return list_
-    
+
     def update(self, new_dict: dict) -> None:
         if not isinstance(new_dict, ParametersDict):
             new_dict = ParametersDict(new_dict)
@@ -90,7 +83,7 @@ class Model(ABC):
     def hyper_params(self) -> ParametersDict:
         """Getter for hyperparams"""
         return deepcopy(self._hyper_params)
-    
+
     @params.setter
     def params(self, value: dict):
         self._params.update(value)

@@ -1,4 +1,5 @@
 import unittest
+
 import numpy as np
 
 from autoop.core.ml.model.model import Model, ParametersDict
@@ -115,7 +116,7 @@ class TestMultipleLinearRegression(unittest.TestCase):
     def test_setting_params(self):
         model = MultipleLinearRegression(params={"coef": 2, "intercept": 1})
         self.assertEqual(model.predict([[2]]), [5])
-    
+
     def test_to_and_from_artifact(self):
         model = MultipleLinearRegression()
         model.fit(self.X, self.y)

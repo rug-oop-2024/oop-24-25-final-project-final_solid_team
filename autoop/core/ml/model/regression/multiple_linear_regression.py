@@ -1,8 +1,9 @@
-from sklearn.linear_model import LinearRegression
 import numpy as np
 from numpy.typing import ArrayLike
+from sklearn.linear_model import LinearRegression
 
 from autoop.core.ml.model.model import Model, ParametersDict
+
 
 class MultipleLinearRegression(Model):
     def __init__(
@@ -23,12 +24,12 @@ class MultipleLinearRegression(Model):
         )
         self._model = LinearRegression(**hyper_params)
         if params.get("coef", None) is not None:
-            self._model.coef_ = params["coef"]   
+            self._model.coef_ = params["coef"]
             # Only set intercept if coefficient is also set:
-            if params.get("intercept", None) is not None:                                 
+            if params.get("intercept", None) is not None:
                 self._model.intercept_ = params["intercept"]
-    
-        
+
+
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         self._model.fit(X, y)
         self._params.update({
@@ -41,7 +42,7 @@ class MultipleLinearRegression(Model):
             "Model is not fitted yet!"
         )
         return self._model.predict(X)
-        
+
     def to_artifact(self, asset_path = "./assets/models", version = "v0.00"):
         return super().to_artifact(
             name="multiple linear regression model",
@@ -52,7 +53,7 @@ class MultipleLinearRegression(Model):
     # From artifact does not have to be changed.
 
 # Remarks
-# Do we have to see one-hot encoded output feature as 
+# Do we have to see one-hot encoded output feature as
 # (number-of-categories x datapoints) output vector
 
 # Probably better to bundle coef and intercept into one dict
