@@ -4,3 +4,4 @@
 []Check how much time I'm saving because I am using the `all' function and dtype
 check in functional/feature
 [] Catch all excpeptions and print something like "contact develelopers of app"
+[] Change v0.00 into v1.0.0
