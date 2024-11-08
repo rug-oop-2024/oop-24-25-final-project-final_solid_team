@@ -31,8 +31,9 @@ class Metric(ABC):
 
 class Accuracy(Metric):
     """Class for accuracy metric"""
-    matches: int = 0
+
     def __call__(self, ground_truth: Feature, predictions: Feature) -> float:
+        matches  = 0
         """Accuracy __call__ function"""
         for index, item in enumerate(ground_truth.data()):
             if (predictions.data()[index] == item):
