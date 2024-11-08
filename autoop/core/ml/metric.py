@@ -3,7 +3,7 @@ from typing import Any
 
 import numpy as np
 
-from autoop.core.ml.dataset import Feature
+from autoop.core.ml.feature import Feature
 
 METRICS = [
     "mean_squared_error",
