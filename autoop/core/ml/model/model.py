@@ -75,23 +75,24 @@ class Model(ABC):
         return self._type
 
     @property
-    def param(self) -> ParametersDict:
+    def parameters(self) -> ParametersDict:
         """Getter for params."""
         return deepcopy(self._params)
 
     @property
-    def hyper_params(self) -> ParametersDict:
+    def hyper_parameters(self) -> ParametersDict:
         """Getter for hyperparams"""
         return deepcopy(self._hyper_params)
 
-    @params.setter
+    @parameters.setter
     def params(self, value: dict):
         self._params.update(value)
 
-    @hyper_params.setter
+    @hyper_parameters.setter
     def hyper_params(self, hyperparams: dict):
         """Setter for hyperparam ."""
         self._hyper_params.update(hyperparams)
 
+# TODO: Change (hyper)params into (hyper)parameters to be more consistent
 # TODO Make update() more sophisticated:
 # - Allow partial dict updates
