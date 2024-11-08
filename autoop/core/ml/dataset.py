@@ -10,16 +10,15 @@ class Dataset(Artifact):
     """Artifact that represents a dataset."""
     
     def __init__(self, **kwargs):
-        """ Create a dataset object to store panda data frame into
-        and byte-encoded csv-file.
+        """Create a dataset object.
+
         Args:
-            name (str): Name of the artifact
-            asset_path (str): Path to where the data is stored. Defaults to
-                              None
-            data (str): Binary data of the dataset. Defaults to None
-            version (str): Version of the dataset. Defaults to "v0.00".
-            tags (list[str]): Tags of the dataset. Defaults to None
-            meta_data (str): Metadata.
+            name (str): Name of the dataset
+            data (str): Binary data of the dataset
+            asset_path (str): Path to where the data is stored
+            version (str): Version of the dataset. Default to "v0.00"
+            tags (list[str]): Tags of the dataset. Defaults to empy list
+            meta_data (str): Metadata. Defaults to empty dictionary
         """
         super().__init__(type="dataset", **kwargs)
 

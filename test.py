@@ -16,7 +16,7 @@ registry = ArtifactRegistry(
 
 dataset = Dataset(
     name="test dataset",
-    asset_path="nov8/t21h59",
+    asset_path="/tmp/tmp",
     data=b"hello world",
 )
 

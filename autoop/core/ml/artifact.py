@@ -7,23 +7,22 @@ class Artifact:  # Original had Pydantic
         self, *,  # Mandate usage of keywords
         type: str,
         name: str,
+        asset_path: str,
+        data: bytes,
         version: str = "v0.00",
         tags: list[str] = [],
         metadata: dict[str, str] = dict(),
-        asset_path: str,
-        data: bytes,
     ) -> None:
         """Create an artifact object.
 
         Args:
-            type (str): Type of the artifact.
+            type (str): Type of the artifact
             name (str): Name of the artifact
+            data (str): Binary data of the artifact
+            asset_path (str): Path to where the data is stored
             version (str): Version of the artifact. Default to "v0.00"
-            tags (list[str]): Tags of the artifact. Defaults to None
-            meta_data (str): Metadata.
-            asset_path (str): Path to where the data is stored. Defaults to
-                              None
-            data (str): Binary data of the artifact. Defaults to None
+            tags (list[str]): Tags of the artifact. Defaults to empy list
+            meta_data (str): Metadata. Defaults to empty dictionary
         """
         self._type = type
         self._name = name
@@ -53,7 +52,7 @@ class Artifact:  # Original had Pydantic
     @property
     def id(self) -> str:
         """Get the id of this artifact."""
-        return {str(base64.b64encode(self.asset_path)) + self.version}
+        return str(base64.b64encode(self.asset_path.encode())) + self.version
     
     @property
     def type(self) -> str:

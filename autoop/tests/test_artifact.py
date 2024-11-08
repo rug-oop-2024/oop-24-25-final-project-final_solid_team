@@ -7,8 +7,12 @@ class TestArtifact(unittest.TestCase):
     def setUp(self):
         self.init_args = {
             "type": "test", "name": "test",
-            "asset_path": "/tmp/tmp","data": b"test bytes string"
+            "asset_path": "/tmp/tmp", "data": b"test bytes string"
         }
+
+    def test_id(self):
+        artifact = Artifact(**self.init_args)
+        self.assertIsInstance(artifact.id, str)
 
     def test_read_and_save(self):
         artifact = Artifact(**self.init_args)
