@@ -75,7 +75,7 @@ class Model(ABC):
         return self._type
 
     @property
-    def params(self) -> ParametersDict:
+    def param(self) -> ParametersDict:
         """Getter for params."""
         return deepcopy(self._params)
 

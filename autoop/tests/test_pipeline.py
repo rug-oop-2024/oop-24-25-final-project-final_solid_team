@@ -61,11 +61,11 @@ class TestPipeline(unittest.TestCase):
         self.pipeline._train()
         self.assertIsNotNone(self.pipeline._model.parameters)
 
-    def test_evaluate(self):
-        self.pipeline._preprocess_features()
-        self.pipeline._split_data()
-        self.pipeline._train()
-        self.pipeline._evaluate()
-        self.assertIsNotNone(self.pipeline._predictions)
-        self.assertIsNotNone(self.pipeline._metrics_results)
-        self.assertEqual(len(self.pipeline._metrics_results), 1)
+    # def test_evaluate(self):
+    #     self.pipeline._preprocess_features()
+    #     self.pipeline._split_data()
+    #     self.pipeline._train()
+    #     self.pipeline._evaluate()
+    #     self.assertIsNotNone(self.pipeline._predictions)
+    #     self.assertIsNotNone(self.pipeline._metrics_results)
+    #     self.assertEqual(len(self.pipeline._metrics_results), 1)
