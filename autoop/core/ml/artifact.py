@@ -47,47 +47,60 @@ class Artifact:  # Original had Pydantic
         """
         self.data = binary_string
         return binary_string
-
-    @property
-    def type(self) -> str:
-        return self._type
-    
-    @property
-    def name(self) -> str:
-        return self._name
-    
-    @property
-    def version(self) -> str:
-        return self._version
-
-    @property
-    def tags(self) -> str:
-        return self._tags
-
-    @property
-    def metadata(self) -> str:
-        return self._metadata
-
-    @property
-    def asset_path(self) -> str:
-        """Getter."""
-        if self._asset_path is not None:
-            return self._asset_path
-        else:
-            raise AttributeError("asset_path is not set.")
-
-    @property
-    def data(self) -> bytes:
-        """Getter."""
-        if self._data is not None:
-            return self._data
-        else:
-            raise AttributeError("data is not set.")
     
     @property
     def id(self) -> dict[bytes, str]:
         """Get the id of this artifact."""
         return {self.asset_path.encode(): self._version}
+    
+    @property
+    def type(self) -> str:
+        if self._type is not None:
+            return self._type
+        else:
+            raise AttributeError(f"attribute type is not set.")
+
+    @property
+    def name(self) -> str:
+        if self._name is not None:
+            return self._name
+        else:
+            raise AttributeError(f"attribute name is not set.")
+
+    @property
+    def version(self) -> str:
+        if self._version is not None:
+            return self._version
+        else:
+            raise AttributeError(f"attribute version is not set.")
+
+    @property
+    def tags(self) -> str:
+        if self._tags is not None:
+            return self._tags
+        else:
+            raise AttributeError(f"attribute tags is not set.")
+
+    @property
+    def metadata(self) -> str:
+        if self._metadata is not None:
+            return self._metadata
+        else:
+            raise AttributeError(f"attribute metadata is not set.")
+
+    @property
+    def asset_path(self) -> str:
+        if self._asset_path is not None:
+            return self._asset_path
+        else:
+            raise AttributeError(f"attribute asset_path is not set.")
+
+    @property
+    def data(self) -> str:
+        if self._data is not None:
+            return self._data
+        else:
+            raise AttributeError(f"attribute data is not set.")
     
     @data.setter
     def data(self, value) -> None:
@@ -98,24 +111,6 @@ class Artifact:  # Original had Pydantic
                 f"Invalid type of data. Data must be of type `bytes'. Got "
                 f"type(value)"
             )
-
-
-    def read(self) -> bytes:
-        """Read the content of the data.
-
-        Returns:
-            The data stored in this artifact in binary.
-        """
-        return self.data
-
-    def save(self, binary_string: bytes) -> bytes:
-        """Save a binary string as data into this artifact.
-
-        Args:
-            binary_string: the data to be saved.
-        """
-        self.data = binary_string
-        return binary_string
 
 
 # TODO Make Artifact more strict: it must have everything but data
@@ -140,3 +135,6 @@ class Artifact:  # Original had Pydantic
 # Remarks:
 # We internally use the getters of the attributes such we can later change
 # how these atributes are stored
+
+
+		
