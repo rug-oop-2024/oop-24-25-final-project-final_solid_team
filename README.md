@@ -159,7 +159,7 @@ If you did not implement the feature
 | `ML/feature`                          | NF           | Gideon               | X       | |
 | `ML/metric`                           | NF           | Wander               |         | |
 | `ML/metric/extensions`                | FN           | Wander               |         | |
-| `ML/model`                            | NF           | Gideon               |         | |
+| `ML/model`                            | NF           | both                 |         | |
 | `ML/model/extensions`                 | FN           | both                 |         | | MLR made by Gideon, rest by Wander
 | `ML/pipeline/evaluation`              | FN           | Gideon               |         | | So far so good, needs testing for all metric and models tho
 | `ST/page/datasets`                    | NF           |                      |         | |
