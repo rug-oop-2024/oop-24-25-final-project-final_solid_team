@@ -162,9 +162,9 @@ If you did not implement the feature
 | `ML/model`                            | NF           | both                 |         | |
 | `ML/model/extensions`                 | FN           | both                 |         | | MLR made by Gideon, rest by Wander
 | `ML/pipeline/evaluation`              | FN           | Gideon               |         | | So far so good, needs testing for all metric and models tho
-| `ST/page/datasets`                    | NF           |                      |         | |
-| `ST/datasets/management/create`       | FN           |                      |         | |
-| `ST/datasets/management/save`         | FN           |                      |         | |
+| `ST/page/datasets`                    | NF           | Gideon               |         | | Seems suspiciously easy
+| `ST/datasets/management/create`       | FN           | Gideon               |         | | Seems suspiciously 
+| `ST/datasets/management/save`         | FN           | Gideon               |         | | Already done when creating a dataset
 | `ST/page/modelling`                   | NF           |                      |         | |
 | `ST/modelling/datasets/list`          | FN           |                      |         | |
 | `ST/modelling/datasets/features`      | FN           |                      |         | |

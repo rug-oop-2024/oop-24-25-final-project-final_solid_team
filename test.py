@@ -10,28 +10,22 @@ from autoop.core.database import Database
 from autoop.core.ml.dataset import Dataset
 from autoop.core.storage import LocalStorage
 
-database_objects_storage = LocalStorage("./assets/dbo")
-object_storage = LocalStorage("./assets/objects")
-artifact_database = Database(database_objects_storage)
-registry = ArtifactRegistry(
-    storage=object_storage,
-    database=artifact_database
-)
+automl = AutoMLSystem.get_instance()
 
 iris = load_iris()
-df = pd.DataFrame(
+iris_df = pd.DataFrame(
     data=iris.data,
     columns=iris.feature_names
 )
-
-dataset = Dataset.from_dataframe(
-    name="test_dataset",
-    data=df,
-    asset_path="test_collection/test",
+iris_artifact = Dataset.from_dataframe(
+    name="iris",
+    data=iris_df,
+    asset_path="datasets/iris"
 )
-
-automl = AutoMLSystem.get_instance()
-automl.registry.register(dataset)
-
+automl.registry.register(iris_artifact)
 datasets = automl.registry.list(type="dataset")
-print([str(dataset) for dataset in datasets])
+
+for dataset in datasets:
+    dataset.promote_to_subclass(Dataset)
+
+print(datasets[0].read())
