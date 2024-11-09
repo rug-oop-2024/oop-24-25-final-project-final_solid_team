@@ -5,7 +5,7 @@ import unittest
 # from autoop.tests.test_features import TestFeatures
 # from autoop.tests.test_model import TestModel
 # from autoop.tests.test_pipeline import TestPipeline
-from app.tests.test_system import TestArtifactRegistry
+from app.tests.test_system import TestAutoMLSystem
 
 # from autoop.tests.test_artifact import TestArtifact
 from autoop.tests.test_database import TestDatabase

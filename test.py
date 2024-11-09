@@ -34,4 +34,4 @@ automl = AutoMLSystem.get_instance()
 automl.registry.register(dataset)
 
 datasets = automl.registry.list(type="dataset")
-print(dataset)
+print([str(dataset) for dataset in datasets])
