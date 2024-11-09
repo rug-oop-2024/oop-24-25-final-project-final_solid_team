@@ -64,13 +64,13 @@ class R_squared(Metric):
     """Class for mean squared error metric"""
     def __call__(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
         """Mean squared error __call__ function"""
-        ground_mean:float = np.mean(ground_truth) 
+        ground_mean:float = np.mean(ground_truth)
         difference_array: np.ndarray = predictions - ground_truth
         sum_squares:float = np.sum((ground_truth - ground_mean)**2)
         residual:float = np.sum((ground_truth - predictions)**2)
 
         return (1 - (residual / sum_squares))
-    
+
 
 class Precision(Metric):
     """Class for multi class precision metric"""
@@ -89,7 +89,7 @@ class Precision(Metric):
                         precision_array[item][1] += 1
                     else:
                         precision_array[item][1] = 1
-                        precision_array[item][0] = 0  
+                        precision_array[item][0] = 0
 
         #perhaps generate error for empty array somehow, but this case is probability filtered out earlier
         mean_prc: int = 0
@@ -97,8 +97,8 @@ class Precision(Metric):
             mean_prc =+ (prc_value[0] / (prc_value[0] + prc_value[1]))
         mean_prc = mean_prc / len(precision_array)
 
-        return mean_prc 
-    
+        return mean_prc
+
 
 class Recall(Metric):
     """Class for multi class recall metric"""
@@ -112,22 +112,22 @@ class Recall(Metric):
                     else:
                         recall_array[item][0] = 1
                         recall_array[item][1] = 0
-                          
+
         for index, item in enumerate(ground_truth):
                 if(item != predictions[index]):
                     if item in recall_array:
                         recall_array[item][1] += 1
                     else:
-                        recall_array[item][1] = 1  
+                        recall_array[item][1] = 1
                         recall_array[item][0] = 0
-        
+
         mean_rec: int = 0
         for rec_value in recall_array:
             mean_rec += (rec_value[0] / (rec_value[0] + rec_value[1]))
         mean_rec = mean_rec / len(recall_array)
 
         return mean_rec
-    
+
 
     class Mean_absolute_error(Metric):
         """Class for mean absolute error metric"""

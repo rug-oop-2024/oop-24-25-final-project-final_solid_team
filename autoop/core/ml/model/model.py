@@ -1,31 +1,24 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
-from copy import deepcopy
-from typing import Literal, Any
 
-import numpy as np
 import pickle
-
-from autoop.core.ml.artifact import Artifact
-
-from sklearn.linear_model import LinearRegression
 from abc import ABC, abstractmethod
 from copy import deepcopy
+from typing import Any, Literal
+
 import numpy as np
 from numpy.typing import ArrayLike
-from typing import Literal
-
+from sklearn.linear_model import LinearRegression
 
 from autoop.core.ml.artifact import Artifact
 
 
-# Author: Marco Zullich
+# Inspired by Marco Zullich see: <https://www.rug.nl/staff/m.zullich/>
 class ParametersDict(dict):
     def _get_keys_as_list(self) -> list:
         list_: list = list(self.keys())
         list_.sort()
         return list_
-    
+
     def update(self, new_dict: dict) -> None:
         """Update the dictionary with new values.
 
@@ -102,7 +95,7 @@ class Model(ABC):
         pass
 
     @abstractmethod
-    def predict(self, data: ArrayLike) -> np.ndarray:  
+    def predict(self, data: ArrayLike) -> np.ndarray:
         pass
 
     @property
@@ -133,39 +126,39 @@ class Model(ABC):
 # - Allow partial dict updates
 
 
-    class Mult_lin_reg(Model):
-        def __init__(self):  
-            Model.__init__(self)
-            self._Multreg = LinearRegression()
-        
-        def fit(self, X: np.ndarray, y:np.ndarray) -> None:
-            """Fit the sklearn linear reg model"""
-            self._Multreg.fit(X, y)
-            return None
-        
-        def predict(self,X: np.ndarray) -> np.ndarray:
-            """Predict based on feature vector X""" #Do we need a dimensionality check here, and in the bastract model as well?
-            predictions = self._Multireg.predict(X)
-            return np.asarray(predictions)
-    
-        def parameters(self) -> ParametersDict:
-            param_dict:ParametersDict = ParametersDict
-            param_dict['coef'] = self._Multreg.coef_
-            param_dict['intercept'] = self._Multireg.intercept_
-            return param_dict
+class Mult_lin_reg(Model):
+    def __init__(self):
+        Model.__init__(self)
+        self._Multreg = LinearRegression()
 
-        def params(self, params:dict):
-            pass #Is this even possible??
+    def fit(self, X: np.ndarray, y:np.ndarray) -> None:
+        """Fit the sklearn linear reg model"""
+        self._Multreg.fit(X, y)
+        return None
 
-        def hyper_params(self, hyperparams: dict):
-            pass #There are no hyper parameters for this linear regression model 
+    def predict(self,X: np.ndarray) -> np.ndarray:
+        """Predict based on feature vector X""" #Do we need a dimensionality check here, and in the bastract model as well?
+        predictions = self._Multireg.predict(X)
+        return np.asarray(predictions)
+
+    def parameters(self) -> ParametersDict:
+        param_dict:ParametersDict = ParametersDict
+        param_dict['coef'] = self._Multreg.coef_
+        param_dict['intercept'] = self._Multireg.intercept_
+        return param_dict
+
+    def params(self, params:dict):
+        pass #Is this even possible??
+
+    def hyper_params(self, hyperparams: dict):
+        pass #There are no hyper parameters for this linear regression model
 
 
-    class Log_reg(Model):
-        pass    
+class Log_reg(Model):
+    pass
 
-    class KNN(Model):
-        pass
+class KNN(Model):
+    pass
 
-    class SOM(Model):
-        pass
+class SOM(Model):
+    pass

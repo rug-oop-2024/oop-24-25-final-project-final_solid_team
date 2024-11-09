@@ -7,7 +7,6 @@ from sklearn.datasets import load_iris
 from app.core.system import AutoMLSystem
 from autoop.core.ml.dataset import Dataset
 
-
 automl = AutoMLSystem.get_instance()
 
 iris = load_iris()

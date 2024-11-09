@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 
 app_dir = os.path.dirname(os.path.realpath(__file__))
 project_dir = os.path.dirname(app_dir)

@@ -45,7 +45,7 @@ class Artifact:  # Original had Pydantic
             f'    "metadata": "{str(self.metadata)}"\n'
             '}'
         )
-    
+
     def read(self) -> bytes:
         """Read the content of the data.
 
@@ -69,7 +69,7 @@ class Artifact:  # Original had Pydantic
             f"{binary_string.__class__.__qualname__} "
             f"object at {hex(id(binary_string))}>"
         )
-    
+
     @property
     def id(self) -> str:
         """Get the id of this artifact."""
