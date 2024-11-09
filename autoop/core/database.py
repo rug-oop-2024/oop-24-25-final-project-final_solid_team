@@ -7,19 +7,26 @@ from autoop.core.storage import Storage
 class Database:
 
     def __init__(self, storage: Storage):
+        """Database to store json serializable dictionarries.
+        
+        Args:
+            storage (Storage): Storage object representing the place where to
+                               store data"""
         self._storage = storage
-        self._data = {}
+        self._data = {} 
         self._load()
 
     def set(self, collection: str, id: str, entry: dict) -> dict:
-        """Set a key in the database
+        """Set a key in the database.
+
         Args:
             collection (str): The collection to store the data in
             id (str): The id of the data
-            entry (dict): The data to store
+            entry (dict): The data to store, must be JSON serializable
         Returns:
             dict: The data that was stored
         """
+        # TODO: Assert that entry is json-serializable
         assert isinstance(entry, dict), "Data must be a dictionary"
         assert isinstance(collection, str), "Collection must be a string"
         assert isinstance(id, str), "ID must be a string"
@@ -30,19 +37,22 @@ class Database:
         return entry
 
     def get(self, collection: str, id: str) -> Union[dict, None]:
-        """Get a key from the database
+        """Get a key from the database.
+
         Args:
             collection (str): The collection to get the data from
             id (str): The id of the data
         Returns:
-            Union[dict, None]: The data that was stored, or None if it doesn't exist
+            Union[dict, None]: The data that was stored, or None if it doesn't
+                               exist
         """
         if not self._data.get(collection, None):
             return None
         return self._data[collection].get(id, None)
 
     def delete(self, collection: str, id: str):
-        """Delete a key from the database
+        """Delete a key from the database.
+
         Args:
             collection (str): The collection to delete the data from
             id (str): The id of the data
@@ -56,7 +66,8 @@ class Database:
         self._persist()
 
     def list(self, collection: str) -> List[Tuple[str, dict]]:
-        """Lists all data in a collection
+        """Lists all data in a collection.
+        
         Args:
             collection (str): The collection to list the data from
         Returns:
@@ -89,7 +100,7 @@ class Database:
         # TODO Understand this piece of code
 
     def _load(self):
-        """Load the data from storage"""
+        """Load the data from storage."""
         self._data = {}
         for key in self._storage.list(""):
             collection, id = key.split("/")[-2:]
