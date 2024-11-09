@@ -183,12 +183,11 @@ Pipeline(
 
         Returns:
             dict: A dictionary with the following keys -> values
-            - **"metrics"** -> **(tuple[Metric, float])**: The value of the 
-                                                           loss function of a
-                                                           specific metric.
+            - **"metrics"** -> **(list[tuple[Metric, float]])**: The value
+                of the loss function of a specific metric.
 
             - **"predictions"** -> **(np.ndarray)**: The predictions on the 
-                                                     test dataset.
+                test dataset.
         """
         self._preprocess_features()
         self._split_data()

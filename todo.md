@@ -14,4 +14,5 @@ check in functional/feature
 [] Figure out whether setter should raise ValueError
 [] Update all Artifact docstrings to match the one of Artifact
 [] Make test function for upload data base. Everything seems to work fine so low priority
+[] Cache stuff in the app.
 
