@@ -67,7 +67,11 @@ class PipelineHandler:
         return features[2]
 
     def _choose_input_feature(self, features: list[Feature]) -> list[Feature]:
-        return (features[0], features[1])
+        return st.multiselect(
+            label="Which features do you want to use as input?",
+            options=features,
+            format_func=lambda x: x.name
+        )
     
     def _choose_dataset(self) -> Dataset:
         artifacts = self._automl.registry.list(type="dataset")
