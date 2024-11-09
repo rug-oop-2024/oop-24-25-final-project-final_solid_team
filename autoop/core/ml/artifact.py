@@ -1,5 +1,7 @@
 from __future__ import annotations
+
 import base64
+
 
 class Artifact:  # Original had Pydantic
     """Baseclass to store certain assets."""
@@ -63,10 +65,10 @@ class Artifact:  # Original had Pydantic
         """
         if SubClass not in Artifact.__subclasses__():
             raise ValueError(f"{SubClass} is not a subclass of {Artifact}")
-        
+
         # UNSAFE, only works if subclass and artifact have the same attributes.
         # TODO Assert both classes have the same attributes.
-        self.__class__ = SubClass  
+        self.__class__ = SubClass
         return self
 
     def read(self) -> bytes:
