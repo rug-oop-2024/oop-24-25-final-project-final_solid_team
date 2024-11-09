@@ -52,12 +52,15 @@ class Accuracy(Metric):
 
 
 class MeanSquaredError(Metric):
-    """Class for mean squared error metric"""
+    """Class for mean squared error metric. This is just added"""
     def __call__(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
         """Mean squared error __call__ function"""
         difference_array: np.ndarray = predictions - ground_truth
         mean_sq_err:float = np.mean(difference_array**2)
         return mean_sq_err
+    
+    def to_string(self):
+        return "Metric"
 
 
 class R_squared(Metric):
