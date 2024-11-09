@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import io
 
 import pandas as pd
@@ -8,7 +9,7 @@ from autoop.core.ml.artifact import Artifact
 
 class Dataset(Artifact):
     """Artifact that represents a dataset."""
-    
+
     def __init__(self, **kwargs):
         """Create a dataset object.
 
@@ -29,13 +30,13 @@ class Dataset(Artifact):
         """Returns a Dataset instance from a panda dataframe.
 
         Args:
-            data (pd.DataFrame): Data from to be stored.
-            name (str): Name of the artifact
-            version (str): Version of the dataset. Defaults to "v0.00".
-            tags (list[str]): Tags of the dataset. Defaults to None
-            meta_data (str): Metadata.
-            asset_path (str): Path to where the data is stored. Defaults to
-                              None
+            name (str): Name of the dataset artifact
+            data (pandas.Dataframe): The pandas dataframe to be stored
+            asset_path (str): Path to where the data is stored
+            version (str): Version of the dataset artifact. Default to "v0.00"
+            tags (list[str]): Tags of the dataset artifact. Defaults to empty
+                              list
+            meta_data (str): Metadata. Defaults to empty dictionary
 
         Returns:
             Dataset: The created Dataset instance.

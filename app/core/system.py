@@ -8,13 +8,27 @@ from autoop.core.storage import LocalStorage, Storage
 
 class ArtifactRegistry:
     def __init__(self, database: Database, storage: Storage):
+        """Registry that can store Artifacts.
+
+        Args:
+            database (Database): Database to store the Artifacts in RAM
+            storage (Storage): Storage to store the Artifacts on the disk
+        """
         self._database = database
         self._storage = storage
 
     def register(self, artifact: Artifact):
-        # save the artifact in the storage
+        """Register an artifact into the registry.
+
+        Args:
+            artifact (Artifact): Artifact to register. It's asset path should
+            be collection/name_of_artifact. (TODO Confirm this!)
+        """
+        # GW: NOTE I don't like this implementation. Database.set should be
+        # responsible for saving the data into the storage.
+        # Save the artifact in the storage.
         self._storage.save(artifact.data, artifact.asset_path)
-        # save the metadata in the database
+        # Save the metadata in the database.
         entry = {
             "name": artifact.name,
             "version": artifact.version,
@@ -26,6 +40,17 @@ class ArtifactRegistry:
         self._database.set(f"artifacts", artifact.id, entry)
 
     def list(self, type: str = None) -> List[Artifact]:
+        """Get a list of all stored Artifacts. Optinally get a list of the
+        artifacts of a specified type.
+
+        Args:
+            type (str, optional): Type of Arfifacts to list. If none print all
+            Artifacts.
+
+        Returns:
+            List[Artifact]: List of stored artifacts (with type `type' if
+            specified.)
+        """
         entries = self._database.list("artifacts")
         artifacts = []
         for id, data in entries:

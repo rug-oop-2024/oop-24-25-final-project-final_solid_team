@@ -1,25 +1,39 @@
 #!/bin/env python
 
-import streamlit as st
 import numpy as np
-from app.core.system import ArtifactRegistry
+import pandas as pd
+import streamlit as st
+from sklearn.datasets import fetch_openml, load_iris
+
+from app.core.system import ArtifactRegistry, AutoMLSystem
 from autoop.core.database import Database
-from autoop.core.storage import LocalStorage
 from autoop.core.ml.dataset import Dataset
+from autoop.core.storage import LocalStorage
 
-storage = LocalStorage()
-database = Database(storage)
+artifact_storage = LocalStorage("./assets/dbo")
+upper_level_storage = LocalStorage("./assets/objects")
+artifact_database = Database(artifact_storage)
 registry = ArtifactRegistry(
-    storage=storage,
-    database=database
+    storage=upper_level_storage,
+    database=artifact_database
 )
 
-dataset = Dataset(
-    name="test dataset",
-    asset_path="/tmp/tmp",
-    data=b"hello world",
+iris = load_iris()
+df = pd.DataFrame(
+    data=iris.data,
+    columns=iris.feature_names
 )
 
-registry.register(dataset)
+dataset = Dataset.from_dataframe(
+    name="test_dataset",
+    data=df,
+    asset_path="test_collection/test",
+)
+
+automl = AutoMLSystem.get_instance()
+automl.registry.register(dataset)
+
+datasets = automl.registry.list(type="dataset")
+print(dataset)
 
 

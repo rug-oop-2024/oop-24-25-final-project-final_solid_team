@@ -1,8 +1,7 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
 
 import pickle
-from typing import List
+from typing import TYPE_CHECKING, List
 
 import numpy as np
 
@@ -159,7 +158,7 @@ Pipeline(
         predictions = self._model.predict(X)
         for metric in self._metrics:
             # Changed evaluate into function call
-            result = metric(predictions, Y)  
+            result = metric(predictions, Y)
             self._metrics_results.append((metric, result))
         self._predictions = predictions
 

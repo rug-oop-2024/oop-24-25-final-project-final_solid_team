@@ -67,15 +67,15 @@ class Model(ABC):
 
     def to_artifact(
             self,
-            name: str, 
-            asset_path: str = "./assets/models", 
+            name: str,
+            asset_path: str = "./assets/models",
             **kwargs
         ) -> Artifact:
         """Get an artifact representation of the model.
 
         Args:
             name (str): Name of the artifact
-            asset_path (str): Path to where the data is stored. Defaults to 
+            asset_path (str): Path to where the data is stored. Defaults to
             "./assets/models"
             version (str): Version of the artifact. Default to "v0.00"
             tags (list[str]): Tags of the artifact. Defaults to empy list

@@ -8,12 +8,12 @@ class Database:
 
     def __init__(self, storage: Storage):
         """Database to store json serializable dictionarries.
-        
+
         Args:
             storage (Storage): Storage object representing the place where to
                                store data"""
         self._storage = storage
-        self._data = {} 
+        self._data = {}
         self._load()
 
     def set(self, collection: str, id: str, entry: dict) -> dict:
@@ -67,7 +67,7 @@ class Database:
 
     def list(self, collection: str) -> List[Tuple[str, dict]]:
         """Lists all data in a collection.
-        
+
         Args:
             collection (str): The collection to list the data from
         Returns:

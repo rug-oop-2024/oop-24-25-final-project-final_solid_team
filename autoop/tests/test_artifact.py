@@ -26,5 +26,5 @@ class TestArtifact(unittest.TestCase):
 
 
 # Remarks:
-# most of artifact 
+# most of artifact
 # TODO Test id attribute

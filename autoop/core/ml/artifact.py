@@ -1,5 +1,6 @@
 import base64
 
+
 class Artifact:  # Original had Pydantic
     """Baseclass to store certain assets."""
 
@@ -18,7 +19,7 @@ class Artifact:  # Original had Pydantic
         Args:
             type (str): Type of the artifact
             name (str): Name of the artifact
-            data (str): Binary data of the artifact
+            data (bytes): Binary data of the artifact
             asset_path (str): Path to where the data is stored
             version (str): Version of the artifact. Default to "v0.00"
             tags (list[str]): Tags of the artifact. Defaults to empy list
