@@ -27,12 +27,25 @@ class Artifact:  # Original had Pydantic
         """
         self._type = type
         self._name = name
+        self._data = data
+        self._asset_path = asset_path
         self._version = version
         self._tags = tags
         self._metadata = metadata
-        self._asset_path = asset_path
-        self._data = data
 
+    def __str__(self) -> str:
+        return(
+            '{\n'
+            f'    "type": "{self.type}",\n'
+            f'    "name": "{self.name}"\n'
+            f'    "data": b"{self._print_bytes_data(self.data)}",\n'
+            f'    "asset_path": "{self.asset_path}",\n'
+            f'    "version": "{self.version}",\n'
+            f'    "tags": "{self.tags}"\n'
+            f'    "metadata": "{str(self.metadata)}"\n'
+            '}'
+        )
+    
     def read(self) -> bytes:
         """Read the content of the data.
 
@@ -50,6 +63,13 @@ class Artifact:  # Original had Pydantic
         self.data = binary_string
         return binary_string
 
+    def _print_bytes_data(self, binary_string) -> str:
+        return (
+            f"<{binary_string.__class__.__module__}."
+            f"{binary_string.__class__.__qualname__} "
+            f"object at {hex(id(binary_string))}>"
+        )
+    
     @property
     def id(self) -> str:
         """Get the id of this artifact."""

@@ -10,11 +10,11 @@ from autoop.core.database import Database
 from autoop.core.ml.dataset import Dataset
 from autoop.core.storage import LocalStorage
 
-artifact_storage = LocalStorage("./assets/dbo")
-upper_level_storage = LocalStorage("./assets/objects")
-artifact_database = Database(artifact_storage)
+database_objects_storage = LocalStorage("./assets/dbo")
+object_storage = LocalStorage("./assets/objects")
+artifact_database = Database(database_objects_storage)
 registry = ArtifactRegistry(
-    storage=upper_level_storage,
+    storage=object_storage,
     database=artifact_database
 )
 
@@ -35,5 +35,3 @@ automl.registry.register(dataset)
 
 datasets = automl.registry.list(type="dataset")
 print(dataset)
-
-

@@ -4,12 +4,6 @@ import pandas as pd
 
 from autoop.core.ml.artifact import Artifact
 
-class Test:
-    def __init__(self, *, x: int | None):
-        self._x = x
+dict_ = {"a": 1, "b": 2}
 
-
-x = Artifact()
-
-
-x = pd.DataFrame()
+print(dict_)
