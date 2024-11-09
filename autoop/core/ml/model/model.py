@@ -5,9 +5,11 @@ from typing import Literal, Any
 
 import numpy as np
 import pickle
+import 
 
 from autoop.core.ml.artifact import Artifact
 
+from sklearn.linear_model import LinearRegression
 from abc import ABC, abstractmethod
 from copy import deepcopy
 import numpy as np
@@ -101,26 +103,7 @@ class Model(ABC):
         pass
 
     @abstractmethod
-    def predict(self, data: ArrayLike) -> np.ndarray:    class Mult_lin_reg(Model):
-        def __init__(self):  
-            Model.__init__(self)
-            self._Multreg = LinearRegression()
-        
-    def fit(self, X: np.ndarray, y:np.ndarray) -> None:
-        self._Multreg.fit(X, y)
-        return None
-        
-    def predict(X: np.ndarray) -> np.ndarray:
-
-
-    class Log_reg(Model):
-        pass    
-
-    class KNN(Model):
-        pass
-
-    class SOM(Model):
-        pass
+    def predict(self, data: ArrayLike) -> np.ndarray:  
         pass
 
     @property
@@ -149,3 +132,41 @@ class Model(ABC):
 # TODO: Change (hyper)params into (hyper)parameters to be more consistent
 # TODO Make update() more sophisticated:
 # - Allow partial dict updates
+
+
+    class Mult_lin_reg(Model):
+        def __init__(self):  
+            Model.__init__(self)
+            self._Multreg = LinearRegression()
+        
+        def fit(self, X: np.ndarray, y:np.ndarray) -> None:
+            """Fit the sklearn linear reg model"""
+            self._Multreg.fit(X, y)
+            return None
+        
+        def predict(self,X: np.ndarray) -> np.ndarray:
+            """Predict based on feature vector X""" #Do we need a dimensionality check here, and in the bastract model as well?
+            predictions = self._Multireg.predict(X)
+            return np.asarray(predictions)
+    
+        def parameters(self) -> ParametersDict:
+            param_dict:ParametersDict = ParametersDict
+            param_dict['coef'] = self._Multreg.coef_
+            param_dict['intercept'] = self._Multireg.intercept_
+            return param_dict
+
+        def params(self, params:dict):
+            pass #Is this even possible??
+
+        def hyper_params(self, hyperparams: dict):
+            pass #There are no hyper parameters for this linear regression model 
+
+
+    class Log_reg(Model):
+        pass    
+
+    class KNN(Model):
+        pass
+
+    class SOM(Model):
+        pass
