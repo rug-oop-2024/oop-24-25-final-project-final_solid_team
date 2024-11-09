@@ -5,7 +5,6 @@ from typing import Literal, Any
 
 import numpy as np
 import pickle
-import 
 
 from autoop.core.ml.artifact import Artifact
 
