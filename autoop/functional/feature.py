@@ -17,6 +17,9 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
     Returns:
         List[Feature]: List of features with their types.
     """
+    assert isinstance(dataset, Dataset), (
+        f"Excpected a Dataset for dataset. Got {type(dataset)}"
+    )
     df = dataset.read()
 
     features = []

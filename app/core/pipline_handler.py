@@ -32,9 +32,11 @@ class PipelineHandler:
             split=split
         )
     
+    @st.cache_resource
     def execute_pipeline(self) -> None:
-        results = self._pipeline.execute()
-        self._write_metric_results(results)
+        # results = self._pipeline.execute()
+        # self._write_metric_results(results)
+        pass
 
     def _write_metric_results(self, results) -> None:
         evaluations: list[dict[Metric, float]] = results["metrics"]
@@ -55,12 +57,16 @@ class PipelineHandler:
     def _choose_input_feature(self, features: list[Feature]) -> list[Feature]:
         return (features[0], features[1])
     
-    def _choose_dataset(self) -> list[Dataset]:
+    def _choose_dataset(self) -> Dataset:
         datasets = self._automl.registry.list(type="dataset")
 
-        # Promote dataset artifact to Datasets
-        # TODO Make it a for loop for better semantics
-        [dataset.promote_to_subclass(Dataset)
-         for dataset in datasets]
+        def get_name(dataset):
+            return dataset.name
+
+        chosen_dataset = st.selectbox(
+            label="What data set would you like to use?",
+            options=datasets,
+            format_func=get_name
+        )
         
-        return datasets[0]  # TODO Let the user choose
+        return chosen_dataset
