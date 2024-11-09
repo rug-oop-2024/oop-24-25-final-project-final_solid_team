@@ -2,12 +2,13 @@ import streamlit as st
 from autoop.core.ml.metric import MeanSquaredError
 import numpy as np
 
+if "counter" not in st.session_state:
+    st.session_state["counter"] = 0
 
-mse = MeanSquaredError()
+button = st.button("press me")
 
-string = mse.to_string()
+if button:
+    st.session_state["counter"] += 1
 
-st.write(string)
-
-
+st.write(st.session_state["counter"])
 

@@ -14,10 +14,7 @@ st.set_page_config(
     page_icon="👋",
 )
 
-if "initialized" not in st.session_state:
-    st.write("Initialzing the app")
-    st.session_state["initialized"] = True
-
+print("function call", file=sys.stderr)
 
 st.sidebar.success("Select a page above.")
 st.markdown(open("README.md").read())

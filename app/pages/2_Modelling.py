@@ -24,5 +24,13 @@ write_helper_text(
     "model on a dataset."
 )
 
+def _update_counter() -> None:
+    if "counter" not in st.session_state:
+        st.session_state["counter"] = 0
+    button = st.button("Refresh?")
+    if button:
+        st.session_state["counter"] += 1
+
 handler = PipelineHandler()
-handler.execute_pipeline()
+_update_counter()
+handler.execute_pipeline(st.session_state["counter"])
