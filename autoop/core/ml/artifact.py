@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import base64
 
 
@@ -45,6 +47,29 @@ class Artifact:  # Original had Pydantic
             f'    "metadata": "{str(self.metadata)}"\n'
             '}'
         )
+
+    # TODO Let this have return type hint: Class
+    def promote_to_subclass(self, SubClass: type) -> Artifact:
+        """Promotes this Artifact to one of its subclasses. Works in-place but
+        also return the the promoted class.
+
+        Args:
+            Class (type): The desired subclass
+
+        Raises:
+            ValueError: Could not promote this instance to Class because Class
+            is not a subclass of Artifact.
+
+        Returns:
+            Artifact: The promoted instance.
+        """
+        if SubClass not in Artifact.__subclasses__():
+            raise ValueError(f"{SubClass} is not a subclass of {Artifact}")
+
+        # UNSAFE, only works if subclass and artifact have the same attributes.
+        # TODO Assert both classes have the same attributes.
+        self.__class__ = SubClass
+        return self
 
     def read(self) -> bytes:
         """Read the content of the data.

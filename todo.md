@@ -13,4 +13,5 @@ check in functional/feature
 [] Make setters_and_getters such that it automatically checks for types if debug is on
 [] Figure out whether setter should raise ValueError
 [] Update all Artifact docstrings to match the one of Artifact
+[] Make test function for upload data base. Everything seems to work fine so low priority
 

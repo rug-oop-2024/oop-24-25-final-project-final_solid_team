@@ -6,3 +6,4 @@
 [] GW: Do we need to "declare" our variable just below the class declaration?
 [] GW: How are we going to use caching?
 [] GW: Why does Artifact registry have a _storage attribute even though _database is perfectly capable of handling its own storage?
+[] Why do we have to convert the uploaded csv to a pd.DataFrame. We can just instantiate the object with the normal init and then use read() to get the dataFrame
