@@ -4,8 +4,7 @@ from autoop.core.ml.dataset import Dataset
 from app.core.system import AutoMLSystem
 
 
-class HandleDataset:
-    # @st.cache_resource
+class DatasetHandler:
     def __init__(_self):
         _self._automl = AutoMLSystem.get_instance()
 

@@ -5,11 +5,11 @@ import streamlit as st
 from sklearn.datasets import load_iris
 
 from app.core.system import AutoMLSystem
-from app.core.handle_datasets import HandleDataset
+from app.core.handle_datasets import DatasetHandler
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.dataset import Artifact
 
-handler = HandleDataset()
+handler = DatasetHandler()
 handler.upload_csv_file()
 handler.show_datasets()
 
