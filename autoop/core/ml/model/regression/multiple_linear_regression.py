@@ -38,7 +38,7 @@ class MultipleLinearRegression(Model):
         })
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        assert self._params["coef"] is not None, (
+        assert self._params.get("coef", None) is not None, (
             "Model is not fitted yet!"
         )
         return self._model.predict(X)

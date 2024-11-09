@@ -1,49 +1,36 @@
+import base64
+
 class Artifact:  # Original had Pydantic
     """Baseclass to store certain assets."""
 
     def __init__(
-        self,
-        type: str | None = None,
-        name: str | None = None,
-        asset_path: str | None = None,
+        self, *,  # Mandate usage of keywords
+        type: str,
+        name: str,
+        asset_path: str,
+        data: bytes,
         version: str = "v0.00",
-        data: bytes | None = None,
+        tags: list[str] = [],
+        metadata: dict[str, str] = dict(),
     ) -> None:
-        """Initialize.
+        """Create an artifact object.
 
         Args:
-            type (str): Type of the artifact.
+            type (str): Type of the artifact
             name (str): Name of the artifact
+            data (str): Binary data of the artifact
             asset_path (str): Path to where the data is stored
-            data (str): Binary data
-            version (str): Version of this artifact (default v0.00)
+            version (str): Version of the artifact. Default to "v0.00"
+            tags (list[str]): Tags of the artifact. Defaults to empy list
+            meta_data (str): Metadata. Defaults to empty dictionary
         """
         self._type = type
         self._name = name
+        self._version = version
+        self._tags = tags
+        self._metadata = metadata
         self._asset_path = asset_path
         self._data = data
-        self._version = version
-
-    @property
-    def asset_path(self) -> str:
-        """Getter."""
-        if self._asset_path is not None:
-            return self._asset_path
-        else:
-            raise AttributeError("asset_path is not set.")
-
-    @property
-    def data(self) -> bytes:
-        """Getter."""
-        if self._data is not None:
-            return self._data
-        else:
-            raise AttributeError("data is not set.")
-
-    @property
-    def id(self) -> dict[bytes, str]:
-        """Get the id of this artifact."""
-        return {self.asset_path.encode(): self._version}
 
     def read(self) -> bytes:
         """Read the content of the data.
@@ -59,8 +46,51 @@ class Artifact:  # Original had Pydantic
         Args:
             binary_string: the data to be saved.
         """
-        self._data = binary_string
+        self.data = binary_string
         return binary_string
+    
+    @property
+    def id(self) -> str:
+        """Get the id of this artifact."""
+        return str(base64.b64encode(self.asset_path.encode())) + self.version
+    
+    @property
+    def type(self) -> str:
+        return self._type
+    
+    @property
+    def name(self) -> str:
+        return self._name
+    
+    @property
+    def version(self) -> str:
+        return self._version
+    
+    @property
+    def tags(self) -> list[str]:
+        return self._tags
+    
+    @property
+    def metadata(self) -> dict[str, str]:
+        return self._metadata
+    
+    @property
+    def asset_path(self) -> str:
+        return self._asset_path
+    
+    @property
+    def data(self) -> bytes:
+        return self._data
+
+    @data.setter
+    def data(self, value) -> None:
+        if isinstance(value, bytes):
+            self._data = value
+        else:
+            raise AttributeError(
+                f"Invalid type of data. Data must be of type `bytes'. Got "
+                f"type(value)"
+            )
 
 
 # TODO Make Artifact more strict: it must have everything but data
@@ -85,3 +115,6 @@ class Artifact:  # Original had Pydantic
 # Remarks:
 # We internally use the getters of the attributes such we can later change
 # how these atributes are stored
+
+
+		

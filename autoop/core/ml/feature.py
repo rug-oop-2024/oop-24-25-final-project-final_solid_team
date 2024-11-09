@@ -1,18 +1,12 @@
-import numpy as np
-from numpy.typing import ArrayLike
-
-from autoop.core.ml.dataset import Dataset
-
-
 class Feature:
+    """Represents a feature in a dataset."""
     def __init__(self, type: str, name: str) -> None:
         """Create a feature.
 
         Args:
             type (str): Either "numerical" or "categorical".
             name (str): Description of this feature. E.g. age.
-            data (ArrayLike): Data.
-        """  # TODO  Improve data description.
+        """
         self._type = type
         self._name = name
 
@@ -25,11 +19,6 @@ class Feature:
     def name(self) -> str:
         """Get the name."""
         return self._name
-
-    @property
-    def data(self) -> np.ndarray:
-        """Get the data."""
-        return self._data.copy()
 
     def __str__(self) -> str:
         """String representation of the object."""

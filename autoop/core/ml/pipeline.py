@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 import pickle
 from typing import List
 
@@ -7,9 +10,13 @@ from autoop.core.ml.artifact import Artifact
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
 from autoop.core.ml.metric import Metric
-from autoop.core.ml.model import Model
 from autoop.functional.preprocessing import preprocess_features
 
+# Moved Model import to hear because it is merely used for type checkign
+# Also I removed it from model/__init__.py because user should not be able
+# to acces abstract base class
+if TYPE_CHECKING:
+    from autoop.core.ml.model.model import Model
 
 class Pipeline:
     def __init__(
@@ -151,7 +158,8 @@ Pipeline(
         self._metrics_results = []
         predictions = self._model.predict(X)
         for metric in self._metrics:
-            result = metric.evaluate(predictions, Y)
+            # Changed evaluate into function call
+            result = metric(predictions, Y)  
             self._metrics_results.append((metric, result))
         self._predictions = predictions
 

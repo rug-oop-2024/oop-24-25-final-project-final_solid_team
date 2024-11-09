@@ -86,6 +86,7 @@ class Database:
             collection, id = key.split("/")[-2:]
             if not self._data.get(collection, id):
                 self._storage.delete(f"{collection}/{id}")
+        # TODO Understand this piece of code
 
     def _load(self):
         """Load the data from storage"""

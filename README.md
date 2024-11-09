@@ -156,12 +156,12 @@ If you did not implement the feature
 | Up-to-date requirements.txt           | NF           | Gideon               | X       | |
 | `ML/detect-features`                  | FN           | Gideon               | X       | |
 | `ML/artifact`                         | NF           | Gideon               | X       | ID needs testing, no integration tests yet because it is not integrated |
-| `ML/feature`                          | NF           |                      |         | |
+| `ML/feature`                          | NF           | Gideon               | X       | |
 | `ML/metric`                           | NF           | Wander               |         | |
 | `ML/metric/extensions`                | FN           | Wander               |         | |
-| `ML/model`                            | NF           |                      |         | |
-| `ML/model/extensions`                 | FN           |                      |         | |
-| `ML/pipeline/evaluation`              | FN           |                      |         | |
+| `ML/model`                            | NF           | Gideon               |         | |
+| `ML/model/extensions`                 | FN           | both                 |         | | MLR made by Gideon, rest by Wander
+| `ML/pipeline/evaluation`              | FN           | Gideon               |         | | So far so good, needs testing for all metric and models tho
 | `ST/page/datasets`                    | NF           |                      |         | |
 | `ST/datasets/management/create`       | FN           |                      |         | |
 | `ST/datasets/management/save`         | FN           |                      |         | |

@@ -16,6 +16,10 @@ from autoop.functional.feature import (
 class TestFeatures(unittest.TestCase):
 
     def setUp(self) -> None:
+        self.dataset_init_args = {
+            "name": "test",
+            "asset_path": "/tmp/tmp","data": b"test bytes string"
+        }
         data = fetch_openml(name="adult", version=1, parser="auto")
         self.adult_df = pd.DataFrame(
             data.data,
@@ -78,7 +82,7 @@ class TestFeatures(unittest.TestCase):
             )
 
     def test_unit_detect_features(self):
-        data_set = Dataset()
+        data_set = Dataset(**self.dataset_init_args)
         df = pd.DataFrame(
             columns=["ints", "categories", "floats"],
             data=[
