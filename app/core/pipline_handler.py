@@ -29,7 +29,13 @@ class PipelineHandler:
         self._model = None
         self._split = None
         self._metrics = None
-        print("Refreshed all data members", file=open("piplinehandler.log", mode="w+"))
+
+    def save_pipeline(self):
+        if self._pipeline:
+            artifacts = self._pipeline.artifacts
+            for artifact in artifacts:
+                self._auto_ml_system.registry.register(artifact)
+
 
     def initialize_pipeline(self):
         # Check whether all variables are set
@@ -146,19 +152,11 @@ class PipelineHandler:
     def _ask_task_type(self):
         if self._output_feature.type == "categorical":
             self._task_type = "classification"
-            st.write(
-                "Since the output feature is categorical only classification "
-                "is possible.")
+            st.write("Task type will be classification because target "
+                     "feature is categorical")
         if self._output_feature.type == "numerical":
-            selected_type = st.selectbox(
-                label="Select the detection task",
-                options=["classification", "regression"],
-            )
-            if selected_type:
-                self._task_type = selected_type
-                st.write(selected_type)
-
-
-
+            self._task_type = "regression"
+            st.write("Task type will be classification because "
+                     "target feature is numerical")
 
 # TODO Declare all type of private member on top of the class
