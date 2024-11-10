@@ -30,11 +30,21 @@ class PipelineHandler:
         self._split = None
         self._metrics = None
 
-    def save_pipeline(self):
+    def summary(self):
         if self._pipeline:
-            artifacts = self._pipeline.artifacts
-            for artifact in artifacts:
-                self._auto_ml_system.registry.register(artifact)
+            st.write(
+                f"Dataset: {self._chosen_dataset.name}\n"
+                "Input features: [\n")
+            for feature in self._input_features:
+                st.write(
+                    f"    {feature.name}\n"
+                )
+            st.write(
+                "]\n"
+                f"Output feature: {self._output_feature.name}\n"
+                f"Task type: {self._task_type}\n"
+                f"Model: {self._model}"
+            )
 
 
     def initialize_pipeline(self):
