@@ -63,7 +63,7 @@ class Pipeline:
             and model.type != "regression"
         ):
             raise ValueError(
-                "Model type must be regression for continuous target feature"
+                f"Model type must be regression for continuous target feature"
             )
 
     def __str__(self):

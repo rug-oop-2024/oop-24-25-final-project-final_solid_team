@@ -30,6 +30,7 @@ def main():
     handler.choose_model()
     handler.choose_split()
     handler.choose_metric()
+    handler.initialize_pipeline()
 
 if __name__ == "__main__":
     main()

@@ -128,19 +128,27 @@ class Recall(Metric):
 
         return mean_rec
 
-    class MeanAbsoluteError(Metric):
-        """Class for mean absolute error metric"""
-        def __call__(self, ground_truth: np.ndarray,
-                     predictions: np.ndarray) -> float:
-            """Mean squared error __call__ function"""
-            difference_array: np.ndarray = predictions - ground_truth
-            absolute_diff: np.ndarray = np.abs(difference_array)
-            return np.mean(absolute_diff)
+class MeanAbsoluteError(Metric):
+    """Class for mean absolute error metric"""
+    def __call__(self, ground_truth: np.ndarray,
+                    predictions: np.ndarray) -> float:
+        """Mean squared error __call__ function"""
+        difference_array: np.ndarray = predictions - ground_truth
+        absolute_diff: np.ndarray = np.abs(difference_array)
+        return np.mean(absolute_diff)
 
-METRICS = {
-    "Mean Squared Error": MeanSquaredError,
-    "Accuracy": Accuracy,
-    "R Squared": RSquared,
+CLASSIFICATION_METRICS = {
     "Precison": Precision,
+    "Accuracy": Accuracy,
     "Recall": Recall,
-}  # add the names (in strings) of the metrics you implement
+}
+
+REGRESSION_METRICS = {
+    "R Squared": RSquared,
+    "Mean Squared Error": MeanSquaredError,
+    "Mean Abosolute Error": MeanAbsoluteError
+} 
+
+
+
+ # add the names (in strings) of the metrics you implement

@@ -1,4 +1,8 @@
 from __future__ import annotations
+
+import sys
+import logging
+
 import streamlit as st
 
 from app.core.system import AutoMLSystem
@@ -6,8 +10,10 @@ from app.functional.streamlit import is_active
 from autoop.core.ml.dataset import Dataset
 from autoop.functional.feature import detect_feature_types
 from autoop.core.ml.model import REGRESSION_MODELS, CLASSIFICATION_MODELS
-from autoop.core.ml.metric import METRICS
+from autoop.core.ml.metric import REGRESSION_METRICS, CLASSIFICATION_METRICS
 from autoop.core.ml.pipeline import Pipeline
+
+logger = logging.getLogger()
 
 
 class PipelineHandler:
@@ -22,12 +28,51 @@ class PipelineHandler:
         self._task_type = None
         self._model = None
         self._split = None
+        self._metrics = None
+        print("Refreshed all data members", file=open("piplinehandler.log", mode="w+"))
+
+    def initialize_pipeline(self):
+        # Check whether all variables are set
+        print("Trying to initialized the pipeline.", file=open("piplinehandler.log", mode="a+"))
+        x = self.temp(               
+            metrics=self._metrics,
+            dataset=self._chosen_dataset,
+            model=self._model,
+            input_features=self._input_features,
+            target_feature=self._output_feature,
+            split=self._split,)
+        print(f"Truth values: {x}", file=open("piplinehandler.log", mode="w+"))
+        if all((
+            self._chosen_dataset,
+            self._output_feature,
+            self._input_features,
+            self._task_type,
+            self._model,
+            self._split,
+            self._metrics
+        )):
+            self._pipeline = Pipeline(
+                metrics=self._metrics,
+                dataset=self._chosen_dataset,
+                model=self._model,
+                input_features=self._input_features,
+                target_feature=self._output_feature,
+                split=self._split,
+            )
+
+    def temp(self, **kwargs):
+        return kwargs
+        
 
     def choose_metric(self):
         if self._split:
-            self._metric = st.multiselect(
-                label="Select metric(s)",
-                options=METRICS,
+            options = (
+                REGRESSION_METRICS if self._task_type == "regression"
+                else CLASSIFICATION_METRICS
+            )
+            self._metrics = st.multiselect(
+                label="Select a metric",
+                options=options
             )
 
     def choose_split(self):
@@ -74,7 +119,7 @@ class PipelineHandler:
     def select_features(self):
         """Ask the user to select features from a list of acceptable features.
         """
-        if is_active("select features", self._chosen_dataset):
+        if self._chosen_dataset:
             self._select_features()
 
     def ask_task_type(self):
