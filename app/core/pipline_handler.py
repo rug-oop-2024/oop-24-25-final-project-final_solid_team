@@ -5,10 +5,6 @@ from autoop.core.ml.dataset import Dataset
 from autoop.functional.feature import detect_feature_types
 from app.core.system import AutoMLSystem
 
-def hash_handler(handler: PipelineHandler):
-    pipeline = handler._pipeline
-    
-
 
 class PipelineHandler:
     """Convenient handler to facilate a page on a streamlit website to 
@@ -16,6 +12,8 @@ class PipelineHandler:
     def __init__(self) -> None:
         self._auto_ml_system = AutoMLSystem.get_instance()
         self._chosen_dataset = None
+        self._output_feature = None
+        self._input_features = None
 
     def choose_dataset(self):
         all_artifacts = self._auto_ml_system.registry.list(type="dataset")
@@ -52,19 +50,50 @@ class PipelineHandler:
             index=None
         )  # Output feature can be anything.
 
-        if self._output_feature:
-            st.write(f"output: {self._output_feature.name}")
+    def ask_task_type(self):
+        """Prompt the user with a box selection for which detection task
+        he wants to use. If output feature is categorical, then only 
+        classification is possible. Otherwise both classification and 
+        regression is possible."""
+        # if "ask task type" not in st.session_state:
+        #     st.session_state["ask task type"] = False
+        
+        # if self._output_feature and self._input_features:
+        #     st.session_state["ask task type"] = True
+        # else:
+        #     st.session_state["ask task type"] = False
+        
+        # if st.session_state["ask task type"]:
+        if self._output_feature and self._input_features:
+            self._ask_task_type()
 
-    # def _ask_task_type(self):
-
+    def _ask_task_type(self):
+        st.write(self._output_feature.type)
+        if self._output_feature.type == "categorical":
+            self.task_type = "classification"
+            st.write(
+                "Since the output feature is categorical only classification "
+                "is possible.")
+        if self._output_feature.type == "numerical":
+            selected_type = st.selectbox(
+                label="Select the detection task",
+                options=["classification", "numerical"],
+            )
+            if selected_type:
+                self.task_type = selected_type
 
     def select_features(self):
-        if "select features" not in st.session_state:
-            st.session_state["select features"] = False
+        # if "select features" not in st.session_state:
+        #     st.session_state["select features"] = False
         
+        # if self._chosen_dataset:
+        #     st.session_state["select features"] = True
+        # else:
+        #     st.session_state["select features"] = False
+        
+        # if st.session_state["select features"]:
         if self._chosen_dataset:
-            st.session_state["select features"] = True
-        
-        if st.session_state["select features"]:
             self._select_features()
-        # features = detect_feature_types(self._chosen_dataset)
+
+
+# TODO Declare all type of private member on top of the class

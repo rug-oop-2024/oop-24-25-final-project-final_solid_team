@@ -22,6 +22,7 @@ def main():
     handler = PipelineHandler()
     handler.choose_dataset()
     handler.select_features()
+    handler.ask_task_type()
 
 if __name__ == "__main__":
     main()
