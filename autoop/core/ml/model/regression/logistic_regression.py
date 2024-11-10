@@ -5,7 +5,7 @@ from sklearn.linear_model import LogisticRegression
 from autoop.core.ml.model.model import Model, ParametersDict
 
 
-class LogisticRegression(Model):
+class WrapLogisticRegression(Model):
     def __init__(
             self,
             parameters: dict = ParametersDict({}),
@@ -23,12 +23,6 @@ class LogisticRegression(Model):
             parameters=ParametersDict(parameters),
         )
         self._model = LogisticRegression(**hyper_parameters)
-        if parameters.get("coef", None) is not None:
-            self._model.coef_ = parameters["coef"]
-            # Only set intercept if coefficient is also set:
-            if parameters.get("intercept", None) is not None:
-                self._model.intercept_ = parameters["intercept"]
-
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         self._model.fit(X, y)
@@ -43,10 +37,10 @@ class LogisticRegression(Model):
         )
         return self._model.predict(X)
 
-    def to_artifact(self, asset_path = "./assets/models", version = "v0.00"):
+    def to_artifact(self, asset_path="./assets/models", version="v0.00"):
         return super().to_artifact(
             name="logistic regression model",
-            asset_path= asset_path,
+            asset_path=asset_path,
             version=version,
         )
 
