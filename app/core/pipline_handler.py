@@ -49,9 +49,14 @@ class PipelineHandler:
             label="Select output feature",
             options=features,
             format_func=lambda x: x.name,
+            index=None
         )  # Output feature can be anything.
-        
-        st.write(f"output: {self._output_feature.name}")
+
+        if self._output_feature:
+            st.write(f"output: {self._output_feature.name}")
+
+    # def _ask_task_type(self):
+
 
     def select_features(self):
         if "select features" not in st.session_state:
