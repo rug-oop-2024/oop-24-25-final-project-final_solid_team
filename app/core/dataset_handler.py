@@ -1,6 +1,6 @@
 # Somehow streamlit forgot here that app is a model so we put it again here
-import sys
 import os
+import sys
 
 app_dir = os.path.dirname(os.path.realpath(__file__))
 project_dir = os.path.dirname(app_dir)
@@ -49,13 +49,13 @@ class DatasetHandler:
             checkbox = st.checkbox(f"Dataset {dataset.name}")
             if checkbox:
                 st.write(dataset.read())
-    
+
     def delete_datasets(self) -> None:
         datasets_artifacts = self._automl.registry.list(type="dataset")
         # TODO Make promotion of list a function
         datasets = [artifact.promote_to_subclass(Dataset)
                     for artifact in datasets_artifacts]
-        
+
 
         if "deleting" not in st.session_state:
             st.session_state["deleting"] = False

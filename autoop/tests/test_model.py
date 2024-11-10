@@ -3,16 +3,13 @@ import unittest
 import numpy as np
 
 from autoop.core.ml.model import MultipleLinearRegression, get_model
-from autoop.core.ml.model.regression import WrapLogisticRegression
-from autoop.core.ml.model.regression import WrapElasticNet
-from autoop.core.ml.model.regression import WrapLogisticRegression
-from autoop.core.ml.model.classification import WrapKNearestNeighbors
-from autoop.core.ml.model.classification import WrapNearestCentroid
-from autoop.core.ml.model.classification import WrapRandomForest
-
-
-
+from autoop.core.ml.model.classification import (
+    WrapKNearestNeighbors,
+    WrapNearestCentroid,
+    WrapRandomForest,
+)
 from autoop.core.ml.model.model import Model, ParametersDict
+from autoop.core.ml.model.regression import WrapElasticNet, WrapLogisticRegression
 
 
 class ConcreteModel(Model):

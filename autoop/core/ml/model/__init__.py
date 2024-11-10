@@ -2,18 +2,15 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from autoop.core.ml.model.regression import (
-    MultipleLinearRegression,
-    WrapElasticNet,
-    WrapLogisticRegression
-    
-)
-
 from autoop.core.ml.model.classification import (
     WrapKNearestNeighbors,
     WrapNearestCentroid,
-    WrapRandomForest
-    
+    WrapRandomForest,
+)
+from autoop.core.ml.model.regression import (
+    MultipleLinearRegression,
+    WrapElasticNet,
+    WrapLogisticRegression,
 )
 
 if TYPE_CHECKING:
@@ -29,8 +26,8 @@ CLASSIFICATION_MODELS = {
     "K Nearest Neighbors": WrapKNearestNeighbors,
     "Nearest Centroid": WrapNearestCentroid,
     "Random Forest": WrapRandomForest,
-    
-} 
+
+}
 
 def get_model(model_name: str) -> Model:
     """Factory function to get a model by name."""

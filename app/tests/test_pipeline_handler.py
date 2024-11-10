@@ -1,11 +1,13 @@
-import unittest
-from sklearn.datasets import fetch_openml
-import pandas as pd
 import tempfile
+import unittest
+
+import pandas as pd
+from sklearn.datasets import fetch_openml
 
 from app.core.pipline_handler import PipelineHandler
 from autoop.core.ml.dataset import Dataset
 from autoop.functional.feature import detect_feature_types
+
 
 class TestPipelineHandler(unittest.TestCase):
     def setUp(self):

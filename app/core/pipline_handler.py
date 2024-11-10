@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import sys
 import logging
+import sys
 from copy import deepcopy
 
 import streamlit as st
@@ -9,17 +9,15 @@ import streamlit as st
 from app.core.system import AutoMLSystem
 from app.functional.streamlit import is_active
 from autoop.core.ml.dataset import Dataset
-from autoop.functional.feature import detect_feature_types
-from autoop.core.ml.model import REGRESSION_MODELS, CLASSIFICATION_MODELS
-from autoop.core.ml.metric import (
-    REGRESSION_METRICS, CLASSIFICATION_METRICS, METRICS
-)
+from autoop.core.ml.metric import CLASSIFICATION_METRICS, METRICS, REGRESSION_METRICS
+from autoop.core.ml.model import CLASSIFICATION_MODELS, REGRESSION_MODELS
 from autoop.core.ml.pipeline import Pipeline
+from autoop.functional.feature import detect_feature_types
 
 logger = logging.getLogger()
 
 class PipelineHandler:
-    """Convenient handler to facilate a page on a streamlit website to 
+    """Convenient handler to facilate a page on a streamlit website to
     create a pipeline."""
     def __init__(self) -> None:
         self._auto_ml_system = AutoMLSystem.get_instance()
@@ -33,7 +31,7 @@ class PipelineHandler:
         self._split = None
         self._metrics = None
 
-    def train(self):  
+    def train(self):
         if all((
             self._chosen_dataset,
             self._output_feature,
@@ -90,7 +88,7 @@ class PipelineHandler:
                 target_feature=self._output_feature,
                 split=self._split,
             )
-        
+
     def choose_metric(self):
         if self._split:
             options = (
@@ -111,7 +109,7 @@ class PipelineHandler:
                 "Enter what percentage of the dataset will be used for "
                 "training")
             self._split = percentage / 100
-    
+
     def choose_model(self):
         if self._task_type:
             if self._task_type == "regression":
@@ -147,7 +145,7 @@ class PipelineHandler:
         if chosen_artifact:  # Can't promote NoneType to Dataset
             self._chosen_dataset = chosen_artifact.promote_to_subclass(Dataset)
             st.write(self._chosen_dataset)
-    
+
     def select_features(self):
         """Ask the user to select features from a list of acceptable features.
         """
@@ -156,8 +154,8 @@ class PipelineHandler:
 
     def ask_task_type(self):
         """Prompt the user with a box selection for which detection task
-        he wants to use. If output feature is categorical, then only 
-        classification is possible. Otherwise both classification and 
+        he wants to use. If output feature is categorical, then only
+        classification is possible. Otherwise both classification and
         regression is possible."""
         if self._output_feature and self._input_features:
             self._ask_task_type()

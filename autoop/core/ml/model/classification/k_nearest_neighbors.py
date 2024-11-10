@@ -2,8 +2,8 @@ import numpy as np
 from numpy.typing import ArrayLike
 from sklearn.neighbors import KNeighborsClassifier
 
-from autoop.core.ml.model.model import Model, ParametersDict
 from autoop.core.ml.artifact import Artifact
+from autoop.core.ml.model.model import Model, ParametersDict
 
 
 class WrapKNearestNeighbors(Model):

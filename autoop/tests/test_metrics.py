@@ -1,14 +1,24 @@
 import unittest
 
 import numpy as np
+from sklearn.metrics import (
+    accuracy_score,
+    mean_absolute_error,
+    mean_squared_error,
+    precision_score,
+    r2_score,
+    recall_score,
+)
 
-from autoop.core.ml.metric import Accuracy, MeanSquaredError, Rsquared, Precision, Recall, MeanAbsoluteError
-from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, precision_score, recall_score, accuracy_score
-
-
-
+from autoop.core.ml.metric import (
+    Accuracy,
+    MeanAbsoluteError,
+    MeanSquaredError,
+    Precision,
+    Recall,
+    Rsquared,
+)
 from autoop.core.ml.model.model import Model, ParametersDict
-
 
 
 class TestAccuracy(unittest.TestCase):
@@ -16,7 +26,7 @@ class TestAccuracy(unittest.TestCase):
         accuracy = Accuracy()
         ground_truth: np.ndarray = np.array([6, 2, 3, 1])
         predictions: np.ndarray = np.array([3, 2, 4, 2])
-        
+
         self.assertAlmostEqual(accuracy(np.asarray(ground_truth), predictions), accuracy_score(ground_truth, predictions), 4)
 
 class TestMeanSquaredError(unittest.TestCase):
@@ -24,7 +34,7 @@ class TestMeanSquaredError(unittest.TestCase):
         mse = MeanSquaredError()
         ground_truth: np.ndarray = np.array([6, 2, 3, 1])
         predictions: np.ndarray = np.array([3, 2, 4, 2])
-    
+
         self.assertAlmostEqual(mse(ground_truth, predictions), mean_squared_error(ground_truth, predictions), 4)
 
 class TestR_squared(unittest.TestCase):
@@ -32,7 +42,7 @@ class TestR_squared(unittest.TestCase):
         r_squared = R_squared()
         ground_truth: np.ndarray = np.array([6, 2, 3, 1])
         predictions: np.ndarray = np.array([3, 2, 4, 2])
-    
+
         self.assertAlmostEqual(r_squared(ground_truth, predictions), r2_score(ground_truth, predictions), 4)
 
 class TestPrecision(unittest.TestCase):

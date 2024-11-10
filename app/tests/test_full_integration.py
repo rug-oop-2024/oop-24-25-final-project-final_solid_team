@@ -1,8 +1,8 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
+
 import unittest
-from unittest.mock import patch
-from unittest.mock import MagicMock
+from typing import TYPE_CHECKING
+from unittest.mock import MagicMock, patch
 
 if TYPE_CHECKING:
     import streamlit
@@ -14,8 +14,8 @@ class TestFullIntegration(unittest.TestCase):
     @patch("app.Welcome.st.write")
     def test_full_integration(
         self,
-        mock_write, 
-        file_uploader_mock, 
+        mock_write,
+        file_uploader_mock,
         mock_st: streamlit,
     ):
         with open("test_assets/iris.csv", mode="rb") as file:
@@ -33,7 +33,7 @@ class TestFullIntegration(unittest.TestCase):
 
         # mock_write.assert_called()
         mock_write.assert_any_call(f"Registered csv file iris.csv!")
-    
+
 
 if __name__ == "__main__":
     unittest.main()

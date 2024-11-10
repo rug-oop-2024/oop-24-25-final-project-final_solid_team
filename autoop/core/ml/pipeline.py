@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import pickle
-from typing import TYPE_CHECKING, List
 import sys
+from typing import TYPE_CHECKING, List
 
 import numpy as np
 
@@ -28,8 +28,8 @@ class Pipeline:
         target_feature: Feature,
         split=0.8,
     ):
-        """Specify what data is used and how the model is trained and 
-        evuluated. 
+        """Specify what data is used and how the model is trained and
+        evuluated.
 
         Args:
             metrics (List[Metric]): List of Metric functions objects
@@ -81,7 +81,7 @@ class Pipeline:
                 f" {target_feature.type} does not correspond to \n"
                 f"Model {type(model)} with type {model.type}. Cause:\n"
                 f"{target_feature.type} == numerical \n"
-                f"or {model.type} != regression" 
+                f"or {model.type} != regression"
             )
         # TODO Bring back this check, error lays in spelling mistakes
 
@@ -151,8 +151,8 @@ Pipeline(
         other than that it saves the
             - input Features
             - output Features
-            - 
-        to self._artifact. 
+            -
+        to self._artifact.
             and adds the encoding-artifacts of each feature to self._artifacts.
         During the transformation the features get encoded with either
         one-hot encoding or standard-scalar encoding.
@@ -208,7 +208,7 @@ Pipeline(
             result = metric(predictions, Y)
             self._metrics_results.append((metric, result))
         return predictions
-    
+
     def _evaluate(self):
         self._test_predictions = self._evaluate_on(self._test_X, self._test_y)
         self._train_predictions = self._evaluate_on(
@@ -224,9 +224,9 @@ Pipeline(
             - **"metrics"** -> **(list[tuple[Metric, float]])**: The value
                 of the loss function of a specific metric.
 
-            - **"test predictions"** -> **(np.ndarray)**: The predictions on 
+            - **"test predictions"** -> **(np.ndarray)**: The predictions on
             the test dataset.
-            - **"train predictions"** -> **(np.ndarray)**: The predictions on 
+            - **"train predictions"** -> **(np.ndarray)**: The predictions on
             the train dataset.
         """
         self.preprocess_features()

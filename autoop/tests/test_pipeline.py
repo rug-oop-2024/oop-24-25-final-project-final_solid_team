@@ -6,13 +6,13 @@ from sklearn.datasets import fetch_openml
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
 from autoop.core.ml.metric import (
-    MeanSquaredError,
+    CLASSIFICATION_METRICS,
     REGRESSION_METRICS,
-    CLASSIFICATION_METRICS
+    MeanSquaredError,
 )
 from autoop.core.ml.model import (
-    REGRESSION_MODELS,
     CLASSIFICATION_MODELS,
+    REGRESSION_MODELS,
     MultipleLinearRegression,
 )
 from autoop.core.ml.pipeline import Pipeline
@@ -49,7 +49,7 @@ class TestPipeline(unittest.TestCase):
         for feature in filter(lambda x: x.type == "numerical", self.features):
             for model in REGRESSION_MODELS.values():
                 Pipeline._check_same_type(feature, model())
-        
+
         for feature in filter(lambda x: x.type == "categorical", self.features):
             for model in CLASSIFICATION_MODELS.values():
                 Pipeline._check_same_type(feature, model())

@@ -9,6 +9,7 @@ import streamlit as st  # noqa: E402
 
 from autoop.core.ml.artifact import Artifact  # noqa: E402
 
+
 def main():
     st.set_page_config(
         page_title="Hello",

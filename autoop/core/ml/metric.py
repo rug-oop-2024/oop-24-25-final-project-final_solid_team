@@ -4,6 +4,7 @@ import numpy as np
 
 from autoop.core.ml.feature import Feature
 
+
 def get_metric(name: str):
     # Factory function to get a metric by name.
     # Return a metric instance given its str name.
@@ -157,7 +158,7 @@ REGRESSION_METRICS = {
     "R Squared": RSquared,
     "Mean Squared Error": MeanSquaredError,
     "Mean Abosolute Error": MeanAbsoluteError
-} 
+}
 
 # Time hurry
 METRICS = {
