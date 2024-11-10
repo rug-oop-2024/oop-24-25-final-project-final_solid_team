@@ -69,3 +69,8 @@ class TestPipeline(unittest.TestCase):
         self.assertIsNotNone(self.pipeline._predictions)
         self.assertIsNotNone(self.pipeline._metrics_results)
         self.assertEqual(len(self.pipeline._metrics_results), 1)
+
+    # def test_mock_evualtion(self):
+    #     test_model = MultipleLinearRegression()
+    #     test_model.par
+    #     self.pipeline._model = MultipleLinearRegression()

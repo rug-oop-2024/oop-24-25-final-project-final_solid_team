@@ -167,7 +167,16 @@ Pipeline(
         Y = self._train_y
         self._model.fit(X, Y)
 
-    def _evaluate(self):
+    def _evaluate_on(self, X, Y):
+        self._metrics_results = []
+        predictions = self._model.predict(X)
+        for metric in self._metrics:
+            # Changed evaluate into function call
+            result = metric(predictions, Y)
+            self._metrics_results.append((metric, result))
+        return predictions
+
+    def _evaluate_(self):
         X = self._compact_vectors(self._test_X)
         Y = self._test_y
         self._metrics_results = []
