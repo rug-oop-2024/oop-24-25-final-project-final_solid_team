@@ -176,22 +176,12 @@ Pipeline(
             self._metrics_results.append((metric, result))
         return predictions
     
-    def _new_evaluate(self):
+    def _evaluate(self):
         self._test_predictions = self._evaluate_on(self._test_X, self._test_y)
         self._train_predictions = self._evaluate_on(
             self._train_X, self._train_y
         )
 
-    def _evaluate(self):
-        X = self._compact_vectors(self._test_X)
-        Y = self._test_y
-        self._metrics_results = []
-        predictions = self._model.predict(X)
-        for metric in self._metrics:
-            # Changed evaluate into function call
-            result = metric(predictions, Y)
-            self._metrics_results.append((metric, result))
-        self._predictions = predictions
 
     def execute(self) -> dict:
         """Executes the pipeline.
@@ -201,8 +191,10 @@ Pipeline(
             - **"metrics"** -> **(list[tuple[Metric, float]])**: The value
                 of the loss function of a specific metric.
 
-            - **"predictions"** -> **(np.ndarray)**: The predictions on the 
-                test dataset.
+            - **"test predictions"** -> **(np.ndarray)**: The predictions on 
+            the test dataset.
+            - **"train predictions"** -> **(np.ndarray)**: The predictions on 
+            the train dataset.
         """
         self._preprocess_features()
         self._split_data()
@@ -210,7 +202,8 @@ Pipeline(
         self._evaluate()
         return {
             "metrics": self._metrics_results,
-            "predictions": self._predictions,
+            "test_predictions": self._test_predictions,
+            "train_predictions": self._train_predictions
         }
 
 # Questions:

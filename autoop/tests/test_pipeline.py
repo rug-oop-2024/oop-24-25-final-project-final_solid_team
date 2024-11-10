@@ -66,31 +66,7 @@ class TestPipeline(unittest.TestCase):
         self.pipeline._split_data()
         self.pipeline._train()
         self.pipeline._evaluate()
-        self.assertIsNotNone(self.pipeline._predictions)
+        self.assertIsNotNone(self.pipeline._test_predictions)
+        self.assertIsNotNone(self.pipeline._train_predictions)
         self.assertIsNotNone(self.pipeline._metrics_results)
         self.assertEqual(len(self.pipeline._metrics_results), 1)
-
-    def test_new_evaluate(self):
-        self.pipeline._preprocess_features()
-        self.pipeline._split_data()
-        self.pipeline._train()
-        self.pipeline._evaluate()
-        self.pipeline._new_evaluate()
-
-        self.assertTrue(
-            all(self.pipeline._predictions == self.pipeline._test_predictions)
-        )
-
-
-    # def test_mock_evualtion(self):
-    #     test_model = MultipleLinearRegression()
-    #     test_model.parameters = {"coef": 2, "intercept": 1}
-    #     self.pipeline._model = test_model
-    #     self.pipeline._metrics = [MeanSquaredError()]
-    #     self.pipeline._test_X = [
-    #         [1, 2],
-    #         [1, 2],
-    #     ]
-    #     self.pipeline._test_y = [3, 5]
-    #     print(self.pipeline._evaluate())
-
