@@ -27,17 +27,17 @@ class Metric(ABC):
     def __call__(self, ground_truth: Feature, predictions: Feature) -> float:
         pass
 
+    def to_string(self) -> str:
+        return ((str(self.__class__).split('.')[-1]).split("'"))[0]
 
-# Needs a __str__ method to display the name of the matric
+    def __str__(self) -> str:
+        # TODO Explain this line
+        return ((str(self.__class__).split('.')[-1]).split("'"))[0]
+    
+    def to_string(self) -> str:
+        return ((str(self.__class__).split('.')[-1]).split("'"))[0]
 # According to the pipeline it needs an .evaluate method instead of a call
 # method
-
-
-
-
-
-
-# add here concrete implementations of the Metric class
 
 class Accuracy(Metric):
     """Class for accuracy metric"""
@@ -53,11 +53,16 @@ class Accuracy(Metric):
 
 class MeanSquaredError(Metric):
     """Class for mean squared error metric"""
+    def __init__(self):
+        Metric.__init__(self)
+
+
     def __call__(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
         """Mean squared error __call__ function"""
         difference_array: np.ndarray = predictions - ground_truth
         mean_sq_err:float = np.mean(difference_array**2)
         return mean_sq_err
+    
 
 
 class R_squared(Metric):

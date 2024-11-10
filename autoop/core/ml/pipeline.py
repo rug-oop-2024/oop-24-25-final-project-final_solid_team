@@ -27,6 +27,22 @@ class Pipeline:
         target_feature: Feature,
         split=0.8,
     ):
+        """Specify what data is used and how the model is trained and 
+        evuluated. 
+
+        Args:
+            metrics (List[Metric]): List of Metric functions objects
+            dataset (Dataset): Dataset
+            model (Model): Model
+            input_features (List[Feature]): input features
+            target_feature (Feature): target feature
+            split (float, optional): Train/test split. Defaults to 0.8.
+
+        Raises:
+            ValueError: Raises when data type and metric type do not match.
+            Available types categorical/classification, continuous/regression
+            for data/model respectively
+        """
         self._dataset = dataset
         self._model = model
         self._input_features = input_features
@@ -162,7 +178,17 @@ Pipeline(
             self._metrics_results.append((metric, result))
         self._predictions = predictions
 
-    def execute(self):
+    def execute(self) -> dict:
+        """Executes the pipeline.
+
+        Returns:
+            dict: A dictionary with the following keys -> values
+            - **"metrics"** -> **(list[tuple[Metric, float]])**: The value
+                of the loss function of a specific metric.
+
+            - **"predictions"** -> **(np.ndarray)**: The predictions on the 
+                test dataset.
+        """
         self._preprocess_features()
         self._split_data()
         self._train()

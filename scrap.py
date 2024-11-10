@@ -1,7 +1,5 @@
 #!/bin/env python
 
-import pandas as pd
+from autoop.core.ml.metric import MeanSquaredError
 
-from autoop.core.ml.artifact import Artifact
-
-print(Artifact)
+print(MeanSquaredError.__mro__)
