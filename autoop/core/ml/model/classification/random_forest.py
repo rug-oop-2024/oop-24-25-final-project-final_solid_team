@@ -37,13 +37,9 @@ class WrapRandomForest(Model):
         })
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-<<<<<<< HEAD
-        assert self._parameters["estimator"] is not None, (
-=======
         """Predict target features based on
         fitted random forest model"""
         assert self._parameters["estimator"] is not None, (
->>>>>>> WA1
             "Model is not fitted yet!"
         )
         return self._model.predict(X)
