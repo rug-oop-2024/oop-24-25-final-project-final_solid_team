@@ -31,6 +31,7 @@ def main():
     handler.choose_split()
     handler.choose_metric()
     handler.initialize_pipeline()
+    handler.summary()
 
 if __name__ == "__main__":
     main()

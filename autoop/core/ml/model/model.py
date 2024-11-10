@@ -31,9 +31,8 @@ class ParametersDict(dict):
         """
         if not isinstance(new_dict, ParametersDict):
             new_dict = ParametersDict(new_dict)
-        if (self._get_keys_as_list() == new_dict._get_keys_as_list()
-            or len(self) == 0
-        ):
+        keys_same = self._get_keys_as_list() == new_dict._get_keys_as_list()
+        if keys_same or len(self) == 0:
             super().update(new_dict)
         else:
             raise AttributeError(

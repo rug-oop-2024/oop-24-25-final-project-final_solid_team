@@ -31,21 +31,26 @@ class PipelineHandler:
         self._metrics = None
 
     def summary(self):
-        if self._pipeline:
-            st.write(
-                f"Dataset: {self._chosen_dataset.name}\n"
-                "Input features: [\n")
+        if all((
+            self._chosen_dataset,
+            self._output_feature,
+            self._input_features,
+            self._task_type,
+            self._model,
+            self._split,
+            self._metrics,
+            self._pipeline
+        )):
+            st.write(f"Dataset: {self._chosen_dataset.name}")
+            st.write("Input features: [")
             for feature in self._input_features:
-                st.write(
-                    f"    {feature.name}\n"
-                )
-            st.write(
-                "]\n"
-                f"Output feature: {self._output_feature.name}\n"
-                f"Task type: {self._task_type}\n"
-                f"Model: {self._model}"
-            )
-
+                st.write(f"    {feature.name}")
+            st.write("]")
+            st.write(f"Output feature: {self._output_feature.name}")
+            st.write(f"Task type: {self._task_type}")
+            st.write(f"Model: {self._model}")
+            st.write(f"Split: {self._split}")
+            st.write(f"Metrics: {self._metrics}")
 
     def initialize_pipeline(self):
         # Check whether all variables are set
