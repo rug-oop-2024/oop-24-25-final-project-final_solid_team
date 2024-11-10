@@ -10,8 +10,7 @@ class WrapKNearestNeighbors(Model):
             self,
             parameters: dict = ParametersDict({}),
             hyper_parameters: dict = ParametersDict({}),
-        ) -> None:
-
+    ) -> None:
         super().__init__(
             type="classification",
             hyper_parameters=ParametersDict(hyper_parameters),

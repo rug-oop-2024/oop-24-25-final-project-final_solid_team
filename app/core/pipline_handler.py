@@ -33,14 +33,7 @@ class PipelineHandler:
 
     def initialize_pipeline(self):
         # Check whether all variables are set
-        print("Trying to initialized the pipeline.", file=open("piplinehandler.log", mode="a+"))
-        x = self.temp(               
-            metrics=self._metrics,
-            dataset=self._chosen_dataset,
-            model=self._model,
-            input_features=self._input_features,
-            target_feature=self._output_feature,
-            split=self._split,)
+        print("Trying to initialized the pipeline.", file=sys.stderr)
         print(f"Truth values: {x}", file=open("piplinehandler.log", mode="w+"))
         if all((
             self._chosen_dataset,
@@ -59,11 +52,7 @@ class PipelineHandler:
                 target_feature=self._output_feature,
                 split=self._split,
             )
-
-    def temp(self, **kwargs):
-        return kwargs
         
-
     def choose_metric(self):
         if self._split:
             options = (

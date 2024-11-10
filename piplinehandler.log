@@ -1,1 +1,1 @@
-Truth values: {'metrics': ['Mean Squared Error'], 'dataset': <autoop.core.ml.dataset.Dataset object at 0x71b9681998d0>, 'model': <class 'autoop.core.ml.model.regression.multiple_linear_regression.MultipleLinearRegression'>, 'input_features': [<autoop.core.ml.feature.Feature object at 0x71b9123bebc0>], 'target_feature': <autoop.core.ml.feature.Feature object at 0x71b9123d05b0>, 'split': 0.8}
+Truth values: {'metrics': None, 'dataset': None, 'model': None, 'input_features': None, 'target_feature': None, 'split': None}

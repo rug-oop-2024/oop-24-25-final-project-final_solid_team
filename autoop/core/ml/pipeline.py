@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pickle
 from typing import TYPE_CHECKING, List
+import sys
 
 import numpy as np
 
@@ -62,6 +63,7 @@ class Pipeline:
             target_feature.type == "numerical"
             and model.type != "regression"
         ):
+            print(target_feature.type, model.type, file=sys.stderr)
             raise ValueError(
                 f"Model type must be regression for continuous target feature"
             )
