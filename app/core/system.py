@@ -37,6 +37,7 @@ class ArtifactRegistry:
             "metadata": artifact.metadata,
             "type": artifact.type,
         }
+        assert isinstance(artifact.id, str), "Id must be a string."
         self._database.set(f"artifacts", artifact.id, entry)
 
     def list(self, type: str = None) -> List[Artifact]:

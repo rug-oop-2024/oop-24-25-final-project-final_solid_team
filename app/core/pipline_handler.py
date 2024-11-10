@@ -1,88 +1,85 @@
 from __future__ import annotations
 import streamlit as st
 
-from autoop.core.ml.pipeline import Pipeline
 from autoop.core.ml.dataset import Dataset
-from autoop.core.ml.feature import Feature
-from autoop.core.ml.metric import MeanSquaredError, Metric
-from autoop.core.ml.model import MultipleLinearRegression
 from autoop.functional.feature import detect_feature_types
 from app.core.system import AutoMLSystem
-
-def hash_handler(handler: PipelineHandler):
-    pipeline = handler._pipeline
-    
 
 
 class PipelineHandler:
     """Convenient handler to facilate a page on a streamlit website to 
     create a pipeline."""
-    _number_of_calls = 0
-
-
     def __init__(self) -> None:
-        """Ask user for what kind of pipeline needs to be constructed."""
-        PipelineHandler._number_of_calls += 1
-        self._automl = AutoMLSystem.get_instance()
+        self._auto_ml_system = AutoMLSystem.get_instance()
+        self._chosen_dataset = None
+        self._output_feature = None
+        self._input_features = None
 
-        dataset = self._choose_dataset()
-        
-        features = detect_feature_types(dataset)
-        input_features = self._choose_input_feature(features)
-        target_feature = self._choose_target_feature(features)
-        split = self._choose_split()
-
-        self._pipeline = Pipeline(
-            dataset=dataset,
-            model=MultipleLinearRegression(),
-            input_features=input_features,
-            target_feature=target_feature,
-            metrics=[MeanSquaredError()],
-            split=split
-        )
-
-    # Add counter as argument such that everytime the counter is increased,
-    # this function is executed again.
-    @st.cache_resource
-    def execute_pipeline(_self, counter_value) -> None:
-        st.write("Executing the pipeline. Iteration "
-                 f"{st.session_state['counter']}")
-        results = _self._pipeline.execute()
-        _self._write_metric_results(results)
-
-    def _write_metric_results(self, results) -> None:
-        evaluations: list[dict[Metric, float]] = results["metrics"]
-        for metric, evaluation in evaluations:
-            st.write(f"{metric.to_string()}: {evaluation}")
-    
-    def _write_predictions(self, results):
-        check_box = st.checkbox("Show predictions")
-        if check_box:
-            st.write(results["predictions"])
-
-    def _choose_split(self) -> float:
-        return 0.8
-    
-    def _choose_target_feature(self, features: list[Feature]) -> Feature:
-        return features[2]
-
-    def _choose_input_feature(self, features: list[Feature]) -> list[Feature]:
-        return st.multiselect(
-            label="Which features do you want to use as input?",
-            options=features,
-            format_func=lambda x: x.name
-        )
-    
-    def _choose_dataset(self) -> Dataset:
-        artifacts = self._automl.registry.list(type="dataset")
-
-        def get_name(dataset):
-            return dataset.name
+    def choose_dataset(self):
+        all_artifacts = self._auto_ml_system.registry.list(type="dataset")
 
         chosen_artifact = st.selectbox(
             label="What data set would you like to use?",
-            options=artifacts,
-            format_func=get_name
+            options=all_artifacts,
+            format_func=lambda x: x.name,
+            index=None
+        )  # TODO Handle the case where there are no artifacts
+
+        if chosen_artifact:
+            self._chosen_dataset = chosen_artifact.promote_to_subclass(Dataset)
+    
+    def select_features(self):
+        """Ask the user to select features from a list of acceptable features.
+        """
+        if self._chosen_dataset:
+            self._select_features()
+
+    def ask_task_type(self):
+        """Prompt the user with a box selection for which detection task
+        he wants to use. If output feature is categorical, then only 
+        classification is possible. Otherwise both classification and 
+        regression is possible."""
+        if self._output_feature and self._input_features:
+            self._ask_task_type()
+
+    def _select_features(self):
+        # TODO Make sure output feature is not in the list of input features
+        features = detect_feature_types(self._chosen_dataset)
+
+        acceptable_input_features = filter(
+            lambda x: x.type == "numerical",
+            features
+        )  # Only numerical input features are allowed
+        chosen_features = st.multiselect(
+            label="Select input features",
+            options=acceptable_input_features,
+            format_func=lambda x: x.name,
         )
-        
-        return chosen_artifact.promote_to_subclass(Dataset)
+        self._input_features = chosen_features
+
+        self._output_feature = st.selectbox(
+            label="Select output feature",
+            options=features,
+            format_func=lambda x: x.name,
+            index=None
+        )  # Output feature can be anything.
+
+    def _ask_task_type(self):
+        st.write(self._output_feature.type)
+        if self._output_feature.type == "categorical":
+            self.task_type = "classification"
+            st.write(
+                "Since the output feature is categorical only classification "
+                "is possible.")
+        if self._output_feature.type == "numerical":
+            selected_type = st.selectbox(
+                label="Select the detection task",
+                options=["classification", "numerical"],
+            )
+            if selected_type:
+                self.task_type = selected_type
+
+
+
+
+# TODO Declare all type of private member on top of the class

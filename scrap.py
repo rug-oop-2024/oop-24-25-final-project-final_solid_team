@@ -1,5 +1,8 @@
 #!/bin/env python
 
-from autoop.core.ml.metric import MeanSquaredError
+from autoop.core.ml.model import regression
+import inspect
 
-print(MeanSquaredError.__mro__)
+
+for name, obj in inspect.getmembers(regression):
+    print(type(obj))

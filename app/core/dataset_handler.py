@@ -1,3 +1,11 @@
+# Somehow streamlit forgot here that app is a model so we put it again here
+import sys
+import os
+
+app_dir = os.path.dirname(os.path.realpath(__file__))
+project_dir = os.path.dirname(app_dir)
+sys.path.insert(0, project_dir)
+
 import streamlit as st
 
 from app.core.system import AutoMLSystem
@@ -28,6 +36,7 @@ class DatasetHandler:
             )
 
             self._automl.registry.register(dataset)
+            st.write(f"Registered csv file {dataset.name}!")
 
     def show_datasets(self) -> None:
         """Show the uploaded datasets.
@@ -69,7 +78,7 @@ class DatasetHandler:
             if yes_no == "yes":
                 for dataset in datasets:
                     self._automl.registry.delete(dataset.id)
-                    st.write(f"(Fake) Deleted {dataset.name}")
+                    st.write(f"Deleted {dataset.name}")
                     st.rerun()
             if yes_no == "no":
                 st.write("Aborting deletions")
