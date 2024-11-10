@@ -75,4 +75,6 @@ class DatasetHandler:
                 st.write("Aborting deletions")
 
 
+        # TODO Make an option to delete datasets!
+
 # TODO Figure out why streamlit asked me to put a _ before self
