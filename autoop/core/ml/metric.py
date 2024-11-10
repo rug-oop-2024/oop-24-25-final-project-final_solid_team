@@ -46,7 +46,7 @@ class Accuracy(Metric):
         matches = 0
         """Accuracy __call__ function"""
         for index, item in enumerate(ground_truth):
-            if (predictions.data()[index] == item):
+            if (predictions[index] == item):
                 matches += 1
         return (matches / len(ground_truth))
 
@@ -65,7 +65,7 @@ class MeanSquaredError(Metric):
 
 
 class R_squared(Metric):
-    """Class for mean squared error metric"""
+    """Class for R squared"""
     def __call__(self, ground_truth: np.ndarray,
                  predictions: np.ndarray) -> float:
         """Mean squared error __call__ function"""
@@ -81,26 +81,32 @@ class Precision(Metric):
     def __call__(self, ground_truth: np.ndarray,
                  predictions: np.ndarray) -> float:
         """Calculate the multi class precision"""
-        precision_array: list = []
+        precision_dict = {}
         for index, item in enumerate(predictions):
             if(item == ground_truth[index]):
-                if item in precision_array:
-                    precision_array[item][0] += 1
+                if item in precision_dict:
+                    values = precision_dict.get(item)
+                    values[0] += 1
+                    precision_dict[item] = values
                 else:
-                    precision_array[item][0] = 1
-                    precision_array[item][1] = 0
+                    values = [1,0]
+                    precision_dict[item] = values
             else:
-                if item in precision_array:
-                    precision_array[item][1] += 1
+                if item in precision_dict:
+                    values = precision_dict.get(item)
+                    values[1] += 1
+                    precision_dict[item] = values
                 else:
-                    precision_array[item][1] = 1
-                    precision_array[item][0] = 0
+                    values = [0,1]
+                    precision_dict[item] = values
 
         # perhaps generate error for empty array somehow
         mean_prc: int = 0
-        for prc_value in precision_array:
+        for prc_value in precision_dict.values():
             mean_prc += (prc_value[0] / (prc_value[0] + prc_value[1]))
-        mean_prc = mean_prc / len(precision_array)
+        truth_and_predictions = np.concatenate((ground_truth, predictions))
+        # In case there are no predicted samples, we set prc to 0
+        mean_prc = mean_prc / len(np.unique(truth_and_predictions))
 
         return mean_prc
 
@@ -110,35 +116,39 @@ class Recall(Metric):
     def __call__(self, ground_truth: np.ndarray,
                  predictions: np.ndarray) -> float:
         """Calculate mutli classs recall"""
-        recall_array: list = []
+        recall_dict = {}
         for index, item in enumerate(predictions):
             if(item == ground_truth[index]):
-                if item in recall_array:
-                    recall_array[item][0] += 1
+                if item in recall_dict:
+                    values = recall_dict.get(item)
+                    values[0] += 1
+                    recall_dict[item] = values
                 else:
-                    recall_array[item][0] = 1
-                    recall_array[item][1] = 0
+                    values = [1,0]
+                    recall_dict[item] = values
 
         for index, item in enumerate(ground_truth):
             if(item != predictions[index]):
-                if item in recall_array:
-                    recall_array[item][1] += 1
+                if item in recall_dict:
+                    values = recall_dict.get(item)
+                    values[1] += 1
+                    recall_dict[item] = values
                 else:
-                    recall_array[item][1] = 1
-                    recall_array[item][0] = 0
+                    values = [0,1]
+                    recall_dict[item] = values
 
         mean_rec: int = 0
-        for rec_value in recall_array:
+        for rec_value in recall_dict.values():
             mean_rec += (rec_value[0] / (rec_value[0] + rec_value[1]))
-        mean_rec = mean_rec / len(recall_array)
+        mean_rec = mean_rec / len(recall_dict)
 
         return mean_rec
 
-    class Mean_absolute_error(Metric):
-        """Class for mean absolute error metric"""
-        def __call__(self, ground_truth: np.ndarray,
-                     predictions: np.ndarray) -> float:
-            """Mean squared error __call__ function"""
-            difference_array: np.ndarray = predictions - ground_truth
-            absolute_diff: np.ndarray = np.abs(difference_array)
-            return np.mean(absolute_diff)
+class Mean_absolute_error(Metric):
+    """Class for mean absolute error metric"""
+    def __call__(self, ground_truth: np.ndarray,
+                    predictions: np.ndarray) -> float:
+        """Mean squared error __call__ function"""
+        difference_array: np.ndarray = predictions - ground_truth
+        absolute_diff: np.ndarray = np.abs(difference_array)
+        return np.mean(absolute_diff)
