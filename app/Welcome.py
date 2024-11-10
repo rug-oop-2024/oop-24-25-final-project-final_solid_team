@@ -14,8 +14,6 @@ st.set_page_config(
     page_icon="👋",
 )
 
-print("function call", file=sys.stderr)
-
 st.sidebar.success("Select a page above.")
 st.markdown(open("README.md").read())
 
