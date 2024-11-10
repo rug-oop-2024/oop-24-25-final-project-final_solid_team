@@ -23,18 +23,6 @@ class ElasticNet(Model):
             parameters=ParametersDict(parameters),
         )
         self._model = ElasticNet(**hyper_parameters)
-        if parameters.get("coef", None) is not None:
-            self._model.coef_ = parameters["coef"]
-            # Only set intercept if coefficient is also set:
-            if parameters.get("intercept", None) is not None:
-                self._model.intercept_ = parameters["intercept"]
-        if hyper_parameters.get("alpha", None) is not None:
-            self._model.alpha = hyper_parameters["alpha"]
-        if hyper_parameters.get("l1_ratio", None) is not None:
-            self._model.l1_ratio = hyper_parameters["l1_ratio"]
-        if hyper_parameters.get("fit_intercept", None) is not None:
-            self._model.fit_intercept = hyper_parameters["fit_intercept"]
-        
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         self._model.fit(X, y)

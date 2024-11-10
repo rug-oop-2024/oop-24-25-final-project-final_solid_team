@@ -24,22 +24,7 @@ class NearestCentroid(Model):
 
 
         
-        self._model = NearestCentroid(**hyper_parameters)
-        if hyper_parameters.get("metric", None) is not None:
-            self._model.metric = hyper_parameters["metric"]
-        if hyper_parameters.get("shrink_threshold", None) is not None:
-            self._model.shrink_threshold = hyper_parameters["shrink_threshold"]
-        if hyper_parameters.get("priors", None) is not None:
-            self._model.shrink_threshold = hyper_parameters["priors"]
-
-        if parameters.get("centroids", None) is not None:
-            self._model.centroids_ = parameters["centroids"]
-        if parameters.get("classes", None) is not None:
-            self._model.classes_ = parameters["classes"]
-
-        #Im not adding all hyperparameters, this just seems kind of excessive
-        
-
+        self._model = NearestCentroid(**hyper_parameters)        
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         self._model.fit(X, y)
