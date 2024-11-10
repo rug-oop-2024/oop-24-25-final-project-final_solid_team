@@ -1,12 +1,13 @@
 import json
-from typing import Dict, List, Tuple, Union
+from typing import List, Tuple, Union
 
 from autoop.core.storage import Storage
 
 
 class Database:
+    """Database class to store serialiazble dictionaries"""
 
-    def __init__(self, storage: Storage):
+    def __init__(self, storage: Storage) -> None:
         """Database to store json serializable dictionarries.
 
         Args:
@@ -50,7 +51,7 @@ class Database:
             return None
         return self._data[collection].get(id, None)
 
-    def delete(self, collection: str, id: str):
+    def delete(self, collection: str, id: str) -> None:
         """Delete a key from the database.
 
         Args:
@@ -71,17 +72,18 @@ class Database:
         Args:
             collection (str): The collection to list the data from
         Returns:
-            List[Tuple[str, dict]]: A list of tuples containing the id and data for each item in the collection
+            List[Tuple[str, dict]]: A list of tuples
+            containing the id and data for each item in the collection
         """
         if not self._data.get(collection, None):
             return []
         return [(id, data) for id, data in self._data[collection].items()]
 
-    def refresh(self):
+    def refresh(self) -> None:
         """Refresh the database by loading the data from storage"""
         self._load()
 
-    def _persist(self):
+    def _persist(self) -> None:
         """Persist the data to storage"""
         for collection, data in self._data.items():
             if not data:
@@ -101,7 +103,7 @@ class Database:
             # GW: How does this code work, id will always be != None
             # so nothing gets deleted.
 
-    def _load(self):
+    def _load(self) -> None:
         """Load the data from storage."""
         self._data = {}
         for key in self._storage.list(""):

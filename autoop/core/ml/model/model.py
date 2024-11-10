@@ -3,18 +3,19 @@ from __future__ import annotations
 import pickle
 from abc import ABC, abstractmethod
 from copy import deepcopy
-from typing import Any, Literal
 
 import numpy as np
 from numpy.typing import ArrayLike
-from sklearn.linear_model import LinearRegression
 
 from autoop.core.ml.artifact import Artifact
 
 
 # Inspired by Marco Zullich see: <https://www.rug.nl/staff/m.zullich/>
 class ParametersDict(dict):
+    """Class for parameters dictionary"""
     def _get_keys_as_list(self) -> list:
+        """Returns all keys of parameter
+        dict in a list"""
         list_: list = list(self.keys())
         list_.sort()
         return list_
@@ -31,9 +32,9 @@ class ParametersDict(dict):
         """
         if not isinstance(new_dict, ParametersDict):
             new_dict = ParametersDict(new_dict)
-        if (self._get_keys_as_list() == new_dict._get_keys_as_list()
-            or len(self) == 0
-        ):
+
+        key_same = self._get_keys_as_list() == new_dict._get_keys_as_list()
+        if (key_same or len(self) == 0):
             super().update(new_dict)
         else:
             raise AttributeError(
@@ -49,7 +50,8 @@ class Model(ABC):
             type: str,
             hyper_parameters: dict = ParametersDict({}),
             parameters: dict = ParametersDict({})
-        ) -> None:
+    ) -> None:
+        """Initialise model attributes"""
         self._type = type
         self._hyper_parameters = ParametersDict(hyper_parameters)
         self._parameters = ParametersDict(parameters)
@@ -71,7 +73,7 @@ class Model(ABC):
             name: str,
             asset_path: str = "./assets/models",
             **kwargs
-        ) -> Artifact:
+    ) -> Artifact:
         """Get an artifact representation of the model.
 
         Args:
@@ -92,14 +94,18 @@ class Model(ABC):
 
     @abstractmethod
     def fit(self, data: ArrayLike) -> None:
+        """Fit model"""
         pass
 
     @abstractmethod
     def predict(self, data: ArrayLike) -> np.ndarray:
+        """Predict target features based on fit
+        and input data"""
         pass
 
     @property
     def type(self) -> str:
+        """Return type of model"""
         return self._type
 
     @property
@@ -113,11 +119,12 @@ class Model(ABC):
         return deepcopy(self._hyper_parameters)
 
     @parameters.setter
-    def parameters(self, value: dict):
+    def parameters(self, value: dict) -> None:
+        """Set parameters of the model"""
         self._parameters.update(value)
 
     @hyper_parameters.setter
-    def hyper_parameters(self, hyperparameters: dict):
+    def hyper_parameters(self, hyperparameters: dict) -> None:
         """Setter for hyperparam ."""
         self._hyper_parameters.update(hyperparameters)
 

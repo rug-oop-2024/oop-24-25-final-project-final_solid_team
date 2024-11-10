@@ -10,7 +10,7 @@ from autoop.core.ml.artifact import Artifact
 class Dataset(Artifact):
     """Artifact that represents a dataset."""
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         """Create a dataset object.
 
         Args:

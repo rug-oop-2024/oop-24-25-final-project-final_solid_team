@@ -36,7 +36,8 @@ class Artifact:  # Original had Pydantic
         self._metadata = metadata
 
     def __str__(self) -> str:
-        return(
+        """Create artifact string"""
+        return (
             '{\n'
             f'    "type": "{self.type}",\n'
             f'    "name": "{self.name}"\n'
@@ -88,7 +89,7 @@ class Artifact:  # Original had Pydantic
         self.data = binary_string
         return binary_string
 
-    def _print_bytes_data(self, binary_string) -> str:
+    def _print_bytes_data(self, binary_string: bytes) -> str:
         return (
             f"<{binary_string.__class__.__module__}."
             f"{binary_string.__class__.__qualname__} "
@@ -102,40 +103,48 @@ class Artifact:  # Original had Pydantic
 
     @property
     def type(self) -> str:
+        """Getter of type"""
         return self._type
 
     @property
     def name(self) -> str:
+        """Getter of name"""
         return self._name
 
     @property
     def version(self) -> str:
+        """Getter of version"""
         return self._version
 
     @property
     def tags(self) -> list[str]:
+        """Getter of tags"""
         return self._tags
 
     @property
     def metadata(self) -> dict[str, str]:
+        """Getter of metadata"""
         return self._metadata
 
     @property
     def asset_path(self) -> str:
+        """Getter of path to asset"""
         return self._asset_path
 
     @property
     def data(self) -> bytes:
+        """Getter of data"""
         return self._data
 
     @data.setter
-    def data(self, value) -> None:
+    def data(self, value: bytes) -> None:
+        """Data setter"""
         if isinstance(value, bytes):
             self._data = value
         else:
             raise AttributeError(
-                f"Invalid type of data. Data must be of type `bytes'. Got "
-                f"type(value)"
+                f"Invalid type of data. Data must be of type 'bytes'. Got "
+                f"type{value}"
             )
 
 
