@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from autoop.core.ml.metric import Accuracy, MeanSquaredError, R_squared, Precision, Recall, Mean_absolute_error
+from autoop.core.ml.metric import Accuracy, MeanSquaredError, Rsquared, Precision, Recall, MeanAbsoluteError
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, precision_score, recall_score, accuracy_score
 
 
@@ -53,7 +53,7 @@ class TestRecall(unittest.TestCase):
 
 class TestMeanAbsoluteError(unittest.TestCase):
     def testValue(self):
-        mabs = Mean_absolute_error()
+        mabs = MeanAbsoluteError()
         ground_truth: np.ndarray = np.array([2, 2, 3, 4])
         predictions: np.ndarray = np.array([3, 2, 4, 2])
 

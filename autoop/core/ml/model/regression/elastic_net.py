@@ -3,19 +3,20 @@ from numpy.typing import ArrayLike
 from sklearn.linear_model import ElasticNet
 
 from autoop.core.ml.model.model import Model, ParametersDict
+from autoop.core.ml.artifact import Artifact
 
 
 class WrapElasticNet(Model):
+    """Wrapper for the sklearn elasticnet class
+    child of the generalized mode class"""
     def __init__(
             self,
             parameters: dict = ParametersDict({}),
             hyper_parameters: dict = ParametersDict({}),
-        ) -> None:
-        """_summary_
-
-        Args:
-            coef (np.ndarray): _description_
-            intercept (float): _description_
+    ) -> None:
+        """
+        Initalize the elasticnet wrapper
+        as regression type model.
         """
         super().__init__(
             type="regression",
@@ -25,6 +26,7 @@ class WrapElasticNet(Model):
         self._model = ElasticNet(**hyper_parameters)
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
+        """Fit elasticnet model to input features"""
         self._model.fit(X, y)
         self._parameters.update({
             "coef": self._model.coef_,
@@ -32,12 +34,16 @@ class WrapElasticNet(Model):
         })
 
     def predict(self, X: np.ndarray) -> np.ndarray:
+        """Predict target features based on fitted
+        elasticnet model"""
         assert self._parameters["coef"] is not None, (
             "Model is not fitted yet!"
         )
         return self._model.predict(X)
 
-    def to_artifact(self, asset_path="./assets/models", version="v0.00"):
+    def to_artifact(self, asset_path: str = "./assets/models",
+                    version: str = "v0.00") -> Artifact:
+        """Convert model to artifact"""
         return super().to_artifact(
             name="elastic net model",
             asset_path=asset_path,
