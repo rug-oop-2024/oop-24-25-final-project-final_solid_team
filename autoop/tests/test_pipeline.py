@@ -6,7 +6,9 @@ from sklearn.datasets import fetch_openml
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
 from autoop.core.ml.metric import MeanSquaredError
-from autoop.core.ml.model.regression import MultipleLinearRegression
+from autoop.core.ml.model.regression import WrapElasticNet
+from autoop.core.ml.model.regression import WrapLogisticRegression
+from autoop.core.ml.model.classification import KNearestNeighbors
 from autoop.core.ml.pipeline import Pipeline
 from autoop.functional.feature import detect_feature_types
 
@@ -27,7 +29,7 @@ class TestPipeline(unittest.TestCase):
         self.features = detect_feature_types(self.dataset)
         self.pipeline = Pipeline(
             dataset=self.dataset,
-            model=MultipleLinearRegression(),
+            model=Wrap(),
             input_features=list(
                 filter(lambda x: x.name != "age", self.features)
             ),

@@ -5,7 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from autoop.core.ml.model.model import Model, ParametersDict
 
 
-class NearestCentroid(Model):
+class WrapRandomForest(Model):
     def __init__(
             self,
             params: dict = ParametersDict({}),
@@ -18,15 +18,11 @@ class NearestCentroid(Model):
           """
         super().__init__(
             type="random forest classifier",
-            hyper_params=ParametersDict(hyper_params),  
+            hyper_params=ParametersDict(hyper_params),
             params=ParametersDict(params),
         )
 
-
-        
         self._model = RandomForestClassifier(**hyper_params)
-        
-
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         self._model.fit(X, y)
@@ -42,10 +38,10 @@ class NearestCentroid(Model):
         )
         return self._model.predict(X)
 
-    def to_artifact(self, asset_path = "./assets/models", version = "v0.00"):
+    def to_artifact(self, asset_path="./assets/models", version="v0.00"):
         return super().to_artifact(
             name="random forest model",
-            asset_path= asset_path,
+            asset_path=asset_path,
             version=version,
         )
 

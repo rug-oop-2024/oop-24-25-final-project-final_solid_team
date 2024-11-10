@@ -5,34 +5,25 @@ from sklearn.neighbors import KNeighborsClassifier
 from autoop.core.ml.model.model import Model, ParametersDict
 
 
-class KNearestNeighbors(Model):
+class WrapKNearestNeighbors(Model):
     def __init__(
             self,
             parameters: dict = ParametersDict({}),
             hyper_parameters: dict = ParametersDict({}),
         ) -> None:
-        """_summary_
 
-        Args:
-                tba
-          """
         super().__init__(
             type="k nearest neighbors",
-            hyper_parameters=ParametersDict(hyper_parameters),  
+            hyper_parameters=ParametersDict(hyper_parameters),
             parameters=ParametersDict(parameters),
         )
 
-
-        
         self._model = KNeighborsClassifier(**hyper_parameters)
-
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         self._model.fit(X, y)
         self._parameters.update({
             "classes": self._model.classes_,
-            "effective_metric": self._model.effective_metric_,
-            "effective_metric_parameters": self._model.effective_metric_parameters_,
             "n_features_in": self._model.n_features_in_,
             "feature_names_in": self._model.feature_names_in_,
             "n_samples_fit": self._model.n_samples_fit_,
@@ -45,10 +36,10 @@ class KNearestNeighbors(Model):
         )
         return self._model.predict(X)
 
-    def to_artifact(self, asset_path = "./assets/models", version = "v0.00"):
+    def to_artifact(self, asset_path="./assets/models", version="v0.00"):
         return super().to_artifact(
             name="k nearest neighbor model",
-            asset_path= asset_path,
+            asset_path=asset_path,
             version=version,
         )
 

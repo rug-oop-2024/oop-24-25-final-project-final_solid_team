@@ -5,7 +5,7 @@ from sklearn.neighbors import NearestCentroid
 from autoop.core.ml.model.model import Model, ParametersDict
 
 
-class NearestCentroid(Model):
+class WrapNearestCentroid(Model):
     def __init__(
             self,
             parameters: dict = ParametersDict({}),
@@ -18,13 +18,11 @@ class NearestCentroid(Model):
           """
         super().__init__(
             type="nearest centroid",
-            hyper_parameters=ParametersDict(hyper_parameters),  
+            hyper_parameters=ParametersDict(hyper_parameters),
             parameters=ParametersDict(parameters),
         )
 
-
-        
-        self._model = NearestCentroid(**hyper_parameters)        
+        self._model = NearestCentroid(**hyper_parameters)
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         self._model.fit(X, y)
@@ -39,10 +37,10 @@ class NearestCentroid(Model):
         )
         return self._model.predict(X)
 
-    def to_artifact(self, asset_path = "./assets/models", version = "v0.00"):
+    def to_artifact(self, asset_path="./assets/models", version="v0.00"):
         return super().to_artifact(
             name="nearest centroid model",
-            asset_path= asset_path,
+            asset_path=asset_path,
             version=version,
         )
 

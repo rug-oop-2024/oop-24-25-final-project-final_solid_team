@@ -5,7 +5,7 @@ from sklearn.linear_model import ElasticNet
 from autoop.core.ml.model.model import Model, ParametersDict
 
 
-class ElasticNet(Model):
+class WrapElasticNet(Model):
     def __init__(
             self,
             parameters: dict = ParametersDict({}),
@@ -19,7 +19,7 @@ class ElasticNet(Model):
         """
         super().__init__(
             type="elastic net",
-            hyper_parameters=ParametersDict(hyper_parameters),  
+            hyper_parameters=ParametersDict(hyper_parameters),
             parameters=ParametersDict(parameters),
         )
         self._model = ElasticNet(**hyper_parameters)
@@ -37,10 +37,10 @@ class ElasticNet(Model):
         )
         return self._model.predict(X)
 
-    def to_artifact(self, asset_path = "./assets/models", version = "v0.00"):
+    def to_artifact(self, asset_path="./assets/models", version="v0.00"):
         return super().to_artifact(
             name="elastic net model",
-            asset_path= asset_path,
+            asset_path=asset_path,
             version=version,
         )
 
