@@ -19,6 +19,10 @@ def main():
         "model on a dataset."
     )
 
+    # Would be way better in class. Time constraints...
+    if "counter" not in st.session_state:
+        st.session_state["counter"] = 0
+
     if "handler" not in st.session_state:
         st.session_state["handler"] = PipelineHandler()
         
@@ -32,6 +36,7 @@ def main():
     handler.choose_metric()
     handler.initialize_pipeline()
     handler.summary()
+    handler.train()
 
 if __name__ == "__main__":
     main()

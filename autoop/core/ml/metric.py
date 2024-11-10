@@ -158,3 +158,13 @@ REGRESSION_METRICS = {
     "Mean Squared Error": MeanSquaredError,
     "Mean Abosolute Error": MeanAbsoluteError
 } 
+
+# Time hurry
+METRICS = {
+    "Precison": Precision,
+    "Accuracy": Accuracy,
+    "Recall": Recall,
+    "R Squared": RSquared,
+    "Mean Squared Error": MeanSquaredError,
+    "Mean Abosolute Error": MeanAbsoluteError
+}

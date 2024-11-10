@@ -17,4 +17,3 @@ def is_active(environment: str, condition: bool) -> bool:
         return True
     else:
         return False
-    

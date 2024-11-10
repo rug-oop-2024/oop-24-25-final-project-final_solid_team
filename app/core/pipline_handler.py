@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 import logging
+from copy import deepcopy
 
 import streamlit as st
 
@@ -10,11 +11,12 @@ from app.functional.streamlit import is_active
 from autoop.core.ml.dataset import Dataset
 from autoop.functional.feature import detect_feature_types
 from autoop.core.ml.model import REGRESSION_MODELS, CLASSIFICATION_MODELS
-from autoop.core.ml.metric import REGRESSION_METRICS, CLASSIFICATION_METRICS
+from autoop.core.ml.metric import (
+    REGRESSION_METRICS, CLASSIFICATION_METRICS, METRICS
+)
 from autoop.core.ml.pipeline import Pipeline
 
 logger = logging.getLogger()
-
 
 class PipelineHandler:
     """Convenient handler to facilate a page on a streamlit website to 
@@ -27,8 +29,24 @@ class PipelineHandler:
         self._input_features = None
         self._task_type = None
         self._model = None
+        self._model_name = None
         self._split = None
         self._metrics = None
+
+    def train(self):  
+        if all((
+            self._chosen_dataset,
+            self._output_feature,
+            self._input_features,
+            self._task_type,
+            self._model,
+            self._split,
+            self._metrics,
+            self._pipeline
+        )):
+            if st.button("Press to execute the pipeline"):
+                self._pipeline.execute()
+
 
     def summary(self):
         if all((
@@ -48,7 +66,7 @@ class PipelineHandler:
             st.write("]")
             st.write(f"Output feature: {self._output_feature.name}")
             st.write(f"Task type: {self._task_type}")
-            st.write(f"Model: {self._model}")
+            st.write(f"Model: {self._model_name}")
             st.write(f"Split: {self._split}")
             st.write(f"Metrics: {self._metrics}")
 
@@ -79,10 +97,13 @@ class PipelineHandler:
                 REGRESSION_METRICS if self._task_type == "regression"
                 else CLASSIFICATION_METRICS
             )
-            self._metrics = st.multiselect(
+            metrics_names = st.multiselect(
                 label="Select a metric",
                 options=options
             )
+            if metrics_names:
+                self._metrics = [METRICS[name]() for name in metrics_names]
+
 
     def choose_split(self):
         if self._task_type:
@@ -100,6 +121,7 @@ class PipelineHandler:
                 )
                 st.write(model_name)
                 if model_name:
+                    self._model_name = model_name
                     self._model = REGRESSION_MODELS[model_name]
             if self._task_type == "classification":
                 model_name = st.selectbox(
@@ -107,6 +129,7 @@ class PipelineHandler:
                     options=CLASSIFICATION_MODELS
                 )
                 if model_name:
+                    self._model_name = model_name
                     self._model = CLASSIFICATION_MODELS[model_name]
         if self._model:
             st.write(self._model)
