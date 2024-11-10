@@ -19,11 +19,17 @@ def main():
         "model on a dataset."
     )
 
-    handler = PipelineHandler()
+    if "handler" not in st.session_state:
+        st.session_state["handler"] = PipelineHandler()
+        
+    handler = st.session_state["handler"]
+    # handler = PipelineHandler()
     handler.choose_dataset()
     handler.select_features()
     handler.ask_task_type()
     handler.choose_model()
+    handler.choose_split()
+    handler.choose_metric()
 
 if __name__ == "__main__":
     main()

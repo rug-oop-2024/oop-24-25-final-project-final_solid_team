@@ -1,10 +1,13 @@
 from __future__ import annotations
 import streamlit as st
 
+from app.core.system import AutoMLSystem
+from app.functional.streamlit import is_active
 from autoop.core.ml.dataset import Dataset
 from autoop.functional.feature import detect_feature_types
-from app.core.system import AutoMLSystem
 from autoop.core.ml.model import REGRESSION_MODELS, CLASSIFICATION_MODELS
+from autoop.core.ml.metric import METRICS
+from autoop.core.ml.pipeline import Pipeline
 
 
 class PipelineHandler:
@@ -12,11 +15,27 @@ class PipelineHandler:
     create a pipeline."""
     def __init__(self) -> None:
         self._auto_ml_system = AutoMLSystem.get_instance()
+        self._pipeline = None
         self._chosen_dataset = None
         self._output_feature = None
         self._input_features = None
         self._task_type = None
-        self._model_name = None
+        self._model = None
+        self._split = None
+
+    def choose_metric(self):
+        if self._split:
+            self._metric = st.multiselect(
+                label="Select metric(s)",
+                options=METRICS,
+            )
+
+    def choose_split(self):
+        if self._task_type:
+            percentage = st.number_input(
+                "Enter what percentage of the dataset will be used for "
+                "training")
+            self._split = percentage / 100
     
     def choose_model(self):
         if self._task_type:
@@ -25,25 +44,37 @@ class PipelineHandler:
                     label="Select a model.",
                     options=REGRESSION_MODELS,
                 )
-                st.write(f"You chose {model_name}")
+                st.write(model_name)
+                if model_name:
+                    self._model = REGRESSION_MODELS[model_name]
+            if self._task_type == "classification":
+                model_name = st.selectbox(
+                    label="Select a model.",
+                    options=CLASSIFICATION_MODELS
+                )
+                if model_name:
+                    self._model = CLASSIFICATION_MODELS[model_name]
+        if self._model:
+            st.write(self._model)
 
     def choose_dataset(self):
         all_artifacts = self._auto_ml_system.registry.list(type="dataset")
 
         chosen_artifact = st.selectbox(
-            label="What data set would you like to use?",
+            label="Select dataset",
             options=all_artifacts,
             format_func=lambda x: x.name,
             index=None
         )  # TODO Handle the case where there are no artifacts
 
-        if chosen_artifact:
+        if chosen_artifact:  # Can't promote NoneType to Dataset
             self._chosen_dataset = chosen_artifact.promote_to_subclass(Dataset)
+            st.write(self._chosen_dataset)
     
     def select_features(self):
         """Ask the user to select features from a list of acceptable features.
         """
-        if self._chosen_dataset:
+        if is_active("select features", self._chosen_dataset):
             self._select_features()
 
     def ask_task_type(self):
@@ -68,6 +99,7 @@ class PipelineHandler:
             format_func=lambda x: x.name,
         )
         self._input_features = chosen_features
+        [st.write(str(feature)) for feature in self._input_features]
 
         self._output_feature = st.selectbox(
             label="Select output feature",
@@ -75,9 +107,10 @@ class PipelineHandler:
             format_func=lambda x: x.name,
             index=None
         )  # Output feature can be anything.
+        if self._output_feature:
+            st.write(self._output_feature.name)
 
     def _ask_task_type(self):
-        st.write(self._output_feature.type)
         if self._output_feature.type == "categorical":
             self._task_type = "classification"
             st.write(
@@ -90,6 +123,7 @@ class PipelineHandler:
             )
             if selected_type:
                 self._task_type = selected_type
+                st.write(selected_type)
 
 
 

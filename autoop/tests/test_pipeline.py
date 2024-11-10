@@ -41,11 +41,11 @@ class TestPipeline(unittest.TestCase):
         self.assertIsInstance(self.pipeline, Pipeline)
 
     def test_preprocess_features(self):
-        self.pipeline._preprocess_features()
+        self.pipeline.preprocess_features()
         self.assertEqual(len(self.pipeline._artifacts), len(self.features))
 
     def test_split_data(self):
-        self.pipeline._preprocess_features()
+        self.pipeline.preprocess_features()
         self.pipeline._split_data()
         self.assertEqual(
             self.pipeline._train_X[0].shape[0], int(0.8 * self.ds_size)
@@ -56,13 +56,13 @@ class TestPipeline(unittest.TestCase):
         )
 
     def test_train(self):
-        self.pipeline._preprocess_features()
+        self.pipeline.preprocess_features()
         self.pipeline._split_data()
         self.pipeline._train()
         self.assertIsNotNone(self.pipeline._model.parameters)
 
     def test_evaluate(self):
-        self.pipeline._preprocess_features()
+        self.pipeline.preprocess_features()
         self.pipeline._split_data()
         self.pipeline._train()
         self.pipeline._evaluate()

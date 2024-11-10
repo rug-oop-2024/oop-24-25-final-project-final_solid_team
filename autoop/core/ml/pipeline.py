@@ -83,8 +83,15 @@ Pipeline(
 
     @property
     def artifacts(self) -> List[Artifact]:
-        """Used to get the artifacts generated during the pipeline execution to
-        be saved"""
+        """Returns the artifacts of the
+            - input feature numpy arrays
+            - output feature numpy arrays
+            - pipeline configurations
+                - List[Features] of the input
+                - List[Feature] of the output
+                - float of the split
+            - pipeline artifact
+        """
         artifacts = []
         for name, artifact in self._artifacts.items():
             artifact_type = artifact.get("type")
@@ -112,7 +119,7 @@ Pipeline(
     def _register_artifact(self, name: str, artifact):
         self._artifacts[name] = artifact
 
-    def _preprocess_features(self):
+    def preprocess_features(self):
         """
         Takes
             - self._input_features
@@ -121,10 +128,16 @@ Pipeline(
         and transforms it into:
             - self._input_vectors
             - self._output_vectors
+        other than that it saves the
+            - input Features
+            - output Features
+            - 
+        to self._artifact. 
             and adds the encoding-artifacts of each feature to self._artifacts.
         During the transformation the features get encoded with either
         one-hot encoding or standard-scalar encoding.
         """
+        # TODO Make proper docstring
         (target_feature_name, target_data, artifact) = preprocess_features(
             [self._target_feature], self._dataset
         )[0]
@@ -196,7 +209,7 @@ Pipeline(
             - **"train predictions"** -> **(np.ndarray)**: The predictions on 
             the train dataset.
         """
-        self._preprocess_features()
+        self.preprocess_features()
         self._split_data()
         self._train()
         self._evaluate()
