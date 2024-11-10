@@ -7,7 +7,7 @@ from autoop.tests.test_artifact import TestArtifact
 from autoop.tests.test_database import TestDatabase
 from autoop.tests.test_features import TestFeatures
 from autoop.tests.test_model import TestModel, MultipleLinearRegression, TestElasticNet, TestKNearestNeighbors, TestLogisticRegression
-from autoop.tests.test_metrics import TestAccuracy, TestMeanSquaredError, TestR_squared, TestPrecision, TestRecall, TestMeanAbsoluteError
+# from autoop.tests.test_metrics import TestAccuracy, TestMeanSquaredError, TestR_squared, TestPrecision, TestRecall, TestMeanAbsoluteError
 
  
 

@@ -51,13 +51,23 @@ class Pipeline:
         self._metrics = metrics
         self._artifacts = {}
         self._split = split
+        self._check_same_type(target_feature, model)
+        # TODO Bring back this check, error lays in spelling mistakes
+
+    @staticmethod
+    def _check_same_type(target_feature, model):
         if (
             target_feature.type == "categorical"
             and model.type != "classification"
         ):
             raise ValueError(
                 "Model type must be classification for categorical target "
-                "feature"
+                "feature\n"
+                f"Feature {target_feature.name} with type "
+                f" {target_feature.type} does not correspond to \n"
+                f"Model {type(model)} with type {model.type}. Cause:\n"
+                f"{target_feature.type} == categorical "
+                f"and {model.type} != classification"
             )
         if (
             target_feature.type == "numerical"
@@ -65,8 +75,16 @@ class Pipeline:
         ):
             print(target_feature.type, model.type, file=sys.stderr)
             raise ValueError(
-                f"Model type must be regression for continuous target feature"
+                "Model type must be regression for continuous target "
+                "feature\n"
+                f"Feature {target_feature.name} with type "
+                f" {target_feature.type} does not correspond to \n"
+                f"Model {type(model)} with type {model.type}. Cause:\n"
+                f"{target_feature.type} == numerical \n"
+                f"or {model.type} != regression" 
             )
+        # TODO Bring back this check, error lays in spelling mistakes
+
 
     def __str__(self):
         return f"""

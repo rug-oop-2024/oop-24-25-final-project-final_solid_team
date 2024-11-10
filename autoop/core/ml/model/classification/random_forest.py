@@ -8,8 +8,8 @@ from autoop.core.ml.model.model import Model, ParametersDict
 class WrapRandomForest(Model):
     def __init__(
             self,
-            params: dict = ParametersDict({}),
-            hyper_params: dict = ParametersDict({}),
+            parameters: dict = ParametersDict({}),
+            hyper_parameters: dict = ParametersDict({}),
         ) -> None:
         """_summary_
 
@@ -18,22 +18,22 @@ class WrapRandomForest(Model):
           """
         super().__init__(
             type="classification",
-            hyper_params=ParametersDict(hyper_params),
-            params=ParametersDict(params),
+            hyper_parameters=ParametersDict(hyper_parameters),
+            parameters=ParametersDict(parameters),
         )
 
-        self._model = RandomForestClassifier(**hyper_params)
+        self._model = RandomForestClassifier(**hyper_parameters)
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         self._model.fit(X, y)
-        self._params.update({
+        self._parameters.update({
             "estimator": self._model.estimator_,
             "estimators": self._model.estimators_,
             "classes_": self._model.classes_,
         })
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        assert self._params["estimator"] is not None, (
+        assert self._parameters["estimator"] is not None, (
             "Model is not fitted yet!"
         )
         return self._model.predict(X)

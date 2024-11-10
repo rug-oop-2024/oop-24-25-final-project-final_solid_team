@@ -5,8 +5,16 @@ from sklearn.datasets import fetch_openml
 
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
-from autoop.core.ml.metric import MeanSquaredError
-from autoop.core.ml.model.regression import MultipleLinearRegression
+from autoop.core.ml.metric import (
+    MeanSquaredError,
+    REGRESSION_METRICS,
+    CLASSIFICATION_METRICS
+)
+from autoop.core.ml.model import (
+    REGRESSION_MODELS,
+    CLASSIFICATION_MODELS,
+    MultipleLinearRegression,
+)
 from autoop.core.ml.pipeline import Pipeline
 from autoop.functional.feature import detect_feature_types
 
@@ -36,6 +44,15 @@ class TestPipeline(unittest.TestCase):
             split=0.8,
         )
         self.ds_size = data.data.shape[0]
+
+    def test_check_same_type(self):
+        for feature in filter(lambda x: x.type == "numerical", self.features):
+            for model in REGRESSION_MODELS.values():
+                Pipeline._check_same_type(feature, model())
+        
+        for feature in filter(lambda x: x.type == "categorical", self.features):
+            for model in CLASSIFICATION_MODELS.values():
+                Pipeline._check_same_type(feature, model())
 
     def test_init(self):
         self.assertIsInstance(self.pipeline, Pipeline)

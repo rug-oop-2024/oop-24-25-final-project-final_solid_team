@@ -34,7 +34,6 @@ class PipelineHandler:
     def initialize_pipeline(self):
         # Check whether all variables are set
         print("Trying to initialized the pipeline.", file=sys.stderr)
-        print(f"Truth values: {x}", file=open("piplinehandler.log", mode="w+"))
         if all((
             self._chosen_dataset,
             self._output_feature,
@@ -47,7 +46,7 @@ class PipelineHandler:
             self._pipeline = Pipeline(
                 metrics=self._metrics,
                 dataset=self._chosen_dataset,
-                model=self._model,
+                model=self._model(),  # Initialize model
                 input_features=self._input_features,
                 target_feature=self._output_feature,
                 split=self._split,

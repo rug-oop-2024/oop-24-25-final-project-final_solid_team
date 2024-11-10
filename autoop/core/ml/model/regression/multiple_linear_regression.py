@@ -18,7 +18,7 @@ class MultipleLinearRegression(Model):
             intercept (float): _description_
         """
         super().__init__(
-            type="numerical",
+            type="regression",
             hyper_parameters=ParametersDict(hyper_parameters),  # Superfluous
             parameters=ParametersDict(parameters),
         )
