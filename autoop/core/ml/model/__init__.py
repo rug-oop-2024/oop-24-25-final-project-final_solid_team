@@ -4,7 +4,16 @@ from typing import TYPE_CHECKING
 
 from autoop.core.ml.model.regression import (
     MultipleLinearRegression,
-    ElasticNet
+    WrapElasticNet,
+    WrapLogisticRegression
+    
+)
+
+from autoop.core.ml.model.classification import (
+    WrapKNearestNeighbors,
+    WrapNearestCentroid,
+    WrapRandomForest
+    
 )
 
 if TYPE_CHECKING:
@@ -12,14 +21,16 @@ if TYPE_CHECKING:
 
 REGRESSION_MODELS = {
     "Multiple Linear Regression": MultipleLinearRegression,
-    "Elastic Net": ElasticNet,
-
+    "Elastic Net": WrapElasticNet,
+    "Logistic Regression": WrapLogisticRegression,
 } # add your models as str here
 
 CLASSIFICATION_MODELS = {
+    "K Nearest Neighbors": WrapKNearestNeighbors,
+    "Nearest Centroid": WrapNearestCentroid,
+    "Random Forest": WrapRandomForest,
     
-}  # add your models as str here
-
+} 
 
 def get_model(model_name: str) -> Model:
     """Factory function to get a model by name."""
