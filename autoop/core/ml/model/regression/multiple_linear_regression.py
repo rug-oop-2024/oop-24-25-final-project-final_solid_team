@@ -3,50 +3,43 @@ from numpy.typing import ArrayLike
 from sklearn.linear_model import LinearRegression
 
 from autoop.core.ml.model.model import Model, ParametersDict
+from autoop.core.ml.artifact import Artifact
 
 
 class MultipleLinearRegression(Model):
+    """Wrapper for the linear regression
+    model from sklearn"""
     def __init__(
             self,
-            parameters: dict = ParametersDict({}),
-            hyper_parameters: dict = ParametersDict({}),
+            params: dict = ParametersDict({}),
+            hyper_params: dict = ParametersDict({}),
         ) -> None:
-        """_summary_
-
-        Args:
-            coef (np.ndarray): _description_
-            intercept (float): _description_
+        """Initialise as numerical model
         """
         super().__init__(
             type="regression",
-            hyper_parameters=ParametersDict(hyper_parameters),  # Superfluous
-            parameters=ParametersDict(parameters),
-        )
-        self._model = LinearRegression(**hyper_parameters)
-        if parameters.get("coef", None) is not None:
-            self._model.coef_ = parameters["coef"]
-            # Only set intercept if coefficient is also set:
-            if parameters.get("intercept", None) is not None:
-                self._model.intercept_ = parameters["intercept"]
-
+            hyper_params=ParametersDict(hyper_params),  # Superfluous
+            params=ParametersDict(params),
+            )
+        self._model = LinearRegression(**hyper_params)
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         self._model.fit(X, y)
-        self._parameters.update({
+        self._params.update({
             "coef": self._model.coef_,
             "intercept": self._model.intercept_
         })
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        assert self._parameters.get("coef", None) is not None, (
+        assert self._params["coef"] is not None, (
             "Model is not fitted yet!"
         )
         return self._model.predict(X)
 
-    def to_artifact(self, asset_path = "./assets/models", version = "v0.00"):
+    def to_artifact(self, asset_path: str = "./assets/models", version: str = "v0.00") -> Artifact:
         return super().to_artifact(
             name="multiple linear regression model",
-            asset_path= asset_path,
+            asset_path=asset_path,
             version=version,
         )
 
