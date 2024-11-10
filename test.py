@@ -11,7 +11,7 @@ from autoop.core.ml.dataset import Dataset
 from autoop.core.storage import LocalStorage
 
 automl = AutoMLSystem.get_instance()
-automl.registry.list()
+automl.registry._database.list("datasets")
 
 # iris = load_iris()
 # iris_df = pd.DataFrame(

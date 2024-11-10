@@ -23,6 +23,7 @@ def main():
     handler.choose_dataset()
     handler.select_features()
     handler.ask_task_type()
+    handler.choose_model()
 
 if __name__ == "__main__":
     main()

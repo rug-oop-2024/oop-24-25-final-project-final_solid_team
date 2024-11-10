@@ -4,6 +4,7 @@ import streamlit as st
 from autoop.core.ml.dataset import Dataset
 from autoop.functional.feature import detect_feature_types
 from app.core.system import AutoMLSystem
+from autoop.core.ml.model import REGRESSION_MODELS, CLASSIFICATION_MODELS
 
 
 class PipelineHandler:
@@ -14,6 +15,17 @@ class PipelineHandler:
         self._chosen_dataset = None
         self._output_feature = None
         self._input_features = None
+        self._task_type = None
+        self._model_name = None
+    
+    def choose_model(self):
+        if self._task_type:
+            if self._task_type == "regression":
+                model_name = st.selectbox(
+                    label="Select a model.",
+                    options=REGRESSION_MODELS,
+                )
+                st.write(f"You chose {model_name}")
 
     def choose_dataset(self):
         all_artifacts = self._auto_ml_system.registry.list(type="dataset")
@@ -67,17 +79,17 @@ class PipelineHandler:
     def _ask_task_type(self):
         st.write(self._output_feature.type)
         if self._output_feature.type == "categorical":
-            self.task_type = "classification"
+            self._task_type = "classification"
             st.write(
                 "Since the output feature is categorical only classification "
                 "is possible.")
         if self._output_feature.type == "numerical":
             selected_type = st.selectbox(
                 label="Select the detection task",
-                options=["classification", "numerical"],
+                options=["classification", "regression"],
             )
             if selected_type:
-                self.task_type = selected_type
+                self._task_type = selected_type
 
 
 
