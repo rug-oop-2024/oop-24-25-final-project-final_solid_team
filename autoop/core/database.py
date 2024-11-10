@@ -97,7 +97,9 @@ class Database:
             collection, id = key.split("/")[-2:]
             if not self._data.get(collection, id):
                 self._storage.delete(f"{collection}/{id}")
-        # TODO Understand this piece of code
+
+            # GW: How does this code work, id will always be != None
+            # so nothing gets deleted.
 
     def _load(self):
         """Load the data from storage."""
