@@ -27,6 +27,20 @@ class PipelineHandler:
 
         if chosen_artifact:
             self._chosen_dataset = chosen_artifact.promote_to_subclass(Dataset)
+    
+    def select_features(self):
+        """Ask the user to select features from a list of acceptable features.
+        """
+        if self._chosen_dataset:
+            self._select_features()
+
+    def ask_task_type(self):
+        """Prompt the user with a box selection for which detection task
+        he wants to use. If output feature is categorical, then only 
+        classification is possible. Otherwise both classification and 
+        regression is possible."""
+        if self._output_feature and self._input_features:
+            self._ask_task_type()
 
     def _select_features(self):
         # TODO Make sure output feature is not in the list of input features
@@ -50,23 +64,6 @@ class PipelineHandler:
             index=None
         )  # Output feature can be anything.
 
-    def ask_task_type(self):
-        """Prompt the user with a box selection for which detection task
-        he wants to use. If output feature is categorical, then only 
-        classification is possible. Otherwise both classification and 
-        regression is possible."""
-        # if "ask task type" not in st.session_state:
-        #     st.session_state["ask task type"] = False
-        
-        # if self._output_feature and self._input_features:
-        #     st.session_state["ask task type"] = True
-        # else:
-        #     st.session_state["ask task type"] = False
-        
-        # if st.session_state["ask task type"]:
-        if self._output_feature and self._input_features:
-            self._ask_task_type()
-
     def _ask_task_type(self):
         st.write(self._output_feature.type)
         if self._output_feature.type == "categorical":
@@ -82,18 +79,7 @@ class PipelineHandler:
             if selected_type:
                 self.task_type = selected_type
 
-    def select_features(self):
-        # if "select features" not in st.session_state:
-        #     st.session_state["select features"] = False
-        
-        # if self._chosen_dataset:
-        #     st.session_state["select features"] = True
-        # else:
-        #     st.session_state["select features"] = False
-        
-        # if st.session_state["select features"]:
-        if self._chosen_dataset:
-            self._select_features()
+
 
 
 # TODO Declare all type of private member on top of the class
