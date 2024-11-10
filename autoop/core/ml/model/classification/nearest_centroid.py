@@ -17,7 +17,7 @@ class WrapNearestCentroid(Model):
                 tba
           """
         super().__init__(
-            type="nearest centroid",
+            type="classification",
             hyper_parameters=ParametersDict(hyper_parameters),
             parameters=ParametersDict(parameters),
         )

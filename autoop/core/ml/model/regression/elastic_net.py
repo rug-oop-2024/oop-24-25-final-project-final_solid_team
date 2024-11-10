@@ -18,7 +18,7 @@ class WrapElasticNet(Model):
             intercept (float): _description_
         """
         super().__init__(
-            type="elastic net",
+            type="regression",
             hyper_parameters=ParametersDict(hyper_parameters),
             parameters=ParametersDict(parameters),
         )

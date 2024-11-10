@@ -59,7 +59,7 @@ class Pipeline:
                 "feature"
             )
         if (
-            target_feature.type == "continuous"
+            target_feature.type == "numerical"
             and model.type != "regression"
         ):
             raise ValueError(

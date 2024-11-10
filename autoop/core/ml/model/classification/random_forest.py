@@ -17,7 +17,7 @@ class WrapRandomForest(Model):
                 tba
           """
         super().__init__(
-            type="random forest classifier",
+            type="classification",
             hyper_params=ParametersDict(hyper_params),
             params=ParametersDict(params),
         )

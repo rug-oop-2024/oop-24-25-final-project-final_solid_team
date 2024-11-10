@@ -13,7 +13,7 @@ class WrapKNearestNeighbors(Model):
         ) -> None:
 
         super().__init__(
-            type="k nearest neighbors",
+            type="classification",
             hyper_parameters=ParametersDict(hyper_parameters),
             parameters=ParametersDict(parameters),
         )

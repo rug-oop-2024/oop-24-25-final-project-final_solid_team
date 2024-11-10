@@ -18,7 +18,7 @@ class WrapLogisticRegression(Model):
             intercept (float): _description_
         """
         super().__init__(
-            type="logistic regression",
+            type="numerical",
             hyper_parameters=ParametersDict(hyper_parameters),  # Superfluous
             parameters=ParametersDict(parameters),
         )
