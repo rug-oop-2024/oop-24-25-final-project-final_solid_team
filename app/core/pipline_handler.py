@@ -33,9 +33,14 @@ class PipelineHandler:
     def _select_features(self):
         # TODO Make sure output feature is not in the list of input features
         features = detect_feature_types(self._chosen_dataset)
+
+        acceptable_input_features = filter(
+            lambda x: x.type == "numerical",
+            features
+        )  # Only numerical input features are allowed
         chosen_features = st.multiselect(
             label="Select input features",
-            options=features,
+            options=acceptable_input_features,
             format_func=lambda x: x.name,
         )
         self._input_features = chosen_features
@@ -44,7 +49,8 @@ class PipelineHandler:
             label="Select output feature",
             options=features,
             format_func=lambda x: x.name,
-        )
+        )  # Output feature can be anything.
+        
         st.write(f"output: {self._output_feature.name}")
 
     def select_features(self):
