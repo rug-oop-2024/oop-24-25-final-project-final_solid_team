@@ -168,13 +168,19 @@ Pipeline(
         self._model.fit(X, Y)
 
     def _evaluate_on(self, X, Y):
+        X = self._compact_vectors(X)
         self._metrics_results = []
         predictions = self._model.predict(X)
         for metric in self._metrics:
-            # Changed evaluate into function call
             result = metric(predictions, Y)
             self._metrics_results.append((metric, result))
         return predictions
+    
+    def _new_evaluate(self):
+        self._test_predictions = self._evaluate_on(self._test_X, self._test_y)
+        self._train_predictions = self._evaluate_on(
+            self._train_X, self._train_y
+        )
 
     def _evaluate(self):
         X = self._compact_vectors(self._test_X)
