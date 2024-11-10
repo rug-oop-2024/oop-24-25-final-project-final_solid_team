@@ -176,7 +176,7 @@ Pipeline(
             self._metrics_results.append((metric, result))
         return predictions
 
-    def _evaluate_(self):
+    def _evaluate(self):
         X = self._compact_vectors(self._test_X)
         Y = self._test_y
         self._metrics_results = []
