@@ -4,12 +4,6 @@ import numpy as np
 
 from autoop.core.ml.feature import Feature
 
-METRICS = [
-    "MeanSquareError",
-    "Accuracy",
-]  # add the names (in strings) of the metrics you implement
-
-
 def get_metric(name: str):
     # Factory function to get a metric by name.
     # Return a metric instance given its str name.
@@ -152,3 +146,15 @@ class MeanAbsoluteError(Metric):
         difference_array: np.ndarray = predictions - ground_truth
         absolute_diff: np.ndarray = np.abs(difference_array)
         return np.mean(absolute_diff)
+
+CLASSIFICATION_METRICS = {
+    "Precison": Precision,
+    "Accuracy": Accuracy,
+    "Recall": Recall,
+}
+
+REGRESSION_METRICS = {
+    "R Squared": RSquared,
+    "Mean Squared Error": MeanSquaredError,
+    "Mean Abosolute Error": MeanAbsoluteError
+} 

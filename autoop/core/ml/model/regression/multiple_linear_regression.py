@@ -11,27 +11,27 @@ class MultipleLinearRegression(Model):
     model from sklearn"""
     def __init__(
             self,
-            params: dict = ParametersDict({}),
-            hyper_params: dict = ParametersDict({}),
+            parameters: dict = ParametersDict({}),
+            hyper_parameters: dict = ParametersDict({}),
         ) -> None:
         """Initialise as numerical model
         """
         super().__init__(
             type="regression",
-            hyper_params=ParametersDict(hyper_params),  # Superfluous
-            params=ParametersDict(params),
+            hyper_parameters=ParametersDict(hyper_parameters),  # Superfluous
+            parameters=ParametersDict(parameters),
             )
-        self._model = LinearRegression(**hyper_params)
+        self._model = LinearRegression(**hyper_parameters)
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         self._model.fit(X, y)
-        self._params.update({
+        self._parameters.update({
             "coef": self._model.coef_,
             "intercept": self._model.intercept_
         })
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        assert self._params["coef"] is not None, (
+        assert self._parameters["coef"] is not None, (
             "Model is not fitted yet!"
         )
         return self._model.predict(X)
