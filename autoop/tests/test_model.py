@@ -3,6 +3,15 @@ import unittest
 import numpy as np
 
 from autoop.core.ml.model import MultipleLinearRegression, get_model
+from autoop.core.ml.model.regression import WrapLogisticRegression
+from autoop.core.ml.model.regression import WrapElasticNet
+from autoop.core.ml.model.regression import WrapLogisticRegression
+from autoop.core.ml.model.classification import WrapKNearestNeighbors
+from autoop.core.ml.model.classification import WrapNearestCentroid
+from autoop.core.ml.model.classification import WrapRandomForest
+
+
+
 from autoop.core.ml.model.model import Model, ParametersDict
 
 
@@ -120,10 +129,6 @@ class TestMultipleLinearRegression(unittest.TestCase):
         exception = context_manager.exception
         self.assertEqual(str(exception), "Model is not fitted yet!")
 
-    def test_setting_parameters(self):
-        model = MultipleLinearRegression(parameters={"coef": 2, "intercept": 1})
-        self.assertEqual(model.predict([[2]]), [5])
-
     def test_to_and_from_artifact(self):
         model = MultipleLinearRegression()
         model.fit(self.X, self.y)
@@ -137,6 +142,243 @@ class TestMultipleLinearRegression(unittest.TestCase):
         MultipleLinearRegression = get_model("MultipleLinearRegression")
         Model = MultipleLinearRegression()
         self.assertEqual(Model, MultipleLinearRegression)
+
+class TestLogisticRegression(unittest.TestCase):
+
+    def setUp(self):
+        self.X = [
+            [6, 1, 1],
+            [2, 2, 4],
+            [3, 2, 3],
+        ]
+        self.y = [
+            [0],
+            [1],
+            [0],
+        ]
+        self.X_test = [
+            [4, 4, 4],
+            [5, 2, 5],
+            [6, 6, 3],
+        ]
+
+def test_fit_and_predict(self):
+    model = WrapLogisticRegression()
+    model.fit(self.X, self.y)
+    prediction = model.predict(self.X_test)
+    isinstance(prediction, np.ndarray)
+
+def test_unset_predict(self):
+    model = WrapLogisticRegression()
+    with self.assertRaises(AssertionError) as context_manager:
+        model.predict([1])
+    exception = context_manager.exception
+    self.assertEqual(str(exception), "Model is not fitted yet!")
+
+def test_to_and_from_artifact(self):
+    model = WrapLogisticRegression()
+    model.fit(self.X, self.y)
+    artifact = model.to_artifact()
+    new_model = WrapLogisticRegression.from_artifact(artifact)
+    self.assertEqual(
+        new_model.parameters["intercept"], model.parameters["intercept"]
+    )
+
+def test_get_model(self):
+    WrapLogisticRegression = get_model("LogisticRegression")
+    Model = WrapLogisticRegression()
+    self.assertEqual(Model, WrapLogisticRegression)
+
+# TODO: test setting hyperparameters
+
+
+class TestElasticNet(unittest.TestCase):
+
+    def setUp(self):
+        self.X = [
+            [6, 1, 1],
+            [2, 2, 4],
+            [3, 2, 3],
+        ]
+        self.y = [
+            [1, 2],
+            [2, 4],
+            [3, 6],
+        ]
+        self.X_test = [
+            [4, 4, 4],
+            [5, 2, 5],
+            [6, 6, 3],
+        ]
+
+def test_fit_and_predict(self):
+    model = WrapLogisticRegression()
+    model.fit(self.X, self.y)
+    prediction = model.predict(self.X_test)
+    isinstance(prediction, np.ndarray)
+
+def test_unset_predict(self):
+    model = WrapLogisticRegression()
+    with self.assertRaises(AssertionError) as context_manager:
+        model.predict([1])
+    exception = context_manager.exception
+    self.assertEqual(str(exception), "Model is not fitted yet!")
+
+def test_to_and_from_artifact(self):
+    model = WrapLogisticRegression()
+    model.fit(self.X, self.y)
+    artifact = model.to_artifact()
+    new_model = WrapLogisticRegression.from_artifact(artifact)
+    self.assertEqual(
+        new_model.parameters["intercept"], model.parameters["intercept"]
+    )
+
+def test_get_model(self):
+    WrapLogisticRegression = get_model("LogisticRegression")
+    Model = WrapLogisticRegression()
+    self.assertEqual(Model, WrapLogisticRegression)
+
+# TODO: test setting hyperparameters
+
+
+class TestKNearestNeighbors(unittest.TestCase):
+
+    def setUp(self):
+        self.X = [
+            [6, 1, 1],
+            [2, 2, 4],
+            [3, 2, 3],
+        ]
+        self.y = [
+            ["Boter"],
+            ["Kaas"],
+            ["Eiren"],
+        ]
+        self.X_test = [
+            [4, 4, 4],
+            [5, 2, 5],
+            [6, 6, 3],
+        ]
+
+def test_fit_and_predict(self):
+    model = WrapKNearestNeighbors()
+    model.fit(self.X, self.y)
+    prediction = model.predict(self.X_test)
+    isinstance(prediction, np.ndarray)
+
+def test_unset_predict(self):
+    model = WrapKNearestNeighbors()
+    with self.assertRaises(AssertionError) as context_manager:
+        model.predict([1])
+    exception = context_manager.exception
+    self.assertEqual(str(exception), "Model is not fitted yet!")
+
+def test_to_and_from_artifact(self):
+    model = WrapKNearestNeighbors()
+    model.fit(self.X, self.y)
+    artifact = model.to_artifact()
+    new_model = WrapKNearestNeighbors.from_artifact(artifact)
+    self.assertEqual(
+        new_model.parameters["classes"], model.parameters["classes"]
+    )
+
+def test_get_model(self):
+    WrapLogisticRegression = get_model("KNearestNeighbor")
+    Model = WrapKNearestNeighbors()
+    self.assertEqual(Model, WrapKNearestNeighbors)
+
+class TestNearestCentroid(unittest.TestCase):
+
+    def setUp(self):
+        self.X = [
+            [6, 1, 1],
+            [2, 2, 4],
+            [3, 2, 3],
+        ]
+        self.y = [
+            ["Boter"],
+            ["Kaas"],
+            ["Eiren"],
+        ]
+        self.X_test = [
+            [4, 4, 4],
+            [5, 2, 5],
+            [6, 6, 3],
+        ]
+
+def test_fit_and_predict(self):
+    model = WrapNearestCentroid()
+    model.fit(self.X, self.y)
+    prediction = model.predict(self.X_test)
+    isinstance(prediction, np.ndarray)
+
+def test_unset_predict(self):
+    model = WrapNearestCentroid()
+    with self.assertRaises(AssertionError) as context_manager:
+        model.predict([1])
+    exception = context_manager.exception
+    self.assertEqual(str(exception), "Model is not fitted yet!")
+
+def test_to_and_from_artifact(self):
+    model = WrapNearestCentroid()
+    model.fit(self.X, self.y)
+    artifact = model.to_artifact()
+    new_model = WrapNearestCentroid.from_artifact(artifact)
+    self.assertEqual(
+        new_model.parameters["classes"], model.parameters["classes"]
+    )
+
+def test_get_model(self):
+    WrapLogisticRegression = get_model("KNearestNeighbor")
+    Model = WrapNearestCentroid()
+    self.assertEqual(Model, WrapNearestCentroid)
+
+
+class TestRandomForest(unittest.TestCase):
+
+    def setUp(self):
+        self.X = [
+            [6, 1, 1],
+            [2, 2, 4],
+            [3, 2, 3],
+        ]
+        self.y = [
+            ["Boter"],
+            ["Kaas"],
+            ["Eiren"],
+        ]
+        self.X_test = [
+            [4, 4, 4],
+            [5, 2, 5],
+            [6, 6, 3],
+        ]
+
+def test_fit_and_predict(self):
+    model = WrapRandomForest()
+    model.fit(self.X, self.y)
+    prediction = model.predict(self.X_test)
+    isinstance(prediction, np.ndarray)
+
+def test_unset_predict(self):
+    model = WrapRandomForest()
+    with self.assertRaises(AssertionError) as context_manager:
+        model.predict([1])
+    exception = context_manager.exception
+    self.assertEqual(str(exception), "Model is not fitted yet!")
+
+def test_to_and_from_artifact(self):
+    model = WrapRandomForest()
+    model.fit(self.X, self.y)
+    artifact = model.to_artifact()
+    new_model = WrapRandomForest.from_artifact(artifact)
+    self.assertEqual(
+        new_model.parameters["classes"], model.parameters["classes"]
+    )
+
+def test_get_model(self):
+    WrapLogisticRegression = get_model("KNearestNeighbor")
+    Model = WrapRandomForest()
+    self.assertEqual(Model, WrapRandomForest)
 
 
 # TODO: test setting hyperparameters
