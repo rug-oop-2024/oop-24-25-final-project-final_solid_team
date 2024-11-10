@@ -8,8 +8,8 @@ from autoop.core.ml.model.model import Model, ParametersDict
 class NearestCentroid(Model):
     def __init__(
             self,
-            params: dict = ParametersDict({}),
-            hyper_params: dict = ParametersDict({}),
+            parameters: dict = ParametersDict({}),
+            hyper_parameters: dict = ParametersDict({}),
         ) -> None:
         """_summary_
 
@@ -18,24 +18,24 @@ class NearestCentroid(Model):
           """
         super().__init__(
             type="nearest centroid",
-            hyper_params=ParametersDict(hyper_params),  
-            params=ParametersDict(params),
+            hyper_parameters=ParametersDict(hyper_parameters),  
+            parameters=ParametersDict(parameters),
         )
 
 
         
-        self._model = NearestCentroid(**hyper_params)
-        if hyper_params.get("metric", None) is not None:
-            self._model.metric = hyper_params["metric"]
-        if hyper_params.get("shrink_threshold", None) is not None:
-            self._model.shrink_threshold = hyper_params["shrink_threshold"]
-        if hyper_params.get("priors", None) is not None:
-            self._model.shrink_threshold = hyper_params["priors"]
+        self._model = NearestCentroid(**hyper_parameters)
+        if hyper_parameters.get("metric", None) is not None:
+            self._model.metric = hyper_parameters["metric"]
+        if hyper_parameters.get("shrink_threshold", None) is not None:
+            self._model.shrink_threshold = hyper_parameters["shrink_threshold"]
+        if hyper_parameters.get("priors", None) is not None:
+            self._model.shrink_threshold = hyper_parameters["priors"]
 
-        if params.get("centroids", None) is not None:
-            self._model.centroids_ = params["centroids"]
-        if params.get("classes", None) is not None:
-            self._model.classes_ = params["classes"]
+        if parameters.get("centroids", None) is not None:
+            self._model.centroids_ = parameters["centroids"]
+        if parameters.get("classes", None) is not None:
+            self._model.classes_ = parameters["classes"]
 
         #Im not adding all hyperparameters, this just seems kind of excessive
         
@@ -43,13 +43,13 @@ class NearestCentroid(Model):
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         self._model.fit(X, y)
-        self._params.update({
+        self._parameters.update({
             "classes": self._model.classes_,
             "centroids": self._model.centroids_,
         })
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        assert self._params["classes"] is not None, (
+        assert self._parameters["classes"] is not None, (
             "Model is not fitted yet!"
         )
         return self._model.predict(X)

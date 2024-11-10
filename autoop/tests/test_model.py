@@ -40,49 +40,49 @@ class TestModel(unittest.TestCase):
     def test_to_and_from_artifact(self):
         model = ConcreteModel(
             type="numerical",
-            hyper_params={"learning rate": 0.005, "batch size": 10},
-            params={"slope": 0.5, "intercept": 2}
+            hyper_parameters={"learning rate": 0.005, "batch size": 10},
+            parameters={"slope": 0.5, "intercept": 2}
         )
 
         artifact = model.to_artifact(name="test artifact")
         recovered_model = ConcreteModel.from_artifact(artifact)
 
         self.assertEqual(model.type, recovered_model.type)
-        self.assertEqual(model.params, recovered_model.params)
-        self.assertEqual(model.hyper_params, recovered_model.hyper_params)
+        self.assertEqual(model.parameters, recovered_model.parameters)
+        self.assertEqual(model.hyper_parameters, recovered_model.hyper_parameters)
 
         # This test tested:
         # - initializer
         # - getters
 
-    def test_set_hyper_params(self):
+    def test_set_hyper_parameters(self):
         model = ConcreteModel(
             type="numerical",
-            hyper_params={"learning rate": 0.005, "batch size": 10},
-            params={"slope": 0.5, "intercept": 2}
+            hyper_parameters={"learning rate": 0.005, "batch size": 10},
+            parameters={"slope": 0.5, "intercept": 2}
         )
-        model.hyper_params = {
+        model.hyper_parameters = {
             "learning rate": 0.1,
             "batch size": 3
         }
-        self.assertEqual(model.hyper_params["learning rate"], 0.1)
-        self.assertEqual(model.hyper_params["batch size"], 3)
+        self.assertEqual(model.hyper_parameters["learning rate"], 0.1)
+        self.assertEqual(model.hyper_parameters["batch size"], 3)
 
-    def test_set_wrong_params(self):
-        good_params = {"coef": 5, "intercept": 3}
-        bad_params = {"BAD": 1}
-        good_hyper_params = {"learning rate": 0.005, "batch size": 10}
-        bad_hyper_params = {"WRONG KEY": 0.005, "batch size": 10}
+    def test_set_wrong_parameters(self):
+        good_parameters = {"coef": 5, "intercept": 3}
+        bad_parameters = {"BAD": 1}
+        good_hyper_parameters = {"learning rate": 0.005, "batch size": 10}
+        bad_hyper_parameters = {"WRONG KEY": 0.005, "batch size": 10}
         model = ConcreteModel(
             type="numerical",
-            hyper_params=good_hyper_params,
-            params=good_params
+            hyper_parameters=good_hyper_parameters,
+            parameters=good_parameters
         )
         with self.assertRaises(AttributeError):
-            model.hyper_params = bad_hyper_params
+            model.hyper_parameters = bad_hyper_parameters
 
         with self.assertRaises(AttributeError):
-            model.params = bad_params
+            model.parameters = bad_parameters
 
 class TestMultipleLinearRegression(unittest.TestCase):
     def setUp(self):
@@ -120,8 +120,8 @@ class TestMultipleLinearRegression(unittest.TestCase):
         exception = context_manager.exception
         self.assertEqual(str(exception), "Model is not fitted yet!")
 
-    def test_setting_params(self):
-        model = MultipleLinearRegression(params={"coef": 2, "intercept": 1})
+    def test_setting_parameters(self):
+        model = MultipleLinearRegression(parameters={"coef": 2, "intercept": 1})
         self.assertEqual(model.predict([[2]]), [5])
 
     def test_to_and_from_artifact(self):
@@ -130,7 +130,7 @@ class TestMultipleLinearRegression(unittest.TestCase):
         artifact = model.to_artifact()
         new_model = MultipleLinearRegression.from_artifact(artifact)
         self.assertEqual(
-            new_model.params["intercept"], model.params["intercept"]
+            new_model.parameters["intercept"], model.parameters["intercept"]
         )
 
     def test_get_model(self):
@@ -139,4 +139,4 @@ class TestMultipleLinearRegression(unittest.TestCase):
         self.assertEqual(Model, MultipleLinearRegression)
 
 
-# TODO: test setting hyperparams
+# TODO: test setting hyperparameters

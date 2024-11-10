@@ -8,8 +8,8 @@ from autoop.core.ml.model.model import Model, ParametersDict
 class ElasticNet(Model):
     def __init__(
             self,
-            params: dict = ParametersDict({}),
-            hyper_params: dict = ParametersDict({}),
+            parameters: dict = ParametersDict({}),
+            hyper_parameters: dict = ParametersDict({}),
         ) -> None:
         """_summary_
 
@@ -19,32 +19,32 @@ class ElasticNet(Model):
         """
         super().__init__(
             type="elastic net",
-            hyper_params=ParametersDict(hyper_params),  
-            params=ParametersDict(params),
+            hyper_parameters=ParametersDict(hyper_parameters),  
+            parameters=ParametersDict(parameters),
         )
-        self._model = ElasticNet(**hyper_params)
-        if params.get("coef", None) is not None:
-            self._model.coef_ = params["coef"]
+        self._model = ElasticNet(**hyper_parameters)
+        if parameters.get("coef", None) is not None:
+            self._model.coef_ = parameters["coef"]
             # Only set intercept if coefficient is also set:
-            if params.get("intercept", None) is not None:
-                self._model.intercept_ = params["intercept"]
-        if hyper_params.get("alpha", None) is not None:
-            self._model.alpha = hyper_params["alpha"]
-        if hyper_params.get("l1_ratio", None) is not None:
-            self._model.l1_ratio = hyper_params["l1_ratio"]
-        if hyper_params.get("fit_intercept", None) is not None:
-            self._model.fit_intercept = hyper_params["fit_intercept"]
+            if parameters.get("intercept", None) is not None:
+                self._model.intercept_ = parameters["intercept"]
+        if hyper_parameters.get("alpha", None) is not None:
+            self._model.alpha = hyper_parameters["alpha"]
+        if hyper_parameters.get("l1_ratio", None) is not None:
+            self._model.l1_ratio = hyper_parameters["l1_ratio"]
+        if hyper_parameters.get("fit_intercept", None) is not None:
+            self._model.fit_intercept = hyper_parameters["fit_intercept"]
         
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         self._model.fit(X, y)
-        self._params.update({
+        self._parameters.update({
             "coef": self._model.coef_,
             "intercept": self._model.intercept_
         })
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        assert self._params["coef"] is not None, (
+        assert self._parameters["coef"] is not None, (
             "Model is not fitted yet!"
         )
         return self._model.predict(X)

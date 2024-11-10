@@ -47,12 +47,12 @@ class Model(ABC):
     def __init__(
             self,
             type: str,
-            hyper_params: dict = ParametersDict({}),
-            params: dict = ParametersDict({})
+            hyper_parameters: dict = ParametersDict({}),
+            parameters: dict = ParametersDict({})
         ) -> None:
         self._type = type
-        self._hyper_params = ParametersDict(hyper_params)
-        self._params = ParametersDict(params)
+        self._hyper_parameters = ParametersDict(hyper_parameters)
+        self._parameters = ParametersDict(parameters)
 
     @staticmethod
     def from_artifact(artifact: Artifact) -> Model:
@@ -104,23 +104,23 @@ class Model(ABC):
 
     @property
     def parameters(self) -> ParametersDict:
-        """Getter for params."""
-        return deepcopy(self._params)
+        """Getter for parameters."""
+        return deepcopy(self._parameters)
 
     @property
     def hyper_parameters(self) -> ParametersDict:
-        """Getter for hyperparams"""
-        return deepcopy(self._hyper_params)
+        """Getter for hyperparameters"""
+        return deepcopy(self._hyper_parameters)
 
     @parameters.setter
-    def params(self, value: dict):
-        self._params.update(value)
+    def parameters(self, value: dict):
+        self._parameters.update(value)
 
     @hyper_parameters.setter
-    def hyper_params(self, hyperparams: dict):
+    def hyper_parameters(self, hyperparameters: dict):
         """Setter for hyperparam ."""
-        self._hyper_params.update(hyperparams)
+        self._hyper_parameters.update(hyperparameters)
 
-# TODO: Change (hyper)params into (hyper)parameters to be more consistent
+# TODO: Change (hyper)parameters into (hyper)parameters to be more consistent
 # TODO Make update() more sophisticated:
 # - Allow partial dict updates

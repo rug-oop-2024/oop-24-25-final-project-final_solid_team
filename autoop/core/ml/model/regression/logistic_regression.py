@@ -8,8 +8,8 @@ from autoop.core.ml.model.model import Model, ParametersDict
 class LogisticRegression(Model):
     def __init__(
             self,
-            params: dict = ParametersDict({}),
-            hyper_params: dict = ParametersDict({}),
+            parameters: dict = ParametersDict({}),
+            hyper_parameters: dict = ParametersDict({}),
         ) -> None:
         """_summary_
 
@@ -19,26 +19,26 @@ class LogisticRegression(Model):
         """
         super().__init__(
             type="logistic regression",
-            hyper_params=ParametersDict(hyper_params),  # Superfluous
-            params=ParametersDict(params),
+            hyper_parameters=ParametersDict(hyper_parameters),  # Superfluous
+            parameters=ParametersDict(parameters),
         )
-        self._model = LogisticRegression(**hyper_params)
-        if params.get("coef", None) is not None:
-            self._model.coef_ = params["coef"]
+        self._model = LogisticRegression(**hyper_parameters)
+        if parameters.get("coef", None) is not None:
+            self._model.coef_ = parameters["coef"]
             # Only set intercept if coefficient is also set:
-            if params.get("intercept", None) is not None:
-                self._model.intercept_ = params["intercept"]
+            if parameters.get("intercept", None) is not None:
+                self._model.intercept_ = parameters["intercept"]
 
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         self._model.fit(X, y)
-        self._params.update({
+        self._parameters.update({
             "coef": self._model.coef_,
             "intercept": self._model.intercept_
         })
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        assert self._params["coef"] is not None, (
+        assert self._parameters["coef"] is not None, (
             "Model is not fitted yet!"
         )
         return self._model.predict(X)
