@@ -21,8 +21,8 @@ class WrapRadiusNeighor(Model):
             hyper_parameters=ParametersDict(hyper_parameters),
             parameters=ParametersDict(parameters),
         )
-
-        self._model = RadiusNeighborsClassifier(radius=10.0)
+        #TODO Make auto adjusting hyperparam
+        self._model = RadiusNeighborsClassifier(radius=20.0)
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         """Fits the radius neighbors sklearn model
