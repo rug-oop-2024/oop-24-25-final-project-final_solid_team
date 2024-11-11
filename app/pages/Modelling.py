@@ -22,11 +22,15 @@ def main() -> None:
     if "counter" not in st.session_state:
         st.session_state["counter"] = 0
 
+    if "results available" not in st.session_state:
+        st.session_state["results available"] = False
+
+    # Add pipeline to session state such pipeline handler will only be
+    # initialized once
     if "handler" not in st.session_state:
         st.session_state["handler"] = PipelineHandler()
 
     handler = st.session_state["handler"]
-    # handler = PipelineHandler()
     handler.choose_dataset()
     handler.select_features()
     handler.ask_task_type()
@@ -37,6 +41,7 @@ def main() -> None:
     handler.summary()
     handler.train()
     handler.save()
+    handler.handle_results()
 
 
 if __name__ == "__main__":

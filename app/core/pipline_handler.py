@@ -65,15 +65,31 @@ class PipelineHandler:
                 name = st.text_input(
                     label="Enter pipeline name"
                 )
+                # Ask the user for name, will return None initially
                 if name:
                     artifacts = self._pipeline.get_artifacts(name)
                     for artifact in artifacts:
                         self._auto_ml_system.registry.register(artifact)
                     self._pipeline_saved = True
+                    # Deactivate "save pipeline mode"
                     st.session_state["save pipeline"] = False
 
         if self._pipeline_saved:
             st.write("Pipeline is saved")
+    
+    def handle_results(self) -> None:
+        """Nicely write out the results."""
+        # Obviously, get is way safer to acces session state items...
+        if st.session_state.get("results available", None):
+            metrics = self._results["metrics"]
+            for metric, result in metrics:
+                st.write(f"{metric.to_string()}: {result}")
+        
+            if st.checkbox("show prediction on test data"):
+                st.write(self._results["test_predictions"])
+            if st.checkbox("show prediction of training data"):
+                st.write(self._results["train_predictions"])
+
 
     def train(self) -> None:
         """Train chosen model, using chosen variables by executing pipeline"""
@@ -88,8 +104,8 @@ class PipelineHandler:
             self._pipeline
         )):
             if st.button("Press to execute the pipeline"):
-                results = self._pipeline.execute()
-                st.write(results)
+                self._results = self._pipeline.execute()
+                st.session_state["results available"] = True
 
     def summary(self) -> None:
         """Summarize variables"""
