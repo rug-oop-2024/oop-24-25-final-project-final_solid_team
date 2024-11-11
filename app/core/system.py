@@ -42,7 +42,7 @@ class ArtifactRegistry:
         assert isinstance(artifact.id, str), "Id must be a string."
         self._database.set("artifacts", artifact.id, entry)
 
-    def list(self, type: str = None) -> List[Artifact]:
+    def list(self, type: str | None = None) -> List[Artifact]:
         """Get a list of all stored Artifacts. Optinally get a list of the
         artifacts of a specified type.
 

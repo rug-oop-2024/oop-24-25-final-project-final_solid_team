@@ -161,7 +161,7 @@ Pipeline(
         )
         return artifacts
 
-    def _register_artifact(self, name: str, artifact: Artifact) -> None:
+    def _register_artifact(self, name: str, artifact: dict) -> None:
         self._artifacts[name] = artifact
 
     def preprocess_features(self) -> None:
@@ -217,15 +217,15 @@ Pipeline(
             int(split * len(self._output_vector)):
         ]
 
-    def _compact_vectors(self, vectors: List[np.array]) -> np.array:
+    def _compact_vectors(self, vectors: List[np.ndarray]) -> np.ndarray:
         return np.concatenate(vectors, axis=1)
 
-    def _train(self) -> ArrayLike:
+    def _train(self) -> np.ndarray | None:
         X = self._compact_vectors(self._train_X)
         Y = self._train_y
         self._model.fit(X, Y)
 
-    def _evaluate_on(self, X: np.ndarray, Y: np.ndarray) -> ArrayLike:
+    def _evaluate_on(self, X: list[np.ndarray], Y: np.ndarray) -> ArrayLike:
         X = self._compact_vectors(X)
         self._metrics_results = []
         predictions = self._model.predict(X)
