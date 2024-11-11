@@ -30,6 +30,7 @@ class PipelineHandler:
         self._model_name = None
         self._split = None
         self._metrics = None
+        self._results = None
 
     def train(self):
         if all((
@@ -43,7 +44,8 @@ class PipelineHandler:
             self._pipeline
         )):
             if st.button("Press to execute the pipeline"):
-                self._pipeline.execute()
+                results = self._pipeline.execute()
+                st.write(results)
 
 
     def summary(self):
@@ -117,7 +119,6 @@ class PipelineHandler:
                     label="Select a model.",
                     options=REGRESSION_MODELS,
                 )
-                st.write(model_name)
                 if model_name:
                     self._model_name = model_name
                     self._model = REGRESSION_MODELS[model_name]
@@ -129,8 +130,6 @@ class PipelineHandler:
                 if model_name:
                     self._model_name = model_name
                     self._model = CLASSIFICATION_MODELS[model_name]
-        if self._model:
-            st.write(self._model)
 
     def choose_dataset(self):
         all_artifacts = self._auto_ml_system.registry.list(type="dataset")
@@ -144,7 +143,6 @@ class PipelineHandler:
 
         if chosen_artifact:  # Can't promote NoneType to Dataset
             self._chosen_dataset = chosen_artifact.promote_to_subclass(Dataset)
-            st.write(self._chosen_dataset)
 
     def select_features(self):
         """Ask the user to select features from a list of acceptable features.
@@ -174,7 +172,6 @@ class PipelineHandler:
             format_func=lambda x: x.name,
         )
         self._input_features = chosen_features
-        [st.write(str(feature)) for feature in self._input_features]
 
         self._output_feature = st.selectbox(
             label="Select output feature",
@@ -182,8 +179,6 @@ class PipelineHandler:
             format_func=lambda x: x.name,
             index=None
         )  # Output feature can be anything.
-        if self._output_feature:
-            st.write(self._output_feature.name)
 
     def _ask_task_type(self):
         if self._output_feature.type == "categorical":
