@@ -20,7 +20,15 @@ class Metric(ABC):
 
     def to_string(self) -> str:
         """Return class string"""
-        return ((str(self.__class__).split('.')[-1]).split("'"))[0]
+        try:
+            return ((str(self.__class__).split('.')[-1]).split("'"))[0]
+        except Exception as e:
+            print(
+                "Unexpted error occured please contact the author:\n"
+                "<g.j.wiersma@student.rug.nl\n"
+                f"Exception info:\n{e}"
+            )
+            return "Undefinied metric"  # Attempting to not break the program
 
 # According to the pipeline it needs an .evaluate method instead of a call
 # method
