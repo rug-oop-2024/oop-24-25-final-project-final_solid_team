@@ -31,6 +31,45 @@ class PipelineHandler:
         self._split = None
         self._metrics = None
         self._results = None
+        self._pipeline_saved = False
+
+        # Mechanism to allow for saving
+        if "save pipeline" not in st.session_state: # Assert exists
+            st.session_state["save pipeline"] = False
+
+    def save(self) -> None:
+        """Save the pipeline."""
+        if all((  # Make sure that pipeline has no uninitialized data
+            self._chosen_dataset,
+            self._output_feature,
+            self._input_features,
+            self._task_type,
+            self._model,
+            self._split,
+            self._metrics,
+            self._pipeline
+        )):
+            """ Saving the pipeline."""
+            # Activate "save pipeline" mode
+            if st.button(
+                label="Save pipeline?"
+            ):
+                st.session_state["save pipeline"] = True 
+
+            # If activated, save the pipeline
+            if st.session_state["save pipeline"]:   
+                name = st.text_input(
+                    label="Enter pipeline name"
+                )
+                if name:
+                    artifacts = self._pipeline.get_artifacts(name)
+                    for artifact in artifacts:
+                        self._auto_ml_system.registry.register(artifact)
+                    self._pipeline_saved = True
+                    st.session_state["save pipeline"] = False
+
+        if self._pipeline_saved:
+            st.write("Pipeline is saved")
 
     def train(self):
         if all((

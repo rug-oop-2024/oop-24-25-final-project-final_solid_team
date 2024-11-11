@@ -101,8 +101,7 @@ Pipeline(
     def model(self):
         return self._model  # UNSAFE, user can modify model.
 
-    @property
-    def artifacts(self) -> List[Artifact]:
+    def get_artifacts(self, collection: str) -> List[Artifact]:
         """Returns the artifacts of the
             - input feature numpy arrays
             - output feature numpy arrays
@@ -118,21 +117,40 @@ Pipeline(
             if artifact_type in ["OneHotEncoder"]:
                 data = artifact["encoder"]
                 data = pickle.dumps(data)
-                artifacts.append(Artifact(name=name, data=data))
+                artifacts.append(Artifact(
+                                    type="feature",
+                                    name=name,
+                                    data=data,
+                                    asset_path=f"{collection}/feature:{name}"
+                                )
+                )
             if artifact_type in ["StandardScaler"]:
                 data = artifact["scaler"]
                 data = pickle.dumps(data)
-                artifacts.append(Artifact(name=name, data=data))
+                artifacts.append(Artifact(
+                                    type="feature",
+                                    name=name,
+                                    data=data,
+                                    asset_path=f"{collection}/feature:{name}"
+                                )
+                )
         pipeline_data = {
             "input_features": self._input_features,
             "target_feature": self._target_feature,
             "split": self._split,
         }
         artifacts.append(
-            Artifact(name="pipeline_config", data=pickle.dumps(pipeline_data))
+            Artifact(
+                type="configurations",
+                name="pipeline_config",
+                data=pickle.dumps(pipeline_data),
+                asset_path=f"{collection}/pipeline_config",
+            )
         )
         artifacts.append(
-            self._model.to_artifact(name=f"pipeline_model_{self._model.type}")
+            self._model.to_artifact(
+                asset_path=f"{collection}/model"
+            )
         )
         return artifacts
 

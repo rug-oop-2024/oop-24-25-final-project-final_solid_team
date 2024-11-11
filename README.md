@@ -166,7 +166,7 @@ If you did not implement the feature
 | `ST/datasets/management/create`       | FN           | Gideon               |         | | Seems suspiciously 
 | `ST/datasets/management/save`         | FN           | Gideon               |         | | Already done when creating a dataset
 | `ST/page/modelling`                   | NF           |                      |         | |
-| `ST/modelling/datasets/list`          | FN           |                      |         | |
+| `ST/modelling/datasets/list`          | FN           |                      |         | | Note that due to tests also downloading iris dataset, this function fails if tests are run
 | `ST/modelling/datasets/features`      | FN           |                      |         | |
 | `ST/modelling/models`                 | FN           |                      |         | |
 | `ST/modelling/pipeline/split`         | FN           |                      |         | |

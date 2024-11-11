@@ -67,7 +67,7 @@ class Model(ABC):
 
     def to_artifact(
             self,
-            name: str,
+            name: str = "baseclass model",
             asset_path: str = "./assets/models",
             **kwargs
         ) -> Artifact:

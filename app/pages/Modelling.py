@@ -38,6 +38,7 @@ def main():
     handler.initialize_pipeline()
     handler.summary()
     handler.train()
+    handler.save()
 
 if __name__ == "__main__":
     main()
