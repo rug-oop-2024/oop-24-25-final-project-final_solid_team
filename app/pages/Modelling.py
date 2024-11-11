@@ -1,19 +1,15 @@
 import streamlit as st
 
 from app.core.pipline_handler import PipelineHandler
+from app.functional.streamlit import write_helper_text
 
 # Removed emoji and page number such that this module can be imported for
 # testing.
 
+
 def main() -> None:
     """Set up moddeling page"""
     st.set_page_config(page_title="Modelling", page_icon="📈")
-
-    def write_helper_text(text: str) -> None:
-        """Inputs:
-        text: str
-        Writes text as helper text"""
-        st.write(f'<p style="color: #888;">{text}</p>', unsafe_allow_html=True)
 
     st.write("# ⚙ Modelling")
 

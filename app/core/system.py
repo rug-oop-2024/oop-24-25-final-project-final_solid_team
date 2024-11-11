@@ -1,5 +1,6 @@
-from typing import List
 from __future__ import annotations
+
+from typing import List
 
 from autoop.core.database import Database
 from autoop.core.ml.artifact import Artifact

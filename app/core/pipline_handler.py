@@ -7,8 +7,11 @@ import streamlit as st
 
 from app.core.system import AutoMLSystem
 from autoop.core.ml.dataset import Dataset
-from autoop.core.ml.metric import CLASSIFICATION_METRICS, METRICS
-from autoop.core.ml.metric import REGRESSION_METRICS
+from autoop.core.ml.metric import (
+    CLASSIFICATION_METRICS,
+    METRICS,
+    REGRESSION_METRICS
+)
 from autoop.core.ml.model import CLASSIFICATION_MODELS, REGRESSION_MODELS
 from autoop.core.ml.pipeline import Pipeline
 from autoop.functional.feature import detect_feature_types
@@ -35,7 +38,7 @@ class PipelineHandler:
         self._pipeline_saved = False
 
         # Mechanism to allow for saving
-        if "save pipeline" not in st.session_state: # Assert exists
+        if "save pipeline" not in st.session_state:  # Assert exists
             st.session_state["save pipeline"] = False
 
     def save(self) -> None:
@@ -55,10 +58,10 @@ class PipelineHandler:
             if st.button(
                 label="Save pipeline?"
             ):
-                st.session_state["save pipeline"] = True 
+                st.session_state["save pipeline"] = True
 
             # If activated, save the pipeline
-            if st.session_state["save pipeline"]:   
+            if st.session_state["save pipeline"]:
                 name = st.text_input(
                     label="Enter pipeline name"
                 )
