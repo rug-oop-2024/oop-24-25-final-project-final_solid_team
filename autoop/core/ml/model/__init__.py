@@ -1,13 +1,46 @@
+"""Initialize model"""
 
-from autoop.core.ml.model.model import Model
-from autoop.core.ml.model.regression import MultipleLinearRegression
+from __future__ import annotations
 
-REGRESSION_MODELS = [
-] # add your models as str here
+from typing import TYPE_CHECKING
 
-CLASSIFICATION_MODELS = [
-] # add your models as str here
+from autoop.core.ml.model.classification import (
+    WrapKNearestNeighbors,
+    WrapRadiusNeighor,
+    WrapRandomForest,
+)
+from autoop.core.ml.model.regression import (
+    MultipleLinearRegression,
+    WrapElasticNet,
+    WrapLogisticRegression,
+)
+
+if TYPE_CHECKING:
+    from autoop.core.ml.model.model import Model
+
+REGRESSION_MODELS = {
+    "Multiple Linear Regression": MultipleLinearRegression,
+    "Elastic Net": WrapElasticNet,
+    "Logistic Regression": WrapLogisticRegression,
+}  # add your models as str here
+
+CLASSIFICATION_MODELS = {
+    "K Nearest Neighbors": WrapKNearestNeighbors,
+    "Radius Neighbor": WrapRadiusNeighor,
+    "Random Forest": WrapRandomForest,
+
+}
+
 
 def get_model(model_name: str) -> Model:
     """Factory function to get a model by name."""
-    raise NotImplementedError("To be implemented.")
+
+    if model_name in REGRESSION_MODELS:
+        return REGRESSION_MODELS[model_name]
+    if model_name in CLASSIFICATION_MODELS:
+        return CLASSIFICATION_MODELS[model_name]
+    raise ValueError(
+        f"{model_name} is not an available model of this package"
+    )
+
+# TODO Make it such that model are inaccesible except via get_model

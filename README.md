@@ -91,11 +91,11 @@ You can place your decisions in a docs folder in the root of the project.
 E.g. docs/decisions/DSC-0001-use-typescript.md
 
 ### 📈 Testing
-* Showcase the capability of your streamlit app with at least 3 different usecases on real datasets (from Kaggle). 
+* Showcase the capability of your streamlit app with at least 3 different usecases on real datasets (from Kaggle).
 Some examples include housing prices, second-hand cars, etc.
 
 ### Checklist
-- [ ] I have read the instructions carefully.
+- [x] I have read the instructions carefully.
 - [ ] I have filled my personal rubric.
 - [ ] The code is refactored to style standards.
 - [ ] I have passed my tests.
@@ -152,28 +152,28 @@ If the feature has been implemented by both students, write `both`.
 If you did not implement the feature
 
 | Requirement                           | Type (FN/NF) | Implemented by       | Implementation Completed (add X if done) | Comment |
-|-------------------------------------- |--------------|----------------------|--------------------------|---------|         
-| Up-to-date requirements.txt           | NF           |                      |         | |
-| `ML/detect-features`                  | FN           |                      |         | |
-| `ML/artifact`                         | NF           |                      |         | |
-| `ML/feature`                          | NF           |                      |         | |
-| `ML/metric`                           | NF           |                      |         | |
-| `ML/metric/extensions`                | FN           |                      |         | |
-| `ML/model`                            | NF           |                      |         | |
-| `ML/model/extensions`                 | FN           |                      |         | |
-| `ML/pipeline/evaluation`              | FN           |                      |         | | 
-| `ST/page/datasets`                    | NF           |                      |         | |
-| `ST/datasets/management/create`       | FN           |                      |         | |
-| `ST/datasets/management/save`         | FN           |                      |         | |
-| `ST/page/modelling`                   | NF           |                      |         | |
-| `ST/modelling/datasets/list`          | FN           |                      |         | |
-| `ST/modelling/datasets/features`      | FN           |                      |         | |
-| `ST/modelling/models`                 | FN           |                      |         | |
-| `ST/modelling/pipeline/split`         | FN           |                      |         | |
-| `ST/modelling/pipeline/metrics`       | FN           |                      |         | |
-| `ST/modelling/pipeline/summary`       | FN           |                      |         | |
-| `ST/modelling/pipeline/train`         | FN           |                      |         | |
-| `ST/modelling/pipeline/save`          | FN           |                      |         | |
+|-------------------------------------- |--------------|----------------------|--------------------------|---------|
+| Up-to-date requirements.txt           | NF           | Gideon               | X       | |
+| `ML/detect-features`                  | FN           | Gideon               | X       | |
+| `ML/artifact`                         | NF           | Gideon               | X       | ID needs testing |
+| `ML/feature`                          | NF           | Gideon               | X       | |
+| `ML/metric`                           | NF           | Wander               | X       | |
+| `ML/metric/extensions`                | FN           | Wander               | X       | |
+| `ML/model`                            | NF           | both                 | X       | |
+| `ML/model/extensions`                 | FN           | both                 | X       | MLR made by Gideon, rest by Wander |
+| `ML/pipeline/evaluation`              | FN           | Gideon               | X       | So far so good, needs testing for all metric and models tho |
+| `ST/page/datasets`                    | NF           | Gideon               | X       |  Seems suspiciously easy|
+| `ST/datasets/management/create`       | FN           | Gideon               | X       |  Seems suspiciously easy |
+| `ST/datasets/management/save`         | FN           | Gideon               | X       |  Already done when creating a dataset|
+| `ST/page/modelling`                   | NF           | both                 | X       | |
+| `ST/modelling/datasets/list`          | FN           | both                 | X       | Note that due to tests also downloading iris dataset, this function fails if tests are run. Solution: clean up assets after tests |
+| `ST/modelling/datasets/features`      | FN           | both                 | X       | |
+| `ST/modelling/models`                 | FN           | both                 | X       | |
+| `ST/modelling/pipeline/split`         | FN           | both                 | X       | |
+| `ST/modelling/pipeline/metrics`       | FN           | both                 | X       | |
+| `ST/modelling/pipeline/summary`       | FN           | both                 | X       | |
+| `ST/modelling/pipeline/train`         | FN           | both                 | X       | |
+| `ST/modelling/pipeline/save`          | FN           | both                 | X       | Managed to squeeze this one out last-minute, needs testing.|
 | `ST/page/deployment`                  | FN           |                      |         | |
 | `ST/deployment/load`                  | FN           |                      |         | |
 | `ST/deployment/predict`               | FN           |                      |         | |

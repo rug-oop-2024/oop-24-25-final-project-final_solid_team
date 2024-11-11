@@ -1,0 +1,2 @@
+Change the docs into official style
+Make it such that everything user can give multiple datasets for modelling
