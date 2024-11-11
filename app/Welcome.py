@@ -6,6 +6,7 @@ project_dir = os.path.dirname(app_dir)
 sys.path.insert(0, project_dir)
 
 import streamlit as st
+
 from app.functional.streamlit import write_helper_text
 
 

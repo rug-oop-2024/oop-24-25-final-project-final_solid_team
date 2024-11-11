@@ -7,7 +7,6 @@ from typing import TYPE_CHECKING, List
 import numpy as np
 from numpy.typing import ArrayLike
 
-
 from autoop.core.ml.artifact import Artifact
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
@@ -128,22 +127,20 @@ Pipeline(
                 data = artifact["encoder"]
                 data = pickle.dumps(data)
                 artifacts.append(Artifact(
-                                    type="feature",
-                                    name=name,
-                                    data=data,
-                                    asset_path=f"{collection}/feature:{name}"
-                                )
-                )
+                    type="feature",
+                    name=name,
+                    data=data,
+                    asset_path=f"{collection}/feature:{name}"
+                ))
             if artifact_type in ["StandardScaler"]:
                 data = artifact["scaler"]
                 data = pickle.dumps(data)
                 artifacts.append(Artifact(
-                                    type="feature",
-                                    name=name,
-                                    data=data,
-                                    asset_path=f"{collection}/feature:{name}"
-                                )
-                )
+                    type="feature",
+                    name=name,
+                    data=data,
+                    asset_path=f"{collection}/feature:{name}"
+                ))
         pipeline_data = {
             "input_features": self._input_features,
             "target_feature": self._target_feature,
