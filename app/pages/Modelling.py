@@ -5,6 +5,8 @@ from app.core.pipline_handler import PipelineHandler
 from autoop.core.ml.artifact import Artifact
 from autoop.core.ml.dataset import Dataset
 
+# Removed emoji and page number such that this module can be imported for
+# testing.
 
 def main():
     st.set_page_config(page_title="Modelling", page_icon="📈")
