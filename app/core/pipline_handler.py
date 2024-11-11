@@ -2,24 +2,25 @@ from __future__ import annotations
 
 import logging
 import sys
-from copy import deepcopy
 
 import streamlit as st
 
 from app.core.system import AutoMLSystem
-from app.functional.streamlit import is_active
 from autoop.core.ml.dataset import Dataset
-from autoop.core.ml.metric import CLASSIFICATION_METRICS, METRICS, REGRESSION_METRICS
+from autoop.core.ml.metric import CLASSIFICATION_METRICS, METRICS
+from autoop.core.ml.metric import REGRESSION_METRICS
 from autoop.core.ml.model import CLASSIFICATION_MODELS, REGRESSION_MODELS
 from autoop.core.ml.pipeline import Pipeline
 from autoop.functional.feature import detect_feature_types
 
 logger = logging.getLogger()
 
+
 class PipelineHandler:
     """Convenient handler to facilate a page on a streamlit website to
     create a pipeline."""
     def __init__(self) -> None:
+        """Initialise the pipeline handeler"""
         self._auto_ml_system = AutoMLSystem.get_instance()
         self._pipeline = None
         self._chosen_dataset = None
@@ -31,7 +32,8 @@ class PipelineHandler:
         self._split = None
         self._metrics = None
 
-    def train(self):
+    def train(self) -> None:
+        """Train chosen model, using chosen variables by executing pipeline"""
         if all((
             self._chosen_dataset,
             self._output_feature,
@@ -45,8 +47,8 @@ class PipelineHandler:
             if st.button("Press to execute the pipeline"):
                 self._pipeline.execute()
 
-
-    def summary(self):
+    def summary(self) -> None:
+        """Summarize variables"""
         if all((
             self._chosen_dataset,
             self._output_feature,
@@ -68,7 +70,8 @@ class PipelineHandler:
             st.write(f"Split: {self._split}")
             st.write(f"Metrics: {self._metrics}")
 
-    def initialize_pipeline(self):
+    def initialize_pipeline(self) -> None:
+        """Initialize pipeling using chosen variables"""
         # Check whether all variables are set
         print("Trying to initialized the pipeline.", file=sys.stderr)
         if all((
@@ -89,7 +92,8 @@ class PipelineHandler:
                 split=self._split,
             )
 
-    def choose_metric(self):
+    def choose_metric(self) -> None:
+        """Produce options for choosing metric from available ones"""
         if self._split:
             options = (
                 REGRESSION_METRICS if self._task_type == "regression"
@@ -102,15 +106,16 @@ class PipelineHandler:
             if metrics_names:
                 self._metrics = [METRICS[name]() for name in metrics_names]
 
-
-    def choose_split(self):
+    def choose_split(self) -> None:
+        """Allow user to enter training/test split percentage"""
         if self._task_type:
             percentage = st.number_input(
                 "Enter what percentage of the dataset will be used for "
                 "training")
             self._split = percentage / 100
 
-    def choose_model(self):
+    def choose_model(self) -> None:
+        """Produce options for choosing model from available ones"""
         if self._task_type:
             if self._task_type == "regression":
                 model_name = st.selectbox(
@@ -132,7 +137,8 @@ class PipelineHandler:
         if self._model:
             st.write(self._model)
 
-    def choose_dataset(self):
+    def choose_dataset(self) -> None:
+        """Produce options for chosing data set from available ones"""
         all_artifacts = self._auto_ml_system.registry.list(type="dataset")
 
         chosen_artifact = st.selectbox(
@@ -146,13 +152,13 @@ class PipelineHandler:
             self._chosen_dataset = chosen_artifact.promote_to_subclass(Dataset)
             st.write(self._chosen_dataset)
 
-    def select_features(self):
+    def select_features(self) -> None:
         """Ask the user to select features from a list of acceptable features.
         """
         if self._chosen_dataset:
             self._select_features()
 
-    def ask_task_type(self):
+    def ask_task_type(self) -> None:
         """Prompt the user with a box selection for which detection task
         he wants to use. If output feature is categorical, then only
         classification is possible. Otherwise both classification and
@@ -160,7 +166,8 @@ class PipelineHandler:
         if self._output_feature and self._input_features:
             self._ask_task_type()
 
-    def _select_features(self):
+    def _select_features(self) -> None:
+        """Produce options for choosing input and output features"""
         # TODO Make sure output feature is not in the list of input features
         features = detect_feature_types(self._chosen_dataset)
 
@@ -185,7 +192,8 @@ class PipelineHandler:
         if self._output_feature:
             st.write(self._output_feature.name)
 
-    def _ask_task_type(self):
+    def _ask_task_type(self) -> None:
+        """Produce option for choosing feature type"""
         if self._output_feature.type == "categorical":
             self._task_type = "classification"
             st.write("Task type will be classification because target "

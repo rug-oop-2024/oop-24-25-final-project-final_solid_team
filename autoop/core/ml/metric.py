@@ -2,14 +2,6 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from autoop.core.ml.feature import Feature
-
-
-def get_metric(name: str):
-    # Factory function to get a metric by name.
-    # Return a metric instance given its str name.
-    raise NotImplementedError("To be implemented.")
-
 
 class Metric(ABC):
     """Base class for all metrics."""
@@ -19,14 +11,15 @@ class Metric(ABC):
     # as input and return a real number
 
     @abstractmethod
-    def __call__(self, ground_truth: Feature, predictions: Feature) -> float:
+    def __call__(self, ground_truth: np.ndarray,
+                 predictions: np.ndarray) -> float:
+        """Take ground truth as np ndarray
+        and predictions  as np ndarray,
+        return metric value as float"""
         pass
 
     def to_string(self) -> str:
-        return ((str(self.__class__).split('.')[-1]).split("'"))[0]
-
-    def __str__(self) -> str:
-        # TODO Explain this line
+        """Return class string"""
         return ((str(self.__class__).split('.')[-1]).split("'"))[0]
 
 # According to the pipeline it needs an .evaluate method instead of a call
@@ -38,8 +31,8 @@ class Accuracy(Metric):
 
     def __call__(self, ground_truth: np.ndarray,
                  predictions: np.ndarray) -> float:
-        matches = 0
         """Accuracy __call__ function"""
+        matches = 0
         for index, item in enumerate(ground_truth):
             if (predictions[index] == item):
                 matches += 1
@@ -48,8 +41,6 @@ class Accuracy(Metric):
 
 class MeanSquaredError(Metric):
     """Class for mean squared error metric"""
-    def __init__(self):
-        Metric.__init__(self)
 
     def __call__(self, ground_truth: np.ndarray,
                  predictions: np.ndarray) -> float:
@@ -78,13 +69,13 @@ class Precision(Metric):
         """Calculate the multi class precision"""
         precision_dict = {}
         for index, item in enumerate(predictions):
-            if(item == ground_truth[index]):
+            if (item == ground_truth[index]):
                 if item in precision_dict:
                     values = precision_dict.get(item)
                     values[0] += 1
                     precision_dict[item] = values
                 else:
-                    values = [1,0]
+                    values = [1, 0]
                     precision_dict[item] = values
             else:
                 if item in precision_dict:
@@ -92,7 +83,7 @@ class Precision(Metric):
                     values[1] += 1
                     precision_dict[item] = values
                 else:
-                    values = [0,1]
+                    values = [0, 1]
                     precision_dict[item] = values
 
         # perhaps generate error for empty array somehow
@@ -113,23 +104,23 @@ class Recall(Metric):
         """Calculate mutli classs recall"""
         recall_dict = {}
         for index, item in enumerate(predictions):
-            if(item == ground_truth[index]):
+            if (item == ground_truth[index]):
                 if item in recall_dict:
                     values = recall_dict.get(item)
                     values[0] += 1
                     recall_dict[item] = values
                 else:
-                    values = [1,0]
+                    values = [1, 0]
                     recall_dict[item] = values
 
         for index, item in enumerate(ground_truth):
-            if(item != predictions[index]):
+            if (item != predictions[index]):
                 if item in recall_dict:
                     values = recall_dict.get(item)
                     values[1] += 1
                     recall_dict[item] = values
                 else:
-                    values = [0,1]
+                    values = [0, 1]
                     recall_dict[item] = values
 
         mean_rec: int = 0
@@ -139,14 +130,16 @@ class Recall(Metric):
 
         return mean_rec
 
+
 class MeanAbsoluteError(Metric):
     """Class for mean absolute error metric"""
     def __call__(self, ground_truth: np.ndarray,
-                    predictions: np.ndarray) -> float:
+                 predictions: np.ndarray) -> float:
         """Mean squared error __call__ function"""
         difference_array: np.ndarray = predictions - ground_truth
         absolute_diff: np.ndarray = np.abs(difference_array)
         return np.mean(absolute_diff)
+
 
 CLASSIFICATION_METRICS = {
     "Precison": Precision,

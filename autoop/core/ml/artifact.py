@@ -36,7 +36,8 @@ class Artifact:  # Original had Pydantic
         self._metadata = metadata
 
     def __str__(self) -> str:
-        return(
+        """Return string with summary artifact data"""
+        return (
             '{\n'
             f'    "type": "{self.type}",\n'
             f'    "name": "{self.name}"\n'
@@ -48,7 +49,6 @@ class Artifact:  # Original had Pydantic
             '}'
         )
 
-    # TODO Let this have return type hint: Class
     def promote_to_subclass(self, SubClass: type) -> Artifact:
         """Promotes this Artifact to one of its subclasses. Works in-place but
         also return the the promoted class.
@@ -88,7 +88,7 @@ class Artifact:  # Original had Pydantic
         self.data = binary_string
         return binary_string
 
-    def _print_bytes_data(self, binary_string) -> str:
+    def _print_bytes_data(self, binary_string: bytes) -> str:
         return (
             f"<{binary_string.__class__.__module__}."
             f"{binary_string.__class__.__qualname__} "
@@ -102,40 +102,51 @@ class Artifact:  # Original had Pydantic
 
     @property
     def type(self) -> str:
+        """Return the type of this artifact"""
         return self._type
 
     @property
     def name(self) -> str:
+        """Return the name of this artifact"""
         return self._name
 
     @property
     def version(self) -> str:
+        """Return the version string of this artifact"""
         return self._version
 
     @property
     def tags(self) -> list[str]:
+        """Return a list of tags of this artifacte"""
         return self._tags
 
     @property
     def metadata(self) -> dict[str, str]:
+        """Return a dict with the metadata
+        of this artifact"""
         return self._metadata
 
     @property
     def asset_path(self) -> str:
+        """Return asset path string of
+        this artifact"""
         return self._asset_path
 
     @property
     def data(self) -> bytes:
+        """Return the byte data of this artifact"""
         return self._data
 
     @data.setter
-    def data(self, value) -> None:
+    def data(self, value: bytes) -> None:
+        """Set the byte data of the artifact
+        take value input as bytes"""
         if isinstance(value, bytes):
             self._data = value
         else:
             raise AttributeError(
                 f"Invalid type of data. Data must be of type `bytes'. Got "
-                f"type(value)"
+                f"{type(value)}"
             )
 
 

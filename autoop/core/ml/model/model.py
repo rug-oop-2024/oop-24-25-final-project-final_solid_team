@@ -3,18 +3,18 @@ from __future__ import annotations
 import pickle
 from abc import ABC, abstractmethod
 from copy import deepcopy
-from typing import Any, Literal
 
 import numpy as np
 from numpy.typing import ArrayLike
-from sklearn.linear_model import LinearRegression
 
 from autoop.core.ml.artifact import Artifact
 
 
 # Inspired by Marco Zullich see: <https://www.rug.nl/staff/m.zullich/>
 class ParametersDict(dict):
+    """Dictionary for model parameters"""
     def _get_keys_as_list(self) -> list:
+        """Return dictionary keys as list"""
         list_: list = list(self.keys())
         list_.sort()
         return list_
@@ -48,7 +48,9 @@ class Model(ABC):
             type: str,
             hyper_parameters: dict = ParametersDict({}),
             parameters: dict = ParametersDict({})
-        ) -> None:
+    ) -> None:
+        """Initialize base class with type, parameters and
+        hyperparameters"""
         self._type = type
         self._hyper_parameters = ParametersDict(hyper_parameters)
         self._parameters = ParametersDict(parameters)
@@ -70,7 +72,7 @@ class Model(ABC):
             name: str,
             asset_path: str = "./assets/models",
             **kwargs
-        ) -> Artifact:
+    ) -> Artifact:
         """Get an artifact representation of the model.
 
         Args:
@@ -90,15 +92,25 @@ class Model(ABC):
         )
 
     @abstractmethod
-    def fit(self, data: ArrayLike) -> None:
+    def fit(self, X: ArrayLike, y: ArrayLike) -> None:
+        """Fit model to data
+        Args:
+        X (ArrayLike): input features
+        Y (ArrayLike): target features"""
         pass
 
     @abstractmethod
-    def predict(self, data: ArrayLike) -> np.ndarray:
+    def predict(self, X: ArrayLike) -> np.ndarray:
+        """
+        Predict based on fitted model
+        Args:
+        X (ArrayLike): input features
+        """
         pass
 
     @property
     def type(self) -> str:
+        """Getter for type"""
         return self._type
 
     @property
@@ -112,11 +124,13 @@ class Model(ABC):
         return deepcopy(self._hyper_parameters)
 
     @parameters.setter
-    def parameters(self, value: dict):
+    def parameters(self, value: dict) -> None:
+        """Setter for parametesr, takes dict
+        with parameters"""
         self._parameters.update(value)
 
     @hyper_parameters.setter
-    def hyper_parameters(self, hyperparameters: dict):
+    def hyper_parameters(self, hyperparameters: dict) -> None:
         """Setter for hyperparam ."""
         self._hyper_parameters.update(hyperparameters)
 

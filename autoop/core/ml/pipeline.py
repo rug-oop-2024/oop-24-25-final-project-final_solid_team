@@ -5,6 +5,8 @@ import sys
 from typing import TYPE_CHECKING, List
 
 import numpy as np
+from numpy.typing import ArrayLike
+
 
 from autoop.core.ml.artifact import Artifact
 from autoop.core.ml.dataset import Dataset
@@ -18,7 +20,9 @@ from autoop.functional.preprocessing import preprocess_features
 if TYPE_CHECKING:
     from autoop.core.ml.model.model import Model
 
+
 class Pipeline:
+    """Class for the autoop pipeline"""
     def __init__(
         self,
         metrics: List[Metric],
@@ -26,8 +30,8 @@ class Pipeline:
         model: Model,
         input_features: List[Feature],
         target_feature: Feature,
-        split=0.8,
-    ):
+        split: float = 0.8,
+    ) -> None:
         """Specify what data is used and how the model is trained and
         evuluated.
 
@@ -55,10 +59,15 @@ class Pipeline:
         # TODO Bring back this check, error lays in spelling mistakes
 
     @staticmethod
-    def _check_same_type(target_feature, model):
+    def _check_same_type(target_feature: Feature, model: Model) -> None:
+        """Make sure that the feature type is
+        supported by the model used
+        takes target_feature as Feature type
+        and model as Model type"""
+        catagorical_type = target_feature.type == "categorical"
+
         if (
-            target_feature.type == "categorical"
-            and model.type != "classification"
+            catagorical_type and model.type != "classification"
         ):
             raise ValueError(
                 "Model type must be classification for categorical target "
@@ -69,9 +78,9 @@ class Pipeline:
                 f"{target_feature.type} == categorical "
                 f"and {model.type} != classification"
             )
+        feature_numerical = target_feature.type == "numerical"
         if (
-            target_feature.type == "numerical"
-            and model.type != "regression"
+            feature_numerical and model.type != "regression"
         ):
             print(target_feature.type, model.type, file=sys.stderr)
             raise ValueError(
@@ -85,8 +94,8 @@ class Pipeline:
             )
         # TODO Bring back this check, error lays in spelling mistakes
 
-
-    def __str__(self):
+    def __str__(self) -> str:
+        """Return string with pipeline details"""
         return f"""
 Pipeline(
     model={self._model.type},
@@ -98,7 +107,8 @@ Pipeline(
 """
 
     @property
-    def model(self):
+    def model(self) -> Model:
+        """Getter of model"""
         return self._model  # UNSAFE, user can modify model.
 
     @property
@@ -136,10 +146,10 @@ Pipeline(
         )
         return artifacts
 
-    def _register_artifact(self, name: str, artifact):
+    def _register_artifact(self, name: str, artifact: Artifact) -> None:
         self._artifacts[name] = artifact
 
-    def preprocess_features(self):
+    def preprocess_features(self) -> None:
         """
         Takes
             - self._input_features
@@ -174,7 +184,7 @@ Pipeline(
             data for (feature_name, data, artifact) in input_results
         ]
 
-    def _split_data(self):
+    def _split_data(self) -> None:
         # Split the data into training and testing sets
         split = self._split
         self._train_X = [
@@ -182,25 +192,25 @@ Pipeline(
             for vector in self._input_vectors
         ]
         self._test_X = [
-            vector[int(split * len(vector)) :]
+            vector[int(split * len(vector)):]
             for vector in self._input_vectors
         ]
         self._train_y = self._output_vector[
             : int(split * len(self._output_vector))
         ]
         self._test_y = self._output_vector[
-            int(split * len(self._output_vector)) :
+            int(split * len(self._output_vector)):
         ]
 
     def _compact_vectors(self, vectors: List[np.array]) -> np.array:
         return np.concatenate(vectors, axis=1)
 
-    def _train(self):
+    def _train(self) -> ArrayLike:
         X = self._compact_vectors(self._train_X)
         Y = self._train_y
         self._model.fit(X, Y)
 
-    def _evaluate_on(self, X, Y):
+    def _evaluate_on(self, X: np.ndarray, Y: np.ndarray) -> ArrayLike:
         X = self._compact_vectors(X)
         self._metrics_results = []
         predictions = self._model.predict(X)
@@ -209,12 +219,11 @@ Pipeline(
             self._metrics_results.append((metric, result))
         return predictions
 
-    def _evaluate(self):
+    def _evaluate(self) -> None:
         self._test_predictions = self._evaluate_on(self._test_X, self._test_y)
         self._train_predictions = self._evaluate_on(
             self._train_X, self._train_y
         )
-
 
     def execute(self) -> dict:
         """Executes the pipeline.

@@ -13,17 +13,24 @@ class MultipleLinearRegression(Model):
             self,
             parameters: dict = ParametersDict({}),
             hyper_parameters: dict = ParametersDict({}),
-        ) -> None:
+    ) -> None:
         """Initialise as numerical model
         """
         super().__init__(
             type="regression",
             hyper_parameters=ParametersDict(hyper_parameters),  # Superfluous
             parameters=ParametersDict(parameters),
-            )
+        )
         self._model = LinearRegression(**hyper_parameters)
 
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
+        """Fit multiple linear regression model
+        to the data
+        Args:
+        X (ArrayLike): Input features
+        Y (ArrayLike): Target features
+        """
+
         self._model.fit(X, y)
         self._parameters.update({
             "coef": self._model.coef_,
@@ -31,12 +38,23 @@ class MultipleLinearRegression(Model):
         })
 
     def predict(self, X: np.ndarray) -> np.ndarray:
+        """Predict target features based on input data
+        and fitted model.
+        Args:
+        X (np.ndarray): Input features"""
         assert self._parameters["coef"] is not None, (
             "Model is not fitted yet!"
         )
         return self._model.predict(X)
 
-    def to_artifact(self, asset_path: str = "./assets/models", version: str = "v0.00") -> Artifact:
+    def to_artifact(self, asset_path: str = "./assets/models",
+                    version: str = "v0.00") -> Artifact:
+        """Convert model to artifact
+        Args:
+        asset_path (str): Path to asset folder
+        version (str): version number
+        Returns:
+        Artifact"""
         return super().to_artifact(
             name="multiple linear regression model",
             asset_path=asset_path,

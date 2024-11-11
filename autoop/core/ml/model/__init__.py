@@ -1,3 +1,5 @@
+"""Initialize model"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -20,7 +22,7 @@ REGRESSION_MODELS = {
     "Multiple Linear Regression": MultipleLinearRegression,
     "Elastic Net": WrapElasticNet,
     "Logistic Regression": WrapLogisticRegression,
-} # add your models as str here
+}  # add your models as str here
 
 CLASSIFICATION_MODELS = {
     "K Nearest Neighbors": WrapKNearestNeighbors,
@@ -28,6 +30,7 @@ CLASSIFICATION_MODELS = {
     "Random Forest": WrapRandomForest,
 
 }
+
 
 def get_model(model_name: str) -> Model:
     """Factory function to get a model by name."""
@@ -41,5 +44,3 @@ def get_model(model_name: str) -> Model:
     )
 
 # TODO Make it such that model are inaccesible except via get_model
-
-

@@ -51,11 +51,11 @@ class DatasetHandler:
                 st.write(dataset.read())
 
     def delete_datasets(self) -> None:
+        """Option to delete all stored datasets"""
         datasets_artifacts = self._automl.registry.list(type="dataset")
         # TODO Make promotion of list a function
         datasets = [artifact.promote_to_subclass(Dataset)
                     for artifact in datasets_artifacts]
-
 
         if "deleting" not in st.session_state:
             st.session_state["deleting"] = False
@@ -82,7 +82,6 @@ class DatasetHandler:
                     st.rerun()
             if yes_no == "no":
                 st.write("Aborting deletions")
-
 
         # TODO Make an option to delete datasets!
 
