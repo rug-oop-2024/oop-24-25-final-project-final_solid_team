@@ -5,7 +5,7 @@ import numpy as np
 from autoop.core.ml.model import MultipleLinearRegression, get_model
 from autoop.core.ml.model.classification import (
     WrapKNearestNeighbors,
-    WrapNaiveBayes,
+    WrapRadiusNeighor,
     WrapRandomForest,
 )
 from autoop.core.ml.model.model import Model, ParametersDict
@@ -284,7 +284,7 @@ def test_get_model(self):
     Model = WrapKNearestNeighbors()
     self.assertEqual(Model, WrapKNearestNeighbors)
 
-class TestNaiveBayes(unittest.TestCase):
+class TestRadiusNeighor(unittest.TestCase):
 
     def setUp(self):
         self.X = [
@@ -304,31 +304,31 @@ class TestNaiveBayes(unittest.TestCase):
         ]
 
 def test_fit_and_predict(self):
-    model = WrapNaiveBayes()
+    model = WrapRadiusNeighor()
     model.fit(self.X, self.y)
     prediction = model.predict(self.X_test)
     isinstance(prediction, np.ndarray)
 
 def test_unset_predict(self):
-    model = WrapNaiveBayes()
+    model = WrapRadiusNeighor()
     with self.assertRaises(AssertionError) as context_manager:
         model.predict([1])
     exception = context_manager.exception
     self.assertEqual(str(exception), "Model is not fitted yet!")
 
 def test_to_and_from_artifact(self):
-    model = WrapNaiveBayes()
+    model = WrapRadiusNeighor()
     model.fit(self.X, self.y)
     artifact = model.to_artifact()
-    new_model = WrapNaiveBayes.from_artifact(artifact)
+    new_model = WrapRadiusNeighor.from_artifact(artifact)
     self.assertEqual(
         new_model.parameters["classes"], model.parameters["classes"]
     )
 
 def test_get_model(self):
     WrapLogisticRegression = get_model("KNearestNeighbor")
-    Model = WrapNaiveBayes()
-    self.assertEqual(Model, WrapNaiveBayes)
+    Model = WrapRadiusNeighor()
+    self.assertEqual(Model, WrapRadiusNeighor)
 
 
 class TestRandomForest(unittest.TestCase):
