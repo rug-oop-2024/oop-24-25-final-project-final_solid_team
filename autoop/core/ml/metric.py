@@ -34,9 +34,16 @@ class Accuracy(Metric):
         """Accuracy __call__ function"""
         matches = 0
         for index, item in enumerate(ground_truth):
-            if ((predictions[index] == item).all):
+            equiv = False
+            # Deal with case where arrays dont have one hot
+            if (isinstance(item, np.ndarray)):
+                equiv = ((item == (predictions[index])).all())
+            else:
+                equiv = (item == predictions[index])
+
+            if (equiv):
                 matches += 1
-        return (matches / len(ground_truth))
+        return (matches / len(predictions))
 
 
 class MeanSquaredError(Metric):
@@ -68,24 +75,32 @@ class Precision(Metric):
                  predictions: np.ndarray) -> float:
         """Calculate the multi class precision"""
         precision_dict = {}
-        for index, array_item in enumerate(predictions):
-            item = tuple(array_item)
-            if ((item == ground_truth[index]).all()):
-                if item in precision_dict:
-                    values = precision_dict.get(item)
+        for index, item in enumerate(predictions):
+            equiv = False
+            # Deal with case where arrays dont have one hot
+            if (isinstance(item, np.ndarray)):
+                equiv = ((item == ground_truth[index]).all())
+                key_item = tuple(item)
+            else:
+                equiv = (item == ground_truth[index])
+                key_item = item
+
+            if (equiv):
+                if key_item in precision_dict:
+                    values = precision_dict.get(key_item)
                     values[0] += 1
-                    precision_dict[item] = values
+                    precision_dict[key_item] = values
                 else:
                     values = [1, 0]
-                    precision_dict[item] = values
+                    precision_dict[key_item] = values
             else:
-                if item in precision_dict:
-                    values = precision_dict.get(item)
+                if key_item in precision_dict:
+                    values = precision_dict.get(key_item)
                     values[1] += 1
-                    precision_dict[item] = values
+                    precision_dict[key_item] = values
                 else:
                     values = [0, 1]
-                    precision_dict[item] = values
+                    precision_dict[key_item] = values
 
         # perhaps generate error for empty array somehow
         mean_prc: int = 0
@@ -104,26 +119,44 @@ class Recall(Metric):
                  predictions: np.ndarray) -> float:
         """Calculate mutli classs recall"""
         recall_dict = {}
-        for index, array_item in enumerate(predictions):
-            item = tuple(array_item)
-            if ((item == ground_truth[index]).all()):
-                if item in recall_dict:
-                    values = recall_dict.get(item)
+        for index, item in enumerate(predictions):
+            equiv = False
+            # Deal with case where arrays dont have one hot
+            if (isinstance(item, np.ndarray)):
+                equiv = ((item == (ground_truth[index])).all())
+                key_item = tuple(item)
+            else:
+                equiv = (item == ground_truth[index])
+                key_item = item
+
+            if (equiv):
+                if key_item in recall_dict:
+                    values = recall_dict.get(key_item)
                     values[0] += 1
-                    recall_dict[item] = values
+                    recall_dict[key_item] = values
                 else:
                     values = [1, 0]
-                    recall_dict[item] = values
+                    recall_dict[key_item] = values
 
         for index, item in enumerate(ground_truth):
-            if ((item != predictions[index]).all()):
+
+            equiv = False
+            # Deal with case where arrays dont have one hot
+            if (isinstance(item, np.ndarray)):
+                equiv = ((item == (predictions[index])).all())
+                key_item = tuple(item)
+            else:
+                equiv = (item == predictions[index])
+                key_item = item
+
+            if (not equiv):
                 if item in recall_dict:
-                    values = recall_dict.get(item)
+                    values = recall_dict.get(key_item)
                     values[1] += 1
-                    recall_dict[item] = values
+                    recall_dict[key_item] = values
                 else:
                     values = [0, 1]
-                    recall_dict[item] = values
+                    recall_dict[key_item] = values
 
         mean_rec: int = 0
         for rec_value in recall_dict.values():

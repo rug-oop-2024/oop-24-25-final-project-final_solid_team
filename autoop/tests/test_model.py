@@ -5,7 +5,7 @@ import numpy as np
 from autoop.core.ml.model import MultipleLinearRegression, get_model
 from autoop.core.ml.model.classification import (
     WrapKNearestNeighbors,
-    WrapNearestCentroid,
+    WrapNaiveBayes,
     WrapRandomForest,
 )
 from autoop.core.ml.model.model import Model, ParametersDict
@@ -98,9 +98,9 @@ class TestMultipleLinearRegression(unittest.TestCase):
             [3, 3, 3],
         ]
         self.y = [
-            [1, 2],
-            [2, 4],
-            [3, 6],
+            [1],
+            [2],
+            [3],
         ]
         self.X_test = [
             [4, 4, 4],
@@ -112,9 +112,9 @@ class TestMultipleLinearRegression(unittest.TestCase):
         model = MultipleLinearRegression()
         model.fit(self.X, self.y)
         expected_prediction = [
-            [4, 8],
-            [5, 10],
-            [6, 12],
+            [4],
+            [5],
+            [6],
         ]
         prediction = model.predict(self.X_test)
         self.assertEqual(prediction, expected_prediction)
@@ -284,7 +284,7 @@ def test_get_model(self):
     Model = WrapKNearestNeighbors()
     self.assertEqual(Model, WrapKNearestNeighbors)
 
-class TestNearestCentroid(unittest.TestCase):
+class TestNaiveBayes(unittest.TestCase):
 
     def setUp(self):
         self.X = [
@@ -304,31 +304,31 @@ class TestNearestCentroid(unittest.TestCase):
         ]
 
 def test_fit_and_predict(self):
-    model = WrapNearestCentroid()
+    model = WrapNaiveBayes()
     model.fit(self.X, self.y)
     prediction = model.predict(self.X_test)
     isinstance(prediction, np.ndarray)
 
 def test_unset_predict(self):
-    model = WrapNearestCentroid()
+    model = WrapNaiveBayes()
     with self.assertRaises(AssertionError) as context_manager:
         model.predict([1])
     exception = context_manager.exception
     self.assertEqual(str(exception), "Model is not fitted yet!")
 
 def test_to_and_from_artifact(self):
-    model = WrapNearestCentroid()
+    model = WrapNaiveBayes()
     model.fit(self.X, self.y)
     artifact = model.to_artifact()
-    new_model = WrapNearestCentroid.from_artifact(artifact)
+    new_model = WrapNaiveBayes.from_artifact(artifact)
     self.assertEqual(
         new_model.parameters["classes"], model.parameters["classes"]
     )
 
 def test_get_model(self):
     WrapLogisticRegression = get_model("KNearestNeighbor")
-    Model = WrapNearestCentroid()
-    self.assertEqual(Model, WrapNearestCentroid)
+    Model = WrapNaiveBayes()
+    self.assertEqual(Model, WrapNaiveBayes)
 
 
 class TestRandomForest(unittest.TestCase):

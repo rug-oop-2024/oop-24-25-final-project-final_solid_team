@@ -16,7 +16,7 @@ from autoop.core.ml.metric import (
     MeanSquaredError,
     Precision,
     Recall,
-    Rsquared,
+    RSquared,
 )
 from autoop.core.ml.model.model import Model, ParametersDict
 
@@ -39,7 +39,7 @@ class TestMeanSquaredError(unittest.TestCase):
 
 class TestRsquared(unittest.TestCase):
     def testValue(self):
-        r_squared = Rsquared()
+        r_squared = RSquared()
         ground_truth: np.ndarray = np.array([6, 2, 3, 1])
         predictions: np.ndarray = np.array([3, 2, 4, 2])
 

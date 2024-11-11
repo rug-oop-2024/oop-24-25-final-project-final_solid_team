@@ -15,10 +15,12 @@ from autoop.tests.test_metrics import (
     TestRsquared,
 )
 from autoop.tests.test_model import (
-    MultipleLinearRegression,
+    TestMultipleLinearRegression,
     TestElasticNet,
     TestKNearestNeighbors,
     TestLogisticRegression,
+    TestNaiveBayes,
+    TestRandomForest,
     TestModel,
 )
 from autoop.tests.test_pipeline import TestPipeline

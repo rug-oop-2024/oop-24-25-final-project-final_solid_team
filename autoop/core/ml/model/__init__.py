@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 from autoop.core.ml.model.classification import (
     WrapKNearestNeighbors,
-    WrapNearestCentroid,
+    WrapNaiveBayes,
     WrapRandomForest,
 )
 from autoop.core.ml.model.regression import (
@@ -26,7 +26,7 @@ REGRESSION_MODELS = {
 
 CLASSIFICATION_MODELS = {
     "K Nearest Neighbors": WrapKNearestNeighbors,
-    "Nearest Centroid": WrapNearestCentroid,
+    "Naive Bayes": WrapNaiveBayes,
     "Random Forest": WrapRandomForest,
 
 }
