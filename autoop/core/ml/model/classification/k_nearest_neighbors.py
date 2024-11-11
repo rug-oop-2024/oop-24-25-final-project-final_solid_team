@@ -29,6 +29,9 @@ class WrapKNearestNeighbors(Model):
     def fit(self, X: ArrayLike, y: ArrayLike) -> None:
         """Fit k nearest neighbor model"""
         self._model.fit(X, y)
+        self._parameters.update({
+            "classes": self._model.classes_,
+        })
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """Predict target features of input using

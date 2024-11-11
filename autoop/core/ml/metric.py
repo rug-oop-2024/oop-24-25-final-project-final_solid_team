@@ -34,7 +34,7 @@ class Accuracy(Metric):
         """Accuracy __call__ function"""
         matches = 0
         for index, item in enumerate(ground_truth):
-            if (predictions[index] == item):
+            if ((predictions[index] == item).all):
                 matches += 1
         return (matches / len(ground_truth))
 
@@ -68,8 +68,9 @@ class Precision(Metric):
                  predictions: np.ndarray) -> float:
         """Calculate the multi class precision"""
         precision_dict = {}
-        for index, item in enumerate(predictions):
-            if (item == ground_truth[index]):
+        for index, array_item in enumerate(predictions):
+            item = tuple(array_item)
+            if ((item == ground_truth[index]).all()):
                 if item in precision_dict:
                     values = precision_dict.get(item)
                     values[0] += 1
@@ -103,8 +104,9 @@ class Recall(Metric):
                  predictions: np.ndarray) -> float:
         """Calculate mutli classs recall"""
         recall_dict = {}
-        for index, item in enumerate(predictions):
-            if (item == ground_truth[index]):
+        for index, array_item in enumerate(predictions):
+            item = tuple(array_item)
+            if ((item == ground_truth[index]).all()):
                 if item in recall_dict:
                     values = recall_dict.get(item)
                     values[0] += 1
@@ -114,7 +116,7 @@ class Recall(Metric):
                     recall_dict[item] = values
 
         for index, item in enumerate(ground_truth):
-            if (item != predictions[index]):
+            if ((item != predictions[index]).all()):
                 if item in recall_dict:
                     values = recall_dict.get(item)
                     values[1] += 1

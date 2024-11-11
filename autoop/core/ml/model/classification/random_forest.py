@@ -33,7 +33,7 @@ class WrapRandomForest(Model):
         self._parameters.update({
             "estimator": self._model.estimator_,
             "estimators": self._model.estimators_,
-            "classes_": self._model.classes_,
+            "classes": self._model.classes_,
         })
 
     def predict(self, X: np.ndarray) -> np.ndarray:
