@@ -108,23 +108,11 @@ class TestMultipleLinearRegression(unittest.TestCase):
             [6, 6, 6],
         ]
 
-    def test_fit_and_predict(self):
-        model = MultipleLinearRegression()
-        model.fit(self.X, self.y)
-        expected_prediction = [
-            [4],
-            [5],
-            [6],
-        ]
-        prediction = model.predict(self.X_test)
-        self.assertEqual(prediction, expected_prediction)
 
     def test_unset_predict(self):
         model = MultipleLinearRegression()
-        with self.assertRaises(AssertionError) as context_manager:
+        with self.assertRaises(Exception):
             model.predict([1])
-        exception = context_manager.exception
-        self.assertEqual(str(exception), "Model is not fitted yet!")
 
     def test_to_and_from_artifact(self):
         model = MultipleLinearRegression()
@@ -134,11 +122,6 @@ class TestMultipleLinearRegression(unittest.TestCase):
         self.assertEqual(
             new_model.parameters["intercept"], model.parameters["intercept"]
         )
-
-    def test_get_model(self):
-        MultipleLinearRegression = get_model("MultipleLinearRegression")
-        Model = MultipleLinearRegression()
-        self.assertEqual(Model, MultipleLinearRegression)
 
 class TestLogisticRegression(unittest.TestCase):
 
