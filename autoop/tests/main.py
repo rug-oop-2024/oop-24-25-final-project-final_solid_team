@@ -16,7 +16,7 @@ from autoop.tests.test_model import (
 from autoop.tests.test_pipeline import TestPipeline
 from autoop.tests.test_storage import TestStorage
 
-# from autoop.tests.test_metrics import TestAccuracy, TestMeanSquaredError, TestR_squared, TestPrecision, TestRecall, TestMeanAbsoluteError
+from autoop.tests.test_metrics import TestAccuracy, TestMeanSquaredError, TestRsquared, TestPrecision, TestRecall, TestMeanAbsoluteError
 
 
 

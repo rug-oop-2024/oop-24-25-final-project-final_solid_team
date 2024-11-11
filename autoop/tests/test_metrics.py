@@ -37,9 +37,9 @@ class TestMeanSquaredError(unittest.TestCase):
 
         self.assertAlmostEqual(mse(ground_truth, predictions), mean_squared_error(ground_truth, predictions), 4)
 
-class TestR_squared(unittest.TestCase):
+class TestRsquared(unittest.TestCase):
     def testValue(self):
-        r_squared = R_squared()
+        r_squared = Rsquared()
         ground_truth: np.ndarray = np.array([6, 2, 3, 1])
         predictions: np.ndarray = np.array([3, 2, 4, 2])
 
