@@ -19,7 +19,7 @@ from autoop.tests.test_model import (
     TestElasticNet,
     TestKNearestNeighbors,
     TestLogisticRegression,
-    TestWrapRadiusNeighor,
+    TestRadiusNeighor,
     TestRandomForest,
     TestModel,
 )
