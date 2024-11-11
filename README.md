@@ -160,20 +160,20 @@ If you did not implement the feature
 | `ML/metric`                           | NF           | Wander               | X       | |
 | `ML/metric/extensions`                | FN           | Wander               | X       | |
 | `ML/model`                            | NF           | both                 | X       | |
-| `ML/model/extensions`                 | FN           | both                 | X       | | MLR made by Gideon, rest by Wander
-| `ML/pipeline/evaluation`              | FN           | Gideon               | X       | | So far so good, needs testing for all metric and models tho
-| `ST/page/datasets`                    | NF           | Gideon               | X       | | Seems suspiciously easy
-| `ST/datasets/management/create`       | FN           | Gideon               | X       | | Seems suspiciously 
-| `ST/datasets/management/save`         | FN           | Gideon               | X       | | Already done when creating a dataset
+| `ML/model/extensions`                 | FN           | both                 | X       | MLR made by Gideon, rest by Wander |
+| `ML/pipeline/evaluation`              | FN           | Gideon               | X       | So far so good, needs testing for all metric and models tho |
+| `ST/page/datasets`                    | NF           | Gideon               | X       |  Seems suspiciously easy|
+| `ST/datasets/management/create`       | FN           | Gideon               | X       |  Seems suspiciously easy |
+| `ST/datasets/management/save`         | FN           | Gideon               | X       |  Already done when creating a dataset|
 | `ST/page/modelling`                   | NF           | both                 | X       | |
-| `ST/modelling/datasets/list`          | FN           | both                 | X       | | Note that due to tests also downloading iris dataset, this function fails if tests are run. Solution: clean up assets after tests
+| `ST/modelling/datasets/list`          | FN           | both                 | X       | Note that due to tests also downloading iris dataset, this function fails if tests are run. Solution: clean up assets after tests |
 | `ST/modelling/datasets/features`      | FN           | both                 | X       | |
 | `ST/modelling/models`                 | FN           | both                 | X       | |
 | `ST/modelling/pipeline/split`         | FN           | both                 | X       | |
 | `ST/modelling/pipeline/metrics`       | FN           | both                 | X       | |
 | `ST/modelling/pipeline/summary`       | FN           | both                 | X       | |
 | `ST/modelling/pipeline/train`         | FN           | both                 | X       | |
-| `ST/modelling/pipeline/save`          | FN           | both                 | X       | | Managed to squeeze this one out last-minute, needs testing.
+| `ST/modelling/pipeline/save`          | FN           | both                 | X       | Managed to squeeze this one out last-minute, needs testing.|
 | `ST/page/deployment`                  | FN           |                      |         | |
 | `ST/deployment/load`                  | FN           |                      |         | |
 | `ST/deployment/predict`               | FN           |                      |         | |
