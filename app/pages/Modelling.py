@@ -2,6 +2,8 @@ import streamlit as st
 
 from app.core.pipline_handler import PipelineHandler
 
+# Removed emoji and page number such that this module can be imported for
+# testing.
 
 def main() -> None:
     """Set up moddeling page"""
@@ -38,6 +40,7 @@ def main() -> None:
     handler.initialize_pipeline()
     handler.summary()
     handler.train()
+    handler.save()
 
 
 if __name__ == "__main__":

@@ -31,6 +31,46 @@ class PipelineHandler:
         self._model_name = None
         self._split = None
         self._metrics = None
+        self._results = None
+        self._pipeline_saved = False
+
+        # Mechanism to allow for saving
+        if "save pipeline" not in st.session_state: # Assert exists
+            st.session_state["save pipeline"] = False
+
+    def save(self) -> None:
+        """Save the pipeline."""
+        if all((  # Make sure that pipeline has no uninitialized data
+            self._chosen_dataset,
+            self._output_feature,
+            self._input_features,
+            self._task_type,
+            self._model,
+            self._split,
+            self._metrics,
+            self._pipeline
+        )):
+            """ Saving the pipeline."""
+            # Activate "save pipeline" mode
+            if st.button(
+                label="Save pipeline?"
+            ):
+                st.session_state["save pipeline"] = True 
+
+            # If activated, save the pipeline
+            if st.session_state["save pipeline"]:   
+                name = st.text_input(
+                    label="Enter pipeline name"
+                )
+                if name:
+                    artifacts = self._pipeline.get_artifacts(name)
+                    for artifact in artifacts:
+                        self._auto_ml_system.registry.register(artifact)
+                    self._pipeline_saved = True
+                    st.session_state["save pipeline"] = False
+
+        if self._pipeline_saved:
+            st.write("Pipeline is saved")
 
     def train(self) -> None:
         """Train chosen model, using chosen variables by executing pipeline"""
@@ -45,7 +85,8 @@ class PipelineHandler:
             self._pipeline
         )):
             if st.button("Press to execute the pipeline"):
-                self._pipeline.execute()
+                results = self._pipeline.execute()
+                st.write(results)
 
     def summary(self) -> None:
         """Summarize variables"""
@@ -122,7 +163,6 @@ class PipelineHandler:
                     label="Select a model.",
                     options=REGRESSION_MODELS,
                 )
-                st.write(model_name)
                 if model_name:
                     self._model_name = model_name
                     self._model = REGRESSION_MODELS[model_name]
@@ -134,8 +174,6 @@ class PipelineHandler:
                 if model_name:
                     self._model_name = model_name
                     self._model = CLASSIFICATION_MODELS[model_name]
-        if self._model:
-            st.write(self._model)
 
     def choose_dataset(self) -> None:
         """Produce options for chosing data set from available ones"""
@@ -150,7 +188,6 @@ class PipelineHandler:
 
         if chosen_artifact:  # Can't promote NoneType to Dataset
             self._chosen_dataset = chosen_artifact.promote_to_subclass(Dataset)
-            st.write(self._chosen_dataset)
 
     def select_features(self) -> None:
         """Ask the user to select features from a list of acceptable features.
@@ -181,7 +218,6 @@ class PipelineHandler:
             format_func=lambda x: x.name,
         )
         self._input_features = chosen_features
-        [st.write(str(feature)) for feature in self._input_features]
 
         self._output_feature = st.selectbox(
             label="Select output feature",
@@ -189,8 +225,6 @@ class PipelineHandler:
             format_func=lambda x: x.name,
             index=None
         )  # Output feature can be anything.
-        if self._output_feature:
-            st.write(self._output_feature.name)
 
     def _ask_task_type(self) -> None:
         """Produce option for choosing feature type"""
