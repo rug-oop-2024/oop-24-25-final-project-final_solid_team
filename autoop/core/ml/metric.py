@@ -112,11 +112,11 @@ class Precision(Metric):
 
         # perhaps generate error for empty array somehow
         mean_prc: int = 0
+        count: int = 0
         for prc_value in precision_dict.values():
             mean_prc += (prc_value[0] / (prc_value[0] + prc_value[1]))
-        truth_and_predictions = np.concatenate((ground_truth, predictions))
-        # In case there are no predicted samples, we set prc to 0
-        mean_prc = mean_prc / len(np.unique(truth_and_predictions))
+            count += 1 
+        mean_prc = mean_prc / count
 
         return mean_prc
 
@@ -158,7 +158,7 @@ class Recall(Metric):
                 key_item = item
 
             if (not equiv):
-                if item in recall_dict:
+                if key_item in recall_dict:
                     values = recall_dict.get(key_item)
                     values[1] += 1
                     recall_dict[key_item] = values
@@ -167,9 +167,11 @@ class Recall(Metric):
                     recall_dict[key_item] = values
 
         mean_rec: int = 0
+        count: int = 0
         for rec_value in recall_dict.values():
             mean_rec += (rec_value[0] / (rec_value[0] + rec_value[1]))
-        mean_rec = mean_rec / len(recall_dict)
+            count += 1
+        mean_rec = mean_rec / count
 
         return mean_rec
 
